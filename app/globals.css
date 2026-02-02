@@ -50,3 +50,40 @@ body {
 .animate-scroll:hover {
   animation-play-state: paused !important;
 }
+
+/* Vertical carousel: content moves up (logos scroll upward) */
+@keyframes scroll-vertical-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+/* Vertical carousel: content moves down (logos scroll downward) */
+@keyframes scroll-vertical-down {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-scroll-vertical-up {
+  animation: scroll-vertical-up 35s linear infinite !important;
+  animation-play-state: running !important;
+  will-change: transform;
+}
+
+.animate-scroll-vertical-down {
+  animation: scroll-vertical-down 35s linear infinite !important;
+  animation-play-state: running !important;
+  will-change: transform;
+}
+
+.animate-scroll-vertical-up:hover,
+.animate-scroll-vertical-down:hover {
+  animation-play-state: paused !important;
+}

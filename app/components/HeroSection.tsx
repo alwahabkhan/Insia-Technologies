@@ -6,6 +6,8 @@ import VerticalLogoCarousel from "./VerticalLogoCarousel";
 
 export type TechnologyLogo = { name: string; path: string };
 
+const easeSmooth = [0.25, 0.46, 0.45, 0.94] as const;
+
 const container = {
   hidden: { opacity: 0 },
   visible: {
@@ -24,7 +26,7 @@ const item = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.25, 0.46, 0.45, 0.94],
+      ease: easeSmooth,
     },
   },
 };
@@ -36,7 +38,7 @@ const itemButtons = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.25, 0.46, 0.45, 0.94],
+      ease: easeSmooth,
     },
   },
 };

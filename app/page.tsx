@@ -3,6 +3,7 @@ import Image from "next/image";
 import HeroSection from "./components/HeroSection";
 import ServicesSection from "./components/ServicesSection";
 import TechnologiesSection from "./components/TechnologiesSection";
+import ProjectsSection from "./components/ProjectsSection";
 import AboutSection from "./components/AboutSection";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
@@ -112,6 +113,9 @@ export default function Home() {
                 <Link href="#technologies" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-base font-medium transition-colors">
                   Technologies
                 </Link>
+                <Link href="#projects" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-base font-medium transition-colors">
+                  Our Projects
+                </Link>
                 <Link href="#about" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-base font-medium transition-colors">
                   About
                 </Link>
@@ -139,6 +143,9 @@ export default function Home() {
 
       {/* Technologies Section */}
       <TechnologiesSection logos={technologyLogos} />
+
+      {/* Our Projects Section */}
+      <ProjectsSection />
 
       {/* About Section */}
       <AboutSection />

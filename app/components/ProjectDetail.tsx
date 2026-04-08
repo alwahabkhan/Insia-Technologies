@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/app/data/projects";
@@ -134,6 +134,11 @@ function CodeIcon({ className = "w-8 h-8" }: { className?: string }) {
 export default function ProjectDetail({ project }: ProjectDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
+  const responsibilitiesCarouselRef = useRef<HTMLDivElement | null>(null);
+  const safeImageIndex =
+    project.images.length > 0
+      ? Math.min(currentImageIndex, project.images.length - 1)
+      : 0;
 
   const handleImageError = (index: number) => {
     setImageErrors((prev) => ({ ...prev, [index]: true }));
@@ -150,6 +155,33 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       (prev) => (prev - 1 + project.images.length) % project.images.length
     );
   };
+
+  const responsibilityGroups: string[][] = [];
+  for (let i = 0; i < project.responsibilities.length; i += 5) {
+    responsibilityGroups.push(project.responsibilities.slice(i, i + 5));
+  }
+
+  useEffect(() => {
+    const carousel = responsibilitiesCarouselRef.current;
+    if (!carousel || responsibilityGroups.length <= 1) return;
+
+    const intervalId = window.setInterval(() => {
+      const firstSlide = carousel.querySelector<HTMLElement>("[data-resp-slide]");
+      if (!firstSlide) return;
+
+      const gap = 16; // matches gap-4
+      const step = firstSlide.offsetWidth + gap;
+      const maxLeft = carousel.scrollWidth - carousel.clientWidth;
+      const nextLeft = carousel.scrollLeft + step;
+
+      carousel.scrollTo({
+        left: nextLeft > maxLeft ? 0 : nextLeft,
+        behavior: "smooth",
+      });
+    }, 3500);
+
+    return () => window.clearInterval(intervalId);
+  }, [responsibilityGroups.length]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
@@ -170,17 +202,17 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         className="relative w-full h-[72vh] min-h-[520px] overflow-hidden bg-slate-100"
       >
         <div className="relative w-full h-full flex items-center justify-center">
-          {imageErrors[currentImageIndex] ? (
+          {imageErrors[safeImageIndex] || project.images.length === 0 ? (
             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-700">
               <CodeIcon className="w-12 h-12 text-white opacity-50" />
             </div>
           ) : (
             <Image
-              src={project.images[currentImageIndex]}
-              alt={`${project.title} - Image ${currentImageIndex + 1}`}
+              src={project.images[safeImageIndex]}
+              alt={`${project.title} - Image ${safeImageIndex + 1}`}
               fill
               className="object-cover"
-              onError={() => handleImageError(currentImageIndex)}
+              onError={() => handleImageError(safeImageIndex)}
               unoptimized
               priority
             />
@@ -211,7 +243,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                   key={index}
                   onClick={() => setCurrentImageIndex(index)}
                   className={`h-2 rounded-full transition-all ${
-                    currentImageIndex === index
+                    safeImageIndex === index
                       ? "w-8 bg-white"
                       : "w-2 bg-white/50"
                   }`}
@@ -348,7 +380,41 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               Key Responsibilities
             </h2>
             <div className="h-1 w-24 rounded-full bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 mb-8" />
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Mobile: grouped carousel (5 cards per slide) */}
+            <div
+              ref={responsibilitiesCarouselRef}
+              className="md:hidden flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {responsibilityGroups.map((group, groupIndex) => (
+                <div
+                  key={groupIndex}
+                  data-resp-slide
+                  className="min-w-full snap-center"
+                >
+                  <div className="space-y-4">
+                    {group.map((responsibility, itemIndex) => {
+                      const absoluteIndex = groupIndex * 5 + itemIndex;
+                      return (
+                        <div
+                          key={absoluteIndex}
+                          className="flex items-start p-5 bg-white/90 backdrop-blur-sm rounded-3xl border border-slate-200/80 shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                        >
+                          <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold mr-4">
+                            {absoluteIndex + 1}
+                          </div>
+                          <p className="text-slate-700 leading-relaxed text-sm">
+                            {responsibility}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Tablet/Desktop grid */}
+            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {project.responsibilities.map((responsibility, index) => (
                 <div
                   key={index}

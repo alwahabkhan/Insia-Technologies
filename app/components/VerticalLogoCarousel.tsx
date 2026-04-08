@@ -15,7 +15,7 @@ interface VerticalLogoCarouselProps {
 function LogoCard({ logo }: { logo: TechnologyLogo }) {
   return (
     <div
-      className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 bg-white dark:bg-gray-800 rounded-xl p-3 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center border border-gray-200 dark:border-gray-700"
+      className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 bg-white/90 backdrop-blur-sm rounded-2xl p-3 shadow-[0_10px_30px_rgba(15,23,42,0.08)] hover:shadow-[0_16px_45px_rgba(37,99,235,0.12)] transition-all duration-300 flex items-center justify-center border border-slate-200/80"
       title={logo.name}
     >
       <Image

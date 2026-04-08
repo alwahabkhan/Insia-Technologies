@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
-import VerticalLogoCarousel from "./VerticalLogoCarousel";
-
-export type TechnologyLogo = { name: string; path: string };
+import MorphSection from "./MorphSection";
 
 const easeSmooth = [0.25, 0.46, 0.45, 0.94] as const;
 
@@ -43,29 +41,23 @@ const itemButtons = {
   },
 };
 
-export default function HeroSection({ logos = [] }: { logos?: TechnologyLogo[] }) {
+export default function HeroSection() {
   return (
-    <section
+    <MorphSection
       id="home"
-      className="min-h-[100vh] flex flex-col justify-center items-center pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800"
+      variant="hero"
+      className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-white to-purple-50"
     >
-      <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-4">
-        {/* Left vertical carousel - auto-runs, scrolls downward */}
-        {logos.length > 0 && (
-          <div className="hidden lg:flex lg:w-28 xl:w-32 flex-shrink-0 justify-center">
-            <VerticalLogoCarousel logos={logos} direction="down" />
-          </div>
-        )}
-
+      <div className="max-w-7xl mx-auto w-full min-h-[calc(100vh-6rem)] flex flex-col items-center justify-center">
         <motion.div
-          className="flex-1 flex flex-col items-center justify-center text-center max-w-4xl"
+          className="w-full flex flex-col items-center justify-center text-center max-w-4xl mx-auto"
           variants={container}
           initial="hidden"
           animate="visible"
         >
           <div className="text-center">
           <motion.h1
-            className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6"
+            className="text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-6"
             variants={item}
           >
             Transforming Ideas Into
@@ -74,7 +66,7 @@ export default function HeroSection({ logos = [] }: { logos?: TechnologyLogo[] }
             </span>
           </motion.h1>
           <motion.p
-            className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto"
+            className="text-xl md:text-2xl text-slate-600 mb-8 max-w-3xl mx-auto"
             variants={item}
           >
             Leading IT services provider specializing in cutting-edge web
@@ -88,7 +80,7 @@ export default function HeroSection({ logos = [] }: { logos?: TechnologyLogo[] }
             <motion.div variants={itemButtons}>
               <Link
                 href="#contact"
-                className="inline-block px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+                className="hero-get-started inline-block px-8 py-4 rounded-lg font-semibold text-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 Get Started
               </Link>
@@ -96,7 +88,7 @@ export default function HeroSection({ logos = [] }: { logos?: TechnologyLogo[] }
             <motion.div variants={itemButtons}>
               <Link
                 href="#services"
-                className="inline-block px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg font-semibold text-lg border-2 border-gray-300 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-400 transition-all"
+                className="hero-our-services inline-block px-8 py-4 bg-white/90 rounded-lg font-semibold text-lg shadow-lg shadow-blue-100/40 transition-colors"
               >
                 Our Services
               </Link>
@@ -104,14 +96,7 @@ export default function HeroSection({ logos = [] }: { logos?: TechnologyLogo[] }
           </motion.div>
         </div>
         </motion.div>
-
-        {/* Right vertical carousel - auto-runs, scrolls upward, opposite order */}
-        {logos.length > 0 && (
-          <div className="hidden lg:flex lg:w-28 xl:w-32 flex-shrink-0 justify-center">
-            <VerticalLogoCarousel logos={logos} direction="up" reverseOrder />
-          </div>
-        )}
       </div>
-    </section>
+    </MorphSection>
   );
 }

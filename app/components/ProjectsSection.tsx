@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
+import MorphSection from "./MorphSection";
 import { projects } from "@/app/data/projects";
 import type { Project } from "@/app/data/projects";
 
@@ -86,59 +87,96 @@ function ProjectCard({
   index,
   onImageError,
   imageError,
+  className = "",
 }: {
   project: Project;
   index: number;
   onImageError: (index: number) => void;
   imageError: Record<number, boolean>;
+  className?: string;
 }) {
   const hasError = imageError[index];
+  const techPreview = project.technologies.slice(0, 4);
+  const extraCount = project.technologies.length - techPreview.length;
 
   return (
-    <motion.div variants={cardVariants} className="h-full">
+    <motion.div
+      data-project-card
+      variants={cardVariants}
+      className={`h-full ${className}`}
+      whileHover={{ y: -8 }}
+      transition={{ type: "spring", stiffness: 420, damping: 32 }}
+    >
       <Link
         href={`/projects/${project.slug}`}
-        className="block h-full bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col border border-gray-200 dark:border-gray-700 group"
+        className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/70 bg-gradient-to-b from-white to-slate-50/95 shadow-[0_4px_6px_-1px_rgba(15,23,42,0.06),0_16px_32px_-12px_rgba(15,23,42,0.1)] transition-[box-shadow,border-color] duration-300 hover:border-slate-300/90 hover:shadow-[0_24px_50px_-12px_rgba(37,99,235,0.18)]"
       >
-        <div className="relative h-56 bg-gradient-to-br from-blue-500 via-blue-600 to-purple-600 overflow-hidden">
+        <div
+          className="absolute inset-x-0 top-0 z-20 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600"
+          aria-hidden
+        />
+        <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-blue-400/15 to-purple-500/10 blur-2xl transition-transform duration-500 group-hover:scale-110" />
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.2] [background-image:linear-gradient(to_right,rgb(148_163_184/0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgb(148_163_184/0.15)_1px,transparent_1px)] [background-size:18px_18px]"
+          aria-hidden
+        />
+
+        <div className="relative z-10 h-[13.5rem] shrink-0 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
           {hasError ? (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 via-blue-600 to-purple-600">
+            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700">
               <CodeIcon />
             </div>
           ) : (
-            <Image
-              src={project.images[0]}
-              alt={project.title}
-              fill
-              className="object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
-              onError={() => onImageError(index)}
-              unoptimized
-            />
+            <>
+              <Image
+                src={project.images[0]}
+                alt={project.title}
+                fill
+                className="object-cover transition-all duration-700 ease-out group-hover:scale-[1.06]"
+                onError={() => onImageError(index)}
+                unoptimized
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/0 via-transparent to-purple-600/25 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            </>
           )}
+          <div className="absolute left-3 top-3 z-10">
+            <span className="inline-flex items-center rounded-full border border-white/25 bg-white/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-white shadow-sm backdrop-blur-md">
+              Case study
+            </span>
+          </div>
         </div>
-        <div className="p-6 flex-1 flex flex-col">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+
+        <div className="relative z-10 flex flex-1 flex-col p-5 sm:p-6">
+          <h3 className="mb-2 line-clamp-2 text-lg font-bold tracking-tight text-slate-900 transition-colors group-hover:text-blue-700 sm:text-xl">
             {project.title}
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 flex-1 line-clamp-3">
+          <p className="mb-4 line-clamp-3 text-sm leading-relaxed text-slate-600">
             {project.description}
           </p>
-          <div className="flex flex-wrap gap-2 mb-4">
-            {project.technologies.slice(0, 4).map((tech, techIndex) => (
-              <span
-                key={techIndex}
-                className="px-3 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium"
-              >
-                {tech}
-              </span>
-            ))}
-            {project.technologies.length > 4 && (
-              <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full text-xs font-medium">
-                +{project.technologies.length - 4}
-              </span>
-            )}
+
+          <div className="mb-5 rounded-2xl border border-slate-200/70 bg-white/70 p-3.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.95)] backdrop-blur-sm transition-colors group-hover:bg-white/90">
+            <p className="mb-2.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+              Tech stack
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {techPreview.map((tech, techIndex) => (
+                <span
+                  key={techIndex}
+                  className="inline-flex items-center rounded-md border border-blue-200/70 bg-white px-2 py-1 text-[11px] font-semibold text-blue-800 shadow-sm ring-1 ring-blue-500/5 transition-transform duration-200 hover:-translate-y-0.5"
+                >
+                  {tech}
+                </span>
+              ))}
+              {extraCount > 0 && (
+                <span className="inline-flex items-center rounded-md border border-slate-200/80 bg-slate-50 px-2 py-1 text-[11px] font-semibold text-slate-600">
+                  +{extraCount} more
+                </span>
+              )}
+            </div>
           </div>
-          <div className="flex gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+
+          <div className="mt-auto flex flex-wrap gap-2 border-t border-slate-200/80 pt-4">
             <span
               onClick={(e) => {
                 e.preventDefault();
@@ -148,14 +186,14 @@ function ProjectCard({
                 }
               }}
               role={project.liveUrl !== "#" ? "button" : undefined}
-              className={`flex items-center gap-2 font-medium transition-colors ${
+              className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-semibold transition-all ${
                 project.liveUrl !== "#"
-                  ? "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 cursor-pointer"
-                  : "text-gray-400 dark:text-gray-500 cursor-not-allowed"
+                  ? "cursor-pointer bg-blue-50 text-blue-700 ring-1 ring-blue-200/80 hover:bg-blue-100"
+                  : "cursor-not-allowed bg-slate-100 text-slate-400"
               }`}
             >
               <ExternalLinkIcon />
-              <span>Live Demo</span>
+              Live
             </span>
             {project.githubUrl !== "#" && (
               <span
@@ -165,10 +203,10 @@ function ProjectCard({
                   window.open(project.githubUrl, "_blank", "noopener,noreferrer");
                 }}
                 role="button"
-                className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium transition-colors cursor-pointer"
+                className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-slate-200/90 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm transition-all hover:border-slate-300 hover:bg-slate-50"
               >
                 <GitHubIcon />
-                <span>View Code</span>
+                Code
               </span>
             )}
           </div>
@@ -180,15 +218,40 @@ function ProjectCard({
 
 export default function ProjectsSection() {
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
+  const mobileCarouselRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const carousel = mobileCarouselRef.current;
+    if (!carousel || projects.length <= 1) return;
+
+    const intervalId = window.setInterval(() => {
+      const firstCard =
+        carousel.querySelector<HTMLElement>("[data-project-card]");
+      if (!firstCard) return;
+
+      const gap = 16; // matches gap-4
+      const step = firstCard.offsetWidth + gap;
+      const maxLeft = carousel.scrollWidth - carousel.clientWidth;
+      const nextLeft = carousel.scrollLeft + step;
+
+      carousel.scrollTo({
+        left: nextLeft > maxLeft ? 0 : nextLeft,
+        behavior: "smooth",
+      });
+    }, 3500);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
 
   const handleImageError = (index: number) => {
     setImageErrors((prev) => ({ ...prev, [index]: true }));
   };
 
   return (
-    <section
+    <MorphSection
       id="projects"
-      className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800/50"
+      variant="muted"
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50"
     >
       <div className="max-w-7xl mx-auto">
         <motion.div
@@ -201,16 +264,35 @@ export default function ProjectsSection() {
             variants={cardVariants}
             className="text-center mb-14"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
               Our Projects
             </h2>
-            <div className="w-24 h-1.5 bg-blue-600 dark:bg-blue-500 mx-auto mb-4 rounded-full" />
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
+            <div className="mx-auto mb-4 h-1.5 w-28 rounded-full bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600" />
+            <p className="text-slate-600 max-w-2xl mx-auto text-lg">
               A selection of projects we&apos;ve delivered across web, IoT, e-commerce, and AI.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Mobile carousel */}
+          <motion.div
+            ref={mobileCarouselRef}
+            className="md:hidden flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            variants={sectionTrigger}
+          >
+            {projects.map((project, index) => (
+              <ProjectCard
+                key={`mobile-${project.id}`}
+                project={project}
+                index={index}
+                onImageError={handleImageError}
+                imageError={imageErrors}
+                className="min-w-[86%] snap-center"
+              />
+            ))}
+          </motion.div>
+
+          {/* Tablet/Desktop grid */}
+          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {projects.map((project, index) => (
               <ProjectCard
                 key={project.id}
@@ -223,6 +305,6 @@ export default function ProjectsSection() {
           </div>
         </motion.div>
       </div>
-    </section>
+    </MorphSection>
   );
 }

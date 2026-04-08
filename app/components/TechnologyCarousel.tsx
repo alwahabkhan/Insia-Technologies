@@ -32,7 +32,7 @@ export default function TechnologyCarousel({ logos }: TechnologyCarouselProps) {
         {logos.map((tech, idx) => (
           <div
             key={`first-${idx}`}
-            className="flex-shrink-0 w-32 h-32 bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center border border-gray-200 dark:border-gray-700"
+            className="flex-shrink-0 w-32 h-32 bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-[0_10px_30px_rgba(15,23,42,0.08)] hover:shadow-[0_16px_45px_rgba(37,99,235,0.12)] transition-all duration-300 flex items-center justify-center border border-slate-200/80"
             title={tech.name}
           >
             <Image
@@ -48,7 +48,7 @@ export default function TechnologyCarousel({ logos }: TechnologyCarouselProps) {
         {logos.map((tech, idx) => (
           <div
             key={`second-${idx}`}
-            className="flex-shrink-0 w-32 h-32 bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center border border-gray-200 dark:border-gray-700"
+            className="flex-shrink-0 w-32 h-32 bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-[0_10px_30px_rgba(15,23,42,0.08)] hover:shadow-[0_16px_45px_rgba(37,99,235,0.12)] transition-all duration-300 flex items-center justify-center border border-slate-200/80"
             title={tech.name}
           >
             <Image

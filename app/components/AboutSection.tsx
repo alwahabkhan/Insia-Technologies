@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import MorphSection from "./MorphSection";
 
 const easeSmooth = [0.25, 0.46, 0.45, 0.94] as const;
 
@@ -70,9 +71,10 @@ const WHY_CHOOSE_ITEMS = [
 
 export default function AboutSection() {
   return (
-    <section
+    <MorphSection
       id="about"
-      className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900"
+      variant="light"
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-white"
     >
       <div className="max-w-7xl mx-auto">
         {/* Single scroll trigger: when this section enters view, all animations play */}
@@ -85,20 +87,20 @@ export default function AboutSection() {
         >
           {/* Left side - animate from left */}
           <motion.div variants={fromLeftVariants}>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
               About Insia Technologies
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-lg text-slate-600 mb-4">
               We are a forward-thinking IT services company dedicated to
               delivering innovative technology solutions that drive business
               growth and digital transformation.
             </p>
-            <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-lg text-slate-600 mb-4">
               Our team of experienced developers, designers, and AI specialists
               work collaboratively to create cutting-edge solutions across web,
               mobile, cloud, IoT, and artificial intelligence domains.
             </p>
-            <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+            <p className="text-lg text-slate-600 mb-6">
               With a focus on quality, innovation, and client satisfaction, we
               help businesses leverage the power of modern technology to achieve
               their goals.
@@ -110,23 +112,23 @@ export default function AboutSection() {
             >
               <motion.div
                 variants={fromBottomVariants}
-                className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
+                className="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-[0_10px_30px_rgba(37,99,235,0.08)] border border-slate-200/80"
               >
-                <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                <div className="text-3xl font-bold text-blue-600 mb-2">
                   100+
                 </div>
-                <div className="text-gray-600 dark:text-gray-400">
+                <div className="text-slate-600">
                   Projects Delivered
                 </div>
               </motion.div>
               <motion.div
                 variants={fromBottomVariants}
-                className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
+                className="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-[0_10px_30px_rgba(147,51,234,0.1)] border border-slate-200/80"
               >
-                <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">
+                <div className="text-3xl font-bold text-purple-600 mb-2">
                   50+
                 </div>
-                <div className="text-gray-600 dark:text-gray-400">
+                <div className="text-slate-600">
                   Happy Clients
                 </div>
               </motion.div>
@@ -136,16 +138,16 @@ export default function AboutSection() {
           {/* Right side - animate from right */}
           <motion.div
             variants={fromRightVariants}
-            className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-xl"
+            className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-[0_12px_40px_rgba(15,23,42,0.08)] border border-slate-200/80"
           >
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <h3 className="text-2xl font-bold text-slate-900 mb-6">
               Why Choose Us?
             </h3>
             <ul className="space-y-4">
               {WHY_CHOOSE_ITEMS.map((item, index) => (
                 <li key={index} className="flex items-start">
                   <span className="text-green-500 mr-3 text-xl">✓</span>
-                  <span className="text-gray-700 dark:text-gray-300">
+                  <span className="text-slate-700">
                     {item}
                   </span>
                 </li>
@@ -154,6 +156,6 @@ export default function AboutSection() {
           </motion.div>
         </motion.div>
       </div>
-    </section>
+    </MorphSection>
   );
 }

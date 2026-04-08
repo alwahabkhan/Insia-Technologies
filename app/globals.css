@@ -15,17 +15,37 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Hero CTA — fill + purple border (darker rim so it shows on #9333ea; same family as Our Services) */
+a.hero-get-started {
+  background-color: #9333ea;
+  color: #ffffff;
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-color: #7e22ce !important;
+  box-sizing: border-box;
+}
+a.hero-get-started:hover {
+  background-color: #7e22ce;
+  border-color: #6b21a8 !important;
+}
+
+/* Secondary hero CTA — purple border (Tailwind preflight sets border-width: 0; needs explicit + !important) */
+a.hero-our-services {
+  color: #9333ea !important;
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-color: #9333ea !important;
+  box-sizing: border-box;
+}
+a.hero-our-services:hover {
+  color: #7e22ce !important;
+  border-color: #7e22ce !important;
 }
 
 * {
@@ -86,4 +106,76 @@ body {
 .animate-scroll-vertical-up:hover,
 .animate-scroll-vertical-down:hover {
   animation-play-state: paused !important;
+}
+
+/* Organic morph blobs — border-radius + drift for a soft, modern look */
+@keyframes morph-blob-a {
+  0%,
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  33% {
+    border-radius: 40% 60% 70% 30% / 50% 60% 30% 60%;
+    transform: translate(3%, -2%) scale(1.06) rotate(5deg);
+  }
+  66% {
+    border-radius: 50% 50% 40% 60% / 40% 60% 50% 50%;
+    transform: translate(-2%, 3%) scale(0.96) rotate(-4deg);
+  }
+}
+
+@keyframes morph-blob-b {
+  0%,
+  100% {
+    border-radius: 45% 55% 55% 45% / 45% 45% 55% 55%;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    border-radius: 55% 45% 35% 65% / 60% 40% 60% 40%;
+    transform: translate(-4%, 2%) scale(1.08) rotate(-6deg);
+  }
+}
+
+@keyframes morph-blob-c {
+  0%,
+  100% {
+    border-radius: 35% 65% 55% 45% / 50% 50% 35% 65%;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  40% {
+    border-radius: 65% 35% 45% 55% / 40% 60% 50% 50%;
+    transform: translate(2%, 4%) scale(1.04) rotate(7deg);
+  }
+  80% {
+    border-radius: 50% 50% 60% 40% / 55% 45% 55% 45%;
+    transform: translate(-3%, -1%) scale(0.94) rotate(-3deg);
+  }
+}
+
+.morph-blob {
+  will-change: transform, border-radius;
+}
+
+.morph-blob-a {
+  animation: morph-blob-a 18s ease-in-out infinite;
+}
+
+.morph-blob-b {
+  animation: morph-blob-b 22s ease-in-out infinite;
+  animation-delay: -6s;
+}
+
+.morph-blob-c {
+  animation: morph-blob-c 25s ease-in-out infinite;
+  animation-delay: -11s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .morph-blob-a,
+  .morph-blob-b,
+  .morph-blob-c {
+    animation: none;
+    border-radius: 50%;
+  }
 }

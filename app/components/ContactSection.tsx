@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import MorphSection from "./MorphSection";
 
 const easeSmooth = [0.25, 0.46, 0.45, 0.94] as const;
 
@@ -35,9 +36,10 @@ const formFromBottomVariants = {
 
 export default function ContactSection() {
   return (
-    <section
+    <MorphSection
       id="contact"
-      className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900"
+      variant="light"
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-white"
     >
       <div className="max-w-4xl mx-auto">
         <motion.div
@@ -48,13 +50,13 @@ export default function ContactSection() {
             variants={headerContainerVariants}
           >
             <motion.h2
-              className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4"
+              className="text-4xl md:text-5xl font-bold text-slate-900 mb-4"
               variants={headerItemVariants}
             >
               Get In Touch
             </motion.h2>
             <motion.p
-              className="text-xl text-gray-600 dark:text-gray-400"
+              className="text-xl text-slate-600"
               variants={headerItemVariants}
             >
               Ready to start your project? Let&apos;s discuss how we can help you
@@ -63,7 +65,7 @@ export default function ContactSection() {
           </motion.div>
 
         <motion.div
-          className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 md:p-12"
+          className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-[0_12px_40px_rgba(15,23,42,0.08)] border border-slate-200/80 p-8 md:p-12"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
@@ -74,7 +76,7 @@ export default function ContactSection() {
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  className="block text-sm font-medium text-slate-700 mb-2"
                 >
                   Name
                 </label>
@@ -82,14 +84,14 @@ export default function ContactSection() {
                   type="text"
                   id="name"
                   name="name"
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-300 bg-white text-slate-900 shadow-sm"
                   placeholder="Your Name"
                 />
               </div>
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  className="block text-sm font-medium text-slate-700 mb-2"
                 >
                   Email
                 </label>
@@ -97,7 +99,7 @@ export default function ContactSection() {
                   type="email"
                   id="email"
                   name="email"
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-300 bg-white text-slate-900 shadow-sm"
                   placeholder="your.email@example.com"
                 />
               </div>
@@ -105,7 +107,7 @@ export default function ContactSection() {
             <div>
               <label
                 htmlFor="subject"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className="block text-sm font-medium text-slate-700 mb-2"
               >
                 Subject
               </label>
@@ -113,14 +115,14 @@ export default function ContactSection() {
                 type="text"
                 id="subject"
                 name="subject"
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-300 bg-white text-slate-900 shadow-sm"
                 placeholder="Project Inquiry"
               />
             </div>
             <div>
               <label
                 htmlFor="message"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className="block text-sm font-medium text-slate-700 mb-2"
               >
                 Message
               </label>
@@ -128,19 +130,19 @@ export default function ContactSection() {
                 id="message"
                 name="message"
                 rows={6}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-300 bg-white text-slate-900 shadow-sm"
                 placeholder="Tell us about your project..."
               />
             </div>
             <button
               type="submit"
-              className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+              className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-[0_12px_30px_rgba(37,99,235,0.35)] hover:shadow-[0_16px_40px_rgba(37,99,235,0.45)]"
             >
               Send Message
             </button>
           </form>
         </motion.div>
       </div>
-    </section>
+    </MorphSection>
   );
 }

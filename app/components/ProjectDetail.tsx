@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/app/data/projects";
 import Footer from "./Footer";
+import MorphSection from "./MorphSection";
 
 interface ProjectDetailProps {
   project: Project;
@@ -151,12 +152,12 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Back Button */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         <Link
           href="/#projects"
-          className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors mb-8 group font-medium"
+          className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors mb-8 group font-medium"
         >
           <ArrowBackIcon className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
           Back to Our Projects
@@ -164,10 +165,13 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       </div>
 
       {/* Hero Section */}
-      <section className="relative w-full h-[70vh] min-h-[500px] overflow-hidden bg-gray-900 dark:bg-gray-950">
+      <MorphSection
+        variant="soft"
+        className="relative w-full h-[72vh] min-h-[520px] overflow-hidden bg-slate-100"
+      >
         <div className="relative w-full h-full flex items-center justify-center">
           {imageErrors[currentImageIndex] ? (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 via-blue-600 to-purple-600">
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-700">
               <CodeIcon className="w-12 h-12 text-white opacity-50" />
             </div>
           ) : (
@@ -175,13 +179,13 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               src={project.images[currentImageIndex]}
               alt={`${project.title} - Image ${currentImageIndex + 1}`}
               fill
-              className="object-contain"
+              className="object-cover"
               onError={() => handleImageError(currentImageIndex)}
               unoptimized
               priority
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/40 to-transparent pointer-events-none" />
         </div>
 
         {/* Image Navigation */}
@@ -189,14 +193,14 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           <>
             <button
               onClick={prevImage}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-3 rounded-full transition-all z-10"
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-3 rounded-full transition-all z-10 shadow-lg"
               aria-label="Previous image"
             >
               <ArrowBackIcon className="w-5 h-5" />
             </button>
             <button
               onClick={nextImage}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-3 rounded-full transition-all z-10 rotate-180"
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-3 rounded-full transition-all z-10 rotate-180 shadow-lg"
               aria-label="Next image"
             >
               <ArrowBackIcon className="w-5 h-5" />
@@ -219,57 +223,57 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         )}
 
         {/* Hero Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white z-10">
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 text-white z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-2xl md:text-3xl font-bold mb-2">
+            <h1 className="text-3xl md:text-4xl font-bold mb-2 tracking-tight">
               {project.title}
             </h1>
-            <p className="text-sm md:text-base text-gray-200 max-w-3xl">
+            <p className="text-sm md:text-base text-slate-200 max-w-3xl">
               {project.description}
             </p>
           </div>
         </div>
-      </section>
+      </MorphSection>
 
       {/* Project Information */}
-      <section className="py-16 bg-white dark:bg-gray-900">
+      <MorphSection variant="light" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-xl">
+            <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-3xl border border-slate-200/80 shadow-[0_10px_30px_rgba(37,99,235,0.08)]">
               <div className="flex items-center mb-3">
-                <BusinessIcon className="w-4 h-4 text-blue-600 dark:text-blue-400 mr-3 flex-shrink-0" />
-                <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+                <BusinessIcon className="w-4 h-4 text-blue-600 mr-3 flex-shrink-0" />
+                <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wide">
                   Company
                 </h3>
               </div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <p className="text-2xl font-bold text-slate-900">
                 {project.company}
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 p-6 rounded-xl">
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-3xl border border-slate-200/80 shadow-[0_10px_30px_rgba(147,51,234,0.08)]">
               <div className="flex items-center mb-3">
-                <PersonIcon className="w-4 h-4 text-purple-600 dark:text-purple-400 mr-3 flex-shrink-0" />
-                <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+                <PersonIcon className="w-4 h-4 text-purple-600 mr-3 flex-shrink-0" />
+                <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wide">
                   Role
                 </h3>
               </div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <p className="text-2xl font-bold text-slate-900">
                 {project.role}
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-pink-50 to-red-50 dark:from-pink-900/20 dark:to-red-900/20 p-6 rounded-xl">
+            <div className="bg-gradient-to-br from-pink-50 to-red-50 p-6 rounded-3xl border border-slate-200/80 shadow-[0_10px_30px_rgba(236,72,153,0.08)]">
               <div className="flex items-center mb-3">
-                <CalendarIcon className="w-4 h-4 text-pink-600 dark:text-pink-400 mr-3 flex-shrink-0" />
-                <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+                <CalendarIcon className="w-4 h-4 text-pink-600 mr-3 flex-shrink-0" />
+                <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wide">
                   Timeline
                 </h3>
               </div>
-              <p className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+              <p className="text-lg font-bold text-slate-900 mb-1">
                 {project.timeline.startDate} - {project.timeline.endDate}
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-slate-600">
                 {project.timeline.duration}
               </p>
             </div>
@@ -282,7 +286,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl font-medium"
+                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-[0_12px_30px_rgba(37,99,235,0.35)] hover:shadow-[0_18px_36px_rgba(37,99,235,0.45)] font-semibold"
               >
                 <LaunchIcon className="w-4 h-4 mr-2" />
                 View Live Demo
@@ -293,7 +297,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-gray-800 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-900 dark:hover:bg-gray-600 transition-all shadow-lg hover:shadow-xl font-medium"
+                className="inline-flex items-center px-6 py-3 bg-white text-slate-800 rounded-xl border border-slate-300 hover:border-slate-400 hover:bg-slate-50 transition-all shadow-md hover:shadow-lg font-semibold"
               >
                 <GitHubIcon className="w-4 h-4 mr-2" />
                 View Code
@@ -301,89 +305,93 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             )}
           </div>
         </div>
-      </section>
+      </MorphSection>
 
       {/* Description Section */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-800">
+      <MorphSection variant="soft" className="py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">
+          <h2 className="text-4xl font-bold text-slate-900 mb-3">
             Project Overview
           </h2>
-          <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed max-w-4xl">
+          <div className="h-1 w-24 rounded-full bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 mb-8" />
+          <p className="text-lg text-slate-700 leading-relaxed max-w-4xl bg-white/75 backdrop-blur-sm border border-slate-200/80 rounded-3xl p-8 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
             {project.fullDescription}
           </p>
         </div>
-      </section>
+      </MorphSection>
 
       {/* Technologies */}
-      <section className="py-16 bg-white dark:bg-gray-900">
+      <MorphSection variant="light" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">
+          <h2 className="text-4xl font-bold text-slate-900 mb-3">
             Technologies & Skills
           </h2>
-          <div className="flex flex-wrap gap-4">
+          <div className="h-1 w-24 rounded-full bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 mb-8" />
+          <div className="flex flex-wrap gap-3 rounded-3xl border border-slate-200/80 bg-gradient-to-br from-white to-slate-50 p-6 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
             {project.technologies.map((tech, index) => (
               <span
                 key={index}
-                className="px-6 py-3 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 text-blue-700 dark:text-blue-300 rounded-full text-base font-semibold shadow-md hover:shadow-lg transition-all hover:scale-105"
+                className="px-4 py-2 bg-white text-blue-700 rounded-xl text-sm font-semibold border border-blue-200/80 shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5"
               >
                 {tech}
               </span>
             ))}
           </div>
         </div>
-      </section>
+      </MorphSection>
 
       {/* Responsibilities */}
       {project.responsibilities.length > 0 && (
-        <section className="py-16 bg-gray-50 dark:bg-gray-800">
+        <MorphSection variant="muted" className="py-16 bg-slate-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">
+            <h2 className="text-4xl font-bold text-slate-900 mb-3">
               Key Responsibilities
             </h2>
+            <div className="h-1 w-24 rounded-full bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 mb-8" />
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {project.responsibilities.map((responsibility, index) => (
                 <div
                   key={index}
-                  className="flex items-start p-6 bg-white dark:bg-gray-900 rounded-xl shadow-md hover:shadow-lg transition-all"
+                  className="flex items-start p-6 bg-white/90 backdrop-blur-sm rounded-3xl border border-slate-200/80 shadow-[0_10px_24px_rgba(15,23,42,0.08)] hover:shadow-[0_18px_36px_rgba(15,23,42,0.12)] transition-all"
                 >
                   <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold mr-4">
                     {index + 1}
                   </div>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  <p className="text-slate-700 leading-relaxed">
                     {responsibility}
                   </p>
                 </div>
               ))}
             </div>
           </div>
-        </section>
+        </MorphSection>
       )}
 
       {/* Achievements */}
       {project.achievements.length > 0 && (
-        <section className="py-16 bg-white dark:bg-gray-900">
+        <MorphSection variant="light" className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">
+            <h2 className="text-4xl font-bold text-slate-900 mb-3">
               Key Achievements
             </h2>
+            <div className="h-1 w-24 rounded-full bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 mb-8" />
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {project.achievements.map((achievement, index) => (
                 <div
                   key={index}
-                  className="flex items-start p-6 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-blue-600"
+                  className="flex items-start p-6 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl shadow-[0_10px_24px_rgba(37,99,235,0.12)] hover:shadow-[0_18px_36px_rgba(37,99,235,0.16)] transition-all border border-slate-200/80 border-l-4 border-l-blue-600"
                 >
                   <div className="flex-shrink-0 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-4 mt-1">
                     ✓
                   </div>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed font-medium">
+                  <p className="text-slate-700 leading-relaxed font-medium">
                     {achievement}
                   </p>
                 </div>
               ))}
             </div>
           </div>
-        </section>
+        </MorphSection>
       )}
 
       <Footer />

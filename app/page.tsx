@@ -85,9 +85,9 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md z-50 border-b border-gray-200 dark:border-gray-800">
+      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-xl z-50 border-b border-slate-200/80 shadow-[0_8px_30px_rgba(15,23,42,0.06)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-24">
             <div className="flex-shrink-0">
@@ -104,28 +104,28 @@ export default function Home() {
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-8">
-                <Link href="#home" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-base font-medium transition-colors">
+                <Link href="#home" className="text-slate-700 hover:text-blue-600 px-3 py-2 text-base font-medium transition-colors">
                   Home
                 </Link>
-                <Link href="#services" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-base font-medium transition-colors">
+                <Link href="#services" className="text-slate-700 hover:text-blue-600 px-3 py-2 text-base font-medium transition-colors">
                   Services
                 </Link>
-                <Link href="#technologies" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-base font-medium transition-colors">
+                <Link href="#technologies" className="text-slate-700 hover:text-blue-600 px-3 py-2 text-base font-medium transition-colors">
                   Technologies
                 </Link>
-                <Link href="#projects" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-base font-medium transition-colors">
+                <Link href="#projects" className="text-slate-700 hover:text-blue-600 px-3 py-2 text-base font-medium transition-colors">
                   Our Projects
                 </Link>
-                <Link href="#about" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-base font-medium transition-colors">
+                <Link href="#about" className="text-slate-700 hover:text-blue-600 px-3 py-2 text-base font-medium transition-colors">
                   About
                 </Link>
-                <Link href="#contact" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-base font-medium transition-colors">
+                <Link href="#contact" className="text-slate-700 hover:text-blue-600 px-3 py-2 text-base font-medium transition-colors">
                   Contact
                 </Link>
               </div>
             </div>
             <div className="md:hidden">
-              <button className="text-gray-700 dark:text-gray-300">
+              <button className="text-slate-700">
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -136,7 +136,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <HeroSection logos={technologyLogos} />
+      <HeroSection />
 
       {/* Services Section */}
       <ServicesSection services={services} />

@@ -21,6 +21,10 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Hero CTA — fill + purple border (darker rim so it shows on #9333ea; same family as Our Services) */
 a.hero-get-started {
   background-color: #9333ea;

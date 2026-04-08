@@ -1,3 +1,6 @@
+ "use client";
+
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import HeroSection from "./components/HeroSection";
@@ -9,6 +12,32 @@ import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
 
 export default function Home() {
+  const [showMobileHeader, setShowMobileHeader] = useState(true);
+  const lastScrollYRef = useRef(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      const lastY = lastScrollYRef.current;
+
+      // Always show header near top.
+      if (currentY < 24) {
+        setShowMobileHeader(true);
+      } else if (currentY > lastY) {
+        // Scrolling down: hide on mobile.
+        setShowMobileHeader(false);
+      } else if (currentY < lastY) {
+        // Scrolling up: show on mobile.
+        setShowMobileHeader(true);
+      }
+
+      lastScrollYRef.current = currentY;
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const services = [
     {
       title: "Web Development",
@@ -87,9 +116,13 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-xl z-50 border-b border-slate-200/80 shadow-[0_8px_30px_rgba(15,23,42,0.06)]">
+      <nav
+        className={`fixed top-0 w-full bg-white/80 backdrop-blur-xl z-50 border-b border-slate-200/80 shadow-[0_8px_30px_rgba(15,23,42,0.06)] transition-transform duration-300 ${
+          showMobileHeader ? "translate-y-0" : "-translate-y-full md:translate-y-0"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-24">
+          <div className="flex justify-between items-center h-16 md:h-24">
             <div className="flex-shrink-0">
               <Link href="#home" className="flex items-center">
         <Image
@@ -97,7 +130,7 @@ export default function Home() {
                   alt="Insia Technologies Logo"
                   width={200}
                   height={80}
-                  className="h-16 w-auto object-contain"
+                  className="h-10 md:h-16 w-auto object-contain"
           priority
         />
               </Link>

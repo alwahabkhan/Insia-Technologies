@@ -27,12 +27,20 @@ a.hero-get-started {
   color: #ffffff;
   border-width: 2px !important;
   border-style: solid !important;
-  border-color: #7e22ce !important;
+  border-color: #9333ea !important;
   box-sizing: border-box;
 }
 a.hero-get-started:hover {
   background-color: #7e22ce;
-  border-color: #6b21a8 !important;
+  border-color: #9333ea !important;
+}
+
+/* Ensure the Get Started border is clearly visible on mobile */
+@media (max-width: 640px) {
+  a.hero-get-started {
+    border-width: 3px !important;
+    border-color: #9333ea !important;
+  }
 }
 
 /* Secondary hero CTA — purple border (Tailwind preflight sets border-width: 0; needs explicit + !important) */

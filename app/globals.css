@@ -25,6 +25,63 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Minimal site-wide motion: soft section entry + subtle interactive easing */
+@keyframes section-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-enter {
+  animation: section-fade-up 520ms ease-out both;
+}
+
+@keyframes dashboard-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.dashboard-card {
+  animation: dashboard-float 6s ease-in-out infinite;
+}
+
+.landing-page > section,
+.landing-page > footer {
+  animation: section-fade-up 480ms ease-out both;
+}
+
+.landing-page > section:nth-of-type(2) {
+  animation-delay: 40ms;
+}
+.landing-page > section:nth-of-type(3) {
+  animation-delay: 80ms;
+}
+.landing-page > section:nth-of-type(4) {
+  animation-delay: 120ms;
+}
+.landing-page > section:nth-of-type(5) {
+  animation-delay: 160ms;
+}
+.landing-page > section:nth-of-type(6) {
+  animation-delay: 200ms;
+}
+
+a,
+button {
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease,
+    transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+}
+
 /* Hero CTA — fill + purple border (darker rim so it shows on #9333ea; same family as Our Services) */
 a.hero-get-started {
   background-color: #9333ea;
@@ -184,6 +241,21 @@ a.hero-our-services:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .landing-page > section,
+  .landing-page > footer {
+    animation: none;
+  }
+
+  .dashboard-enter,
+  .dashboard-card {
+    animation: none;
+  }
+
+  a,
+  button {
+    transition: none !important;
+  }
+
   .morph-blob-a,
   .morph-blob-b,
   .morph-blob-c {

@@ -2,13 +2,18 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import HeroSection from "./components/HeroSection";
-import ServicesSection from "./components/ServicesSection";
-import TechnologiesSection from "./components/TechnologiesSection";
-import ProjectsSection from "./components/ProjectsSection";
+import TrustedBySection from "./components/TrustedBySection";
+import FeaturesHighlightSection from "./components/FeaturesHighlightSection";
+import StatsBannerSection from "./components/StatsBannerSection";
+import HowWeWorkSection from "./components/HowWeWorkSection";
+import BuiltForEveryTeamSection from "./components/BuiltForEveryTeamSection";
+import ComparisonSection from "./components/ComparisonSection";
+import ProvenResultsSection from "./components/ProvenResultsSection";
+import EnterpriseSecuritySection from "./components/EnterpriseSecuritySection";
+import TestimonialsSection from "./components/TestimonialsSection";
+import ProjectCtaSection from "./components/ProjectCtaSection";
 import AboutSection from "./components/AboutSection";
-import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
 
 export default function Home() {
@@ -38,124 +43,48 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const services = [
-    {
-      title: "Web Development",
-      description: "Custom web applications and websites built with modern technologies. Responsive, fast, and scalable solutions for your business.",
-      icon: "🌐",
-      features: ["React, Next.js, Vue.js", "Full-stack Development", "E-commerce Solutions", "Progressive Web Apps"]
-    },
-    {
-      title: "Mobile App Development",
-      description: "Native and cross-platform mobile applications for iOS and Android. Delivering seamless user experiences across all devices.",
-      icon: "📱",
-      features: ["iOS & Android", "React Native, Flutter", "Native Development", "App Store Optimization"]
-    },
-    {
-      title: "SaaS Projects",
-      description: "End-to-end Software as a Service solutions. Scalable cloud-based platforms that grow with your business.",
-      icon: "☁️",
-      features: ["Cloud Architecture", "Multi-tenancy", "Subscription Management", "API Development"]
-    },
-    {
-      title: "IoT Projects",
-      description: "Internet of Things solutions connecting devices and systems. Smart solutions for automation and data collection.",
-      icon: "🔌",
-      features: ["Device Integration", "Sensor Networks", "Real-time Monitoring", "Edge Computing"]
-    },
-    {
-      title: "AI Chatbots",
-      description: "Intelligent conversational AI chatbots that enhance customer service and automate interactions 24/7.",
-      icon: "🤖",
-      features: ["Natural Language Processing", "Multi-platform Integration", "Custom Training", "Analytics & Insights"]
-    },
-    {
-      title: "Cloud Migration & DevOps",
-      description: "Seamless cloud migration and DevOps implementation. Accelerate deployment with CI/CD pipelines and infrastructure as code.",
-      icon: "⚡",
-      features: ["AWS, Azure, GCP Migration", "CI/CD Pipelines", "Containerization (Docker/K8s)", "Infrastructure as Code"]
-    },
-    {
-      title: "AI Agents",
-      description: "Autonomous AI agents that can perform complex tasks, make decisions, and interact with systems intelligently.",
-      icon: "🚀",
-      features: ["Autonomous Agents", "Task Automation", "Decision Making", "System Integration"]
-    }
-  ];
-
-  const technologyLogos = [
-    { name: "React", path: "/React.png" },
-    { name: "Next.js", path: "/Next.js.png" },
-    { name: "TypeScript", path: "/TypeScript.png" },
-    { name: "JavaScript", path: "/JavaScript.png" },
-    { name: "Node.js", path: "/Node.js.png" },
-    { name: "Express.js", path: "/Express.png" },
-    { name: "Java", path: "/Java.png" },
-    { name: "MongoDB", path: "/MongoDB.png" },
-    { name: "MySQL", path: "/MySQL.png" },
-    { name: "PostgreSQL", path: "/PostgresSQL.png" },
-    { name: "Nest.js", path: "/Nest.js.png" },
-    { name: "Material UI", path: "/Material UI.png" },
-    { name: "Tailwind CSS", path: "/Tailwind CSS.png" },
-    { name: "HTML5", path: "/HTML5.png" },
-    { name: "CSS3", path: "/CSS3.png" },
-    { name: "AWS", path: "/AWS.png" },
-    { name: "Vercel", path: "/Vercel.png" },
-    { name: "Heroku", path: "/Heroku.png" },
-    { name: "Firebase", path: "/Firebase.png" },
-    { name: "Git", path: "/Git.png" },
-    { name: "GitHub", path: "/GitHub.png" },
-    { name: "GraphQL", path: "/GraphQL.png" },
-    { name: "Jira", path: "/Jira.png" },
-    { name: "Postman", path: "/Postman.png" },
-    { name: "VS Code", path: "/Visual Studio Code (VS Code).png" },
-    { name: "Vite", path: "/Vite.js.png" },
-    { name: "NPM", path: "/NPM.png" },
-  ];
-
   return (
-    <div className="min-h-screen bg-white">
+    <div className="landing-page min-h-screen bg-white">
       {/* Navigation */}
       <nav
-        className={`fixed top-0 w-full bg-white/80 backdrop-blur-xl z-50 border-b border-slate-200/80 shadow-[0_8px_30px_rgba(15,23,42,0.06)] transition-transform duration-300 ${
+        className={`fixed top-0 z-50 w-full border-b border-slate-200 bg-white transition-transform duration-300 ${
           showMobileHeader ? "translate-y-0" : "-translate-y-full md:translate-y-0"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 md:h-24">
+        <div className="mx-auto max-w-[74rem] px-4 sm:px-6">
+          <div className="grid h-16 grid-cols-[auto_1fr] items-center md:grid-cols-[1fr_auto_1fr]">
             <div className="flex-shrink-0">
-              <Link href="#home" className="flex items-center">
-        <Image
-                  src="/logo2.png"
-                  alt="Insia Technologies Logo"
-                  width={200}
-                  height={80}
-                  className="h-10 md:h-16 w-auto object-contain"
-          priority
-        />
+              <Link
+                href="#home"
+                className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-2xl leading-8 font-bold tracking-tight text-[oklch(0.208_0.042_265.755)]'
+              >
+                INSIA
               </Link>
             </div>
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-8">
-                <Link href="#home" className="text-slate-700 hover:text-blue-600 px-3 py-2 text-base font-medium transition-colors">
-                  Home
-                </Link>
-                <Link href="#services" className="text-slate-700 hover:text-blue-600 px-3 py-2 text-base font-medium transition-colors">
-                  Services
-                </Link>
-                <Link href="#technologies" className="text-slate-700 hover:text-blue-600 px-3 py-2 text-base font-medium transition-colors">
-                  Technologies
-                </Link>
-                <Link href="#projects" className="text-slate-700 hover:text-blue-600 px-3 py-2 text-base font-medium transition-colors">
-                  Our Projects
-                </Link>
-                <Link href="#about" className="text-slate-700 hover:text-blue-600 px-3 py-2 text-base font-medium transition-colors">
-                  About
-                </Link>
-                <Link href="#contact" className="text-slate-700 hover:text-blue-600 px-3 py-2 text-base font-medium transition-colors">
-                  Contact
-                </Link>
-              </div>
+            <div className="hidden items-center justify-center gap-8 md:flex">
+              <Link href="#features" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-slate-700 transition-colors hover:text-blue-600'>
+                Features
+              </Link>
+              <Link href="#comparison" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-slate-700 transition-colors hover:text-blue-600'>
+                Solutions
+              </Link>
+              <Link href="#about" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-slate-700 transition-colors hover:text-blue-600'>
+                About
+              </Link>
+              <Link href="#process" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-slate-700 transition-colors hover:text-blue-600'>
+                Process
+              </Link>
+            </div>
+            <div className="hidden items-center justify-end gap-3 md:flex">
+              <Link href="#project-cta" className='px-2 py-1 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-slate-700 transition-colors hover:text-blue-600'>
+                Log in
+              </Link>
+              <Link
+                href="#project-cta"
+                className="inline-flex items-center rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_8px_22px_rgba(37,99,235,0.35)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-[0_12px_28px_rgba(37,99,235,0.42)]"
+              >
+                Get Started
+              </Link>
             </div>
             <div className="md:hidden">
               <button className="text-slate-700">
@@ -171,20 +100,38 @@ export default function Home() {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Services Section */}
-      <ServicesSection services={services} />
+      {/* Trusted By Section */}
+      <TrustedBySection />
 
-      {/* Technologies Section */}
-      <TechnologiesSection logos={technologyLogos} />
+      {/* Features Highlight Section */}
+      <FeaturesHighlightSection />
 
-      {/* Our Projects Section */}
-      <ProjectsSection />
+      {/* Stats Banner Section */}
+      <StatsBannerSection />
+
+      {/* How We Work Section */}
+      <HowWeWorkSection />
+
+      {/* Built For Every Team Section */}
+      <BuiltForEveryTeamSection />
+
+      {/* Comparison Section */}
+      <ComparisonSection />
+
+      {/* Proven Results Section */}
+      <ProvenResultsSection />
 
       {/* About Section */}
       <AboutSection />
 
-      {/* Contact Section */}
-      <ContactSection />
+      {/* Enterprise Security Section */}
+      <EnterpriseSecuritySection />
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
+
+      {/* Project CTA Section */}
+      <ProjectCtaSection />
 
       {/* Footer */}
       <Footer />

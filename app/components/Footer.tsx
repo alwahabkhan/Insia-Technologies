@@ -1,150 +1,54 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "motion/react";
-import MorphSection from "./MorphSection";
-
-const easeSmooth = [0.25, 0.46, 0.45, 0.94] as const;
-
-const fromLeftVariants = {
-  hidden: { opacity: 0, x: -48 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.6, ease: easeSmooth },
-  },
-};
-
-const fromBottomVariants = {
-  hidden: { opacity: 0, y: 32 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: easeSmooth },
-  },
-};
-
-const columnsContainerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.1,
-    },
-  },
-};
 
 export default function Footer() {
   return (
-    <MorphSection
-      as="footer"
-      variant="muted"
-      className="border-t border-slate-200/80 bg-white text-slate-800 py-12 px-4 sm:px-6 lg:px-8"
-    >
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-4 gap-8"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={columnsContainerVariants}
-        >
-          {/* Insia Technologies - animate from left */}
-          <motion.div variants={fromLeftVariants}>
-            <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Insia Technologies
-            </h3>
-            <p className="text-slate-600">
-              Transforming ideas into digital solutions with cutting-edge
-              technology.
+    <footer className="border-t border-slate-200 bg-white px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[74rem]">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          <div>
+            <h3 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[20px] leading-7 font-bold text-[oklch(0.208_0.042_265.755)]'>INSIA</h3>
+            <p className='mt-3 max-w-[220px] font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-normal text-[oklch(0.446_0.043_257.281)]'>
+              Business analytics platform for modern teams
             </p>
-          </motion.div>
+          </div>
 
-          {/* Services - animate from bottom */}
-          <motion.div variants={fromBottomVariants}>
-            <h4 className="text-lg font-semibold mb-4 text-slate-900">Services</h4>
-            <ul className="space-y-2 text-slate-600">
-              <li>
-                <Link
-                  href="#services"
-                  className="hover:text-blue-600 transition-colors"
-                >
-                  Web Development
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#services"
-                  className="hover:text-blue-600 transition-colors"
-                >
-                  Mobile Apps
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#services"
-                  className="hover:text-blue-600 transition-colors"
-                >
-                  SaaS Projects
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#services"
-                  className="hover:text-blue-600 transition-colors"
-                >
-                  IoT Solutions
-                </Link>
-              </li>
+          <div>
+            <h4 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-6 font-bold text-[oklch(0.208_0.042_265.755)]'>Product</h4>
+            <ul className="mt-3 space-y-2">
+              <li><Link href="#home" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-normal text-slate-600 transition-colors hover:text-blue-600'>Features</Link></li>
+              <li><Link href="#comparison" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-normal text-slate-600 transition-colors hover:text-blue-600'>Solutions</Link></li>
+              <li><Link href="#project-cta" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-normal text-slate-600 transition-colors hover:text-blue-600'>Pricing</Link></li>
             </ul>
-          </motion.div>
+          </div>
 
-          {/* Company - animate from bottom */}
-          <motion.div variants={fromBottomVariants}>
-            <h4 className="text-lg font-semibold mb-4 text-slate-900">Company</h4>
-            <ul className="space-y-2 text-slate-600">
-              <li>
-                <Link
-                  href="#about"
-                  className="hover:text-blue-600 transition-colors"
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#services"
-                  className="hover:text-blue-600 transition-colors"
-                >
-                  Our Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#contact"
-                  className="hover:text-blue-600 transition-colors"
-                >
-                  Contact
-                </Link>
-              </li>
+          <div>
+            <h4 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-6 font-bold text-[oklch(0.208_0.042_265.755)]'>Company</h4>
+            <ul className="mt-3 space-y-2">
+              <li><Link href="#about" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-normal text-slate-600 transition-colors hover:text-blue-600'>About</Link></li>
+              <li><Link href="#testimonials" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-normal text-slate-600 transition-colors hover:text-blue-600'>Blog</Link></li>
+              <li><Link href="#project-cta" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-normal text-slate-600 transition-colors hover:text-blue-600'>Careers</Link></li>
             </ul>
-          </motion.div>
+          </div>
 
-          {/* Contact - animate from bottom */}
-          <motion.div variants={fromBottomVariants}>
-            <h4 className="text-lg font-semibold mb-4 text-slate-900">Contact</h4>
-            <ul className="space-y-2 text-slate-600">
-              <li>Email: info@insiatech.com</li>
-              <li>Phone: +1 (555) 123-4567</li>
+          <div>
+            <h4 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-6 font-bold text-[oklch(0.208_0.042_265.755)]'>Legal</h4>
+            <ul className="mt-3 space-y-2">
+              <li><Link href="#project-cta" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-normal text-slate-600 transition-colors hover:text-blue-600'>Privacy</Link></li>
+              <li><Link href="#project-cta" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-normal text-slate-600 transition-colors hover:text-blue-600'>Terms</Link></li>
+              <li><Link href="#enterprise-security" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-normal text-slate-600 transition-colors hover:text-blue-600'>Security</Link></li>
             </ul>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        <div className="border-t border-slate-200/80 mt-8 pt-8 text-center text-slate-500">
-          <p>&copy; {new Date().getFullYear()} Insia Technologies. All rights reserved.</p>
+        <div className='mt-10 flex flex-col gap-4 border-t border-slate-200 pt-8 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-normal text-slate-500 md:flex-row md:items-center md:justify-between'>
+          <p className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-normal text-[oklch(0.446_0.043_257.281)]'>&copy; {new Date().getFullYear()} INSIA. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <Link href="#project-cta" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium transition-colors hover:text-blue-600'>Twitter</Link>
+            <Link href="#project-cta" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium transition-colors hover:text-blue-600'>LinkedIn</Link>
+            <Link href="#project-cta" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium transition-colors hover:text-blue-600'>GitHub</Link>
+          </div>
         </div>
       </div>
-    </MorphSection>
+    </footer>
   );
 }

@@ -19,10 +19,15 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
 
 html {
   scroll-behavior: smooth;
+  /* Fixed nav (~h-16): anchors (incl. footer links) scroll under the bar without this */
+  scroll-padding-top: 5rem;
+  /* Last sections / footer sit above home indicator on iOS */
+  scroll-padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* Minimal site-wide motion: soft section entry + subtle interactive easing */
@@ -55,9 +60,74 @@ html {
   animation: dashboard-float 6s ease-in-out infinite;
 }
 
-.landing-page > section,
-.landing-page > footer {
+/* Do not use overflow-x: clip here — it forces overflow-y to compute to `auto` and can clip
+   long pages so the footer bottom (copyright / social) never scrolls fully into view on mobile. */
+.landing-page {
+  overflow: visible;
+}
+
+.landing-page > section {
   animation: section-fade-up 480ms ease-out both;
+}
+
+/*
+ * Footer: no section fade. Higher z-index than sections so nothing stacks above it.
+ * Do not add transform/isolation here — WebKit has clipped Legal links in the past.
+ */
+.landing-page > footer {
+  animation: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  overflow: visible;
+  position: relative;
+  z-index: 60;
+}
+
+/* Legal links must always paint (hard guarantees for mobile Safari). */
+.landing-page > footer #footer-legal-links,
+.landing-page > footer #footer-legal-links a {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.landing-page > footer a,
+.landing-page > footer p,
+.landing-page > footer h3,
+.landing-page > footer h4 {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.landing-page > footer #footer-bottom {
+  opacity: 1 !important;
+  visibility: visible !important;
+  overflow: visible !important;
+  flex-shrink: 0;
+}
+
+@media (max-width: 639px) {
+  .landing-page > footer nav[aria-label="Legal"],
+  .landing-page > footer #footer-bottom {
+    max-height: none !important;
+    height: auto !important;
+  }
+}
+
+/* Narrow phones (e.g. 414×896): extra scroll end padding so the last footer row clears the home indicator. */
+@media (max-width: 430px) {
+  html {
+    scroll-padding-bottom: max(
+      1rem,
+      calc(env(safe-area-inset-bottom, 0px) + 0.75rem)
+    );
+  }
+
+  #site-footer {
+    scroll-margin-bottom: max(
+      0.75rem,
+      calc(env(safe-area-inset-bottom, 0px) + 0.25rem)
+    );
+  }
 }
 
 .landing-page > section:nth-of-type(2) {
@@ -241,8 +311,7 @@ a.hero-our-services:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .landing-page > section,
-  .landing-page > footer {
+  .landing-page > section {
     animation: none;
   }
 

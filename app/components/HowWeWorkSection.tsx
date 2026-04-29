@@ -34,10 +34,10 @@ export default function HowWeWorkSection() {
     <section id="process" className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
       <div className="mx-auto max-w-[74rem]">
         <div className="text-center">
-          <h2 className="text-4xl font-bold tracking-tight text-slate-900 md:text-5xl">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
             How We Work
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base text-slate-600">
+          <p className="mx-auto mt-4 max-w-2xl text-sm text-slate-600 sm:text-base md:text-lg">
             A clear, collaborative process from idea to launch.
           </p>
         </div>
@@ -71,7 +71,7 @@ export default function HowWeWorkSection() {
               </div>
 
               <div className="p-5">
-                <h3 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[20px] leading-7 font-bold text-slate-900 group-hover:text-blue-600'>
+                <h3 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-lg leading-7 font-bold text-slate-900 group-hover:text-blue-600 sm:text-xl'>
                   {step.title}
                 </h3>
                 <p className='mt-3 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-[23px] font-normal text-[oklch(0.446_0.043_257.281)]'>

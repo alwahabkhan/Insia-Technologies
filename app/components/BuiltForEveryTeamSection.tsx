@@ -44,7 +44,7 @@ function TeamCard({
 }) {
   return (
     <article className="group rounded-3xl border border-slate-200 bg-white p-6 transition-all duration-200 hover:border-blue-500 hover:shadow-[0_14px_34px_rgba(37,99,235,0.18)] sm:p-8">
-      <h3 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[18px] leading-7 font-bold text-slate-900 transition-colors duration-200 group-hover:text-blue-600'>
+      <h3 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-7 font-bold text-slate-900 transition-colors duration-200 group-hover:text-blue-600 sm:text-lg'>
         {title}
       </h3>
       <div className='mt-4 inline-flex rounded-full bg-blue-50 px-4 py-1 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-xs leading-4 font-bold text-blue-700'>
@@ -86,10 +86,10 @@ export default function BuiltForEveryTeamSection() {
     <section className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
       <div className="mx-auto max-w-[74rem]">
         <div className="text-center">
-          <h2 className='font-["Geist","Geist_Fallback",Arial,Helvetica,sans-serif] text-[60px] leading-[60px] font-bold tracking-tight text-[lab(7.78673_1.82346_-15.0537)]'>
+          <h2 className='font-["Geist","Geist_Fallback",Arial,Helvetica,sans-serif] text-3xl font-bold tracking-tight text-[lab(7.78673_1.82346_-15.0537)] leading-[1.1] sm:text-4xl md:text-5xl lg:text-[56px] xl:text-[60px] xl:leading-[60px]'>
             Built for every team
           </h2>
-          <p className='mx-auto mt-4 max-w-3xl font-["Geist","Geist_Fallback",Arial,Helvetica,sans-serif] text-base leading-6 font-normal text-[lab(35.5623_-1.74978_-15.4316)]'>
+          <p className='mx-auto mt-4 max-w-3xl font-["Geist","Geist_Fallback",Arial,Helvetica,sans-serif] text-sm leading-6 font-normal text-[lab(35.5623_-1.74978_-15.4316)] sm:text-base'>
             Tailored solutions for your specific business challenges
           </p>
         </div>

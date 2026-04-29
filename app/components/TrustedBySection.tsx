@@ -21,7 +21,7 @@ export default function TrustedBySection() {
           {trustedCompanies.map((company) => (
             <span
               key={company}
-              className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[20px] leading-7 font-bold tracking-tight text-slate-300 transition-colors duration-200 hover:text-[oklch(0.208_0.042_265.755)]'
+              className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-7 font-bold tracking-tight text-slate-300 transition-colors duration-200 hover:text-[oklch(0.208_0.042_265.755)] sm:text-lg md:text-xl'
             >
               {company}
             </span>

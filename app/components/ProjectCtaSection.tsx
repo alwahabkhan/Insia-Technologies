@@ -2,12 +2,12 @@ import Link from "next/link";
 
 export default function ProjectCtaSection() {
   return (
-    <section id="project-cta" className="border-t border-slate-200 bg-[#FAFBFC] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+    <section id="project-cta" className="border-t border-slate-200 bg-[#FAFBFC] px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
       <div className="mx-auto max-w-[74rem] text-center">
-        <h2 className="text-5xl font-bold leading-tight text-slate-900 md:text-6xl">
+        <h2 className="text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl lg:text-6xl">
           Let&apos;s build your next project
         </h2>
-        <p className="mx-auto mt-4 max-w-3xl text-xl leading-7 text-slate-600">
+        <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg md:text-xl">
           Ready to turn your ideas into reality? Get in touch with our team today.
         </p>
 

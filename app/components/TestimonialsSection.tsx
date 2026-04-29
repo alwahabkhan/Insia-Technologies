@@ -50,10 +50,10 @@ export default function TestimonialsSection() {
     <section className="bg-[#FFFFFF] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
       <div className="mx-auto max-w-[74rem]">
         <div className="text-center">
-          <h2 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[60px] leading-[60px] font-bold text-[oklch(0.208_0.042_265.755)]'>
+          <h2 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-3xl leading-[1.1] font-bold text-[oklch(0.208_0.042_265.755)] sm:text-4xl md:text-5xl lg:text-[56px] xl:text-[60px] xl:leading-[60px]'>
             What our customers say
           </h2>
-          <p className='mx-auto mt-4 max-w-2xl font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[20px] leading-7 font-normal text-[oklch(0.446_0.043_257.281)]'>
+          <p className='mx-auto mt-4 max-w-2xl font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-7 font-normal text-[oklch(0.446_0.043_257.281)] sm:text-lg md:text-xl'>
             Real experiences from real teams
           </p>
         </div>
@@ -67,7 +67,7 @@ export default function TestimonialsSection() {
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-3xl font-bold text-blue-600">
                 <span className="inline-flex h-full w-full items-center justify-center leading-none">❝</span>
               </span>
-              <p className='mt-4 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-[26px] font-normal text-[oklch(0.372_0.044_257.287)]'>
+              <p className='mt-4 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-relaxed font-normal text-[oklch(0.372_0.044_257.287)] sm:text-base sm:leading-[26px]'>
                 {item.quote}
               </p>
               <div className="my-5 h-px bg-slate-200" />

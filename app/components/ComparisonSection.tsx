@@ -19,17 +19,17 @@ export default function ComparisonSection() {
     <section id="comparison" className="bg-[#FFFFFF] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
       <div className="mx-auto max-w-[74rem]">
         <div className="text-center">
-          <h2 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[60px] leading-[60px] font-bold text-[oklch(0.208_0.042_265.755)]'>
+          <h2 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-3xl leading-[1.1] font-bold text-[oklch(0.208_0.042_265.755)] sm:text-4xl md:text-5xl lg:text-[56px] xl:text-[60px] xl:leading-[60px]'>
             A better way to work with data
           </h2>
-          <p className='mx-auto mt-4 max-w-2xl font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[20px] leading-7 font-normal text-[oklch(0.446_0.043_257.281)]'>
+          <p className='mx-auto mt-4 max-w-2xl font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-7 font-normal text-[oklch(0.446_0.043_257.281)] sm:text-lg md:text-xl'>
             See what changes when you switch to INSIA
           </p>
         </div>
 
         <div className="mt-12 grid gap-6 lg:grid-cols-2">
           <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_1px_0_rgba(15,23,42,0.04)] sm:p-6">
-            <h3 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[20px] leading-7 font-bold text-[oklch(0.208_0.042_265.755)]'>
+            <h3 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-lg leading-7 font-bold text-[oklch(0.208_0.042_265.755)] sm:text-xl'>
               The Old Way
             </h3>
             <p className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-[oklch(0.554_0.046_257.417)]'>
@@ -49,7 +49,7 @@ export default function ComparisonSection() {
           </article>
 
           <article className="rounded-2xl border border-blue-500 bg-white p-5 shadow-[0_8px_24px_rgba(37,99,235,0.14)] sm:p-6">
-            <h3 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[20px] leading-7 font-bold text-[oklch(0.208_0.042_265.755)]'>
+            <h3 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-lg leading-7 font-bold text-[oklch(0.208_0.042_265.755)] sm:text-xl'>
               With INSIA
             </h3>
             <p className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-semibold text-[oklch(0.546_0.245_262.881)]'>

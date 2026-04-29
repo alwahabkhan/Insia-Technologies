@@ -10,12 +10,12 @@ export default function HeroSection() {
     >
       <div className="mx-auto grid max-w-[74rem] items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
         <div className="max-w-xl">
-          <h1 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[72px] leading-[79px] font-bold tracking-tight'>
+          <h1 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-4xl leading-[1.08] font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-[72px] xl:leading-[79px]'>
             <span className="block text-[oklch(0.208_0.042_265.755)]">Smarter</span>
             <span className="block text-[oklch(0.208_0.042_265.755)]">Marketing</span>
             <span className="block text-blue-600">Bigger Impacts</span>
           </h1>
-          <p className='mt-7 max-w-xl font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[20px] leading-[33px] font-normal text-[oklch(0.446_0.043_257.281)]'>
+          <p className='mt-7 max-w-xl font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-relaxed font-normal text-[oklch(0.446_0.043_257.281)] sm:text-lg md:text-xl md:leading-[33px]'>
             Build powerful digital products that transform businesses. We create scalable solutions that drive real growth and innovation.
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-4">
@@ -40,15 +40,15 @@ export default function HeroSection() {
           </div>
           <div className="mt-10 grid max-w-md grid-cols-3 divide-x divide-slate-200">
             <div className="pr-4">
-              <p className="text-4xl font-bold text-slate-900">500+</p>
+              <p className="text-2xl font-bold text-slate-900 sm:text-3xl md:text-4xl">500+</p>
               <p className='mt-1 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-[oklch(0.554_0.046_257.417)]'>Projects</p>
             </div>
             <div className="px-4">
-              <p className="text-4xl font-bold text-slate-900">98%</p>
+              <p className="text-2xl font-bold text-slate-900 sm:text-3xl md:text-4xl">98%</p>
               <p className='mt-1 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-[oklch(0.554_0.046_257.417)]'>Satisfaction</p>
             </div>
             <div className="pl-4">
-              <p className="text-4xl font-bold text-slate-900">24/7</p>
+              <p className="text-2xl font-bold text-slate-900 sm:text-3xl md:text-4xl">24/7</p>
               <p className='mt-1 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-[oklch(0.554_0.046_257.417)]'>Support</p>
             </div>
           </div>
@@ -59,7 +59,7 @@ export default function HeroSection() {
             <div className="mb-6 flex items-start justify-between">
               <div>
                 <p className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-6 font-normal text-[rgb(17,24,39)]'>Dashboard</p>
-                <h3 className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[20px] leading-7 font-bold text-[oklch(0.208_0.042_265.755)]'>Analytics Overview</h3>
+                <h3 className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-lg leading-7 font-bold text-[oklch(0.208_0.042_265.755)] sm:text-xl'>Analytics Overview</h3>
               </div>
               <div className="flex items-center gap-2 pt-1">
                 <span className="h-7 w-7 rounded-full bg-blue-600" />
@@ -70,13 +70,13 @@ export default function HeroSection() {
             <div className="grid gap-4 md:grid-cols-2">
               <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <p className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-xs leading-4 font-semibold text-[oklch(0.554_0.046_257.417)]'>Revenue</p>
-                <p className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[30px] leading-9 font-bold text-[oklch(0.208_0.042_265.755)]'>$48.5K</p>
+                <p className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-2xl leading-8 font-bold text-[oklch(0.208_0.042_265.755)] sm:text-3xl md:text-[30px] md:leading-9'>$48.5K</p>
                 <div className="mt-5 h-14 rounded-lg bg-gradient-to-b from-blue-100 to-transparent" />
                 <p className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-xs leading-4 font-semibold text-[oklch(0.546_0.245_262.881)]'>↑ 23% from last month</p>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <p className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-xs leading-4 font-semibold text-[oklch(0.554_0.046_257.417)]'>Growth</p>
-                <p className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[30px] leading-9 font-bold text-[oklch(0.546_0.245_262.881)]'>+32%</p>
+                <p className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-2xl leading-8 font-bold text-[oklch(0.546_0.245_262.881)] sm:text-3xl md:text-[30px] md:leading-9'>+32%</p>
                 <div className="mt-4 flex h-16 items-end gap-2">
                   <div className="h-7 w-14 rounded-md bg-blue-600" />
                   <div className="h-9 w-14 rounded-md bg-blue-600" />

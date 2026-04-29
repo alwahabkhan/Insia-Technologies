@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -18,6 +18,7 @@ import Footer from "./components/Footer";
 
 export default function Home() {
   const [showMobileHeader, setShowMobileHeader] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const lastScrollYRef = useRef(0);
 
   useEffect(() => {
@@ -43,6 +44,22 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const close = () => setMobileMenuOpen(false);
+    mq.addEventListener("change", close);
+    return () => mq.removeEventListener("change", close);
+  }, []);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [mobileMenuOpen]);
+
   return (
     <div className="landing-page min-h-screen bg-white">
       {/* Navigation */}
@@ -52,11 +69,12 @@ export default function Home() {
         }`}
       >
         <div className="mx-auto max-w-[74rem] px-4 sm:px-6">
-          <div className="grid h-16 grid-cols-[auto_1fr] items-center md:grid-cols-[1fr_auto_1fr]">
+          <div className="relative flex h-16 items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
             <div className="flex-shrink-0">
               <Link
                 href="#home"
-                className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-2xl leading-8 font-bold tracking-tight text-[oklch(0.208_0.042_265.755)]'
+                className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-xl leading-8 font-bold tracking-tight text-[oklch(0.208_0.042_265.755)] sm:text-2xl'
+                onClick={() => setMobileMenuOpen(false)}
               >
                 INSIA
               </Link>
@@ -86,13 +104,80 @@ export default function Home() {
                 Get Started
               </Link>
             </div>
-            <div className="md:hidden">
-              <button className="text-slate-700">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+            <div className="flex shrink-0 items-center justify-end md:hidden">
+              <button
+                type="button"
+                className="inline-flex items-center justify-center rounded-lg p-2 text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-nav-menu"
+                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                onClick={() => setMobileMenuOpen((open) => !open)}
+              >
+                {mobileMenuOpen ? (
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                ) : (
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                )}
               </button>
             </div>
+
+            {mobileMenuOpen ? (
+              <div
+                id="mobile-nav-menu"
+                className="absolute top-full right-0 left-0 z-50 border-b border-slate-200 bg-white shadow-[0_12px_24px_rgba(15,23,42,0.08)] md:hidden"
+              >
+                <div className="mx-auto flex max-w-[74rem] flex-col gap-1 px-4 py-4 sm:px-6">
+                  <Link
+                    href="#features"
+                    className='rounded-lg px-3 py-2.5 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-blue-600'
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Features
+                  </Link>
+                  <Link
+                    href="#comparison"
+                    className='rounded-lg px-3 py-2.5 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-blue-600'
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Solutions
+                  </Link>
+                  <Link
+                    href="#about"
+                    className='rounded-lg px-3 py-2.5 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-blue-600'
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    About
+                  </Link>
+                  <Link
+                    href="#process"
+                    className='rounded-lg px-3 py-2.5 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-blue-600'
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Process
+                  </Link>
+                  <div className="mt-2 flex flex-col gap-2 border-t border-slate-200 pt-4">
+                    <Link
+                      href="#project-cta"
+                      className='rounded-lg px-3 py-2.5 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-blue-600'
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Log in
+                    </Link>
+                    <Link
+                      href="#project-cta"
+                      className="inline-flex items-center justify-center rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_8px_22px_rgba(37,99,235,0.35)] transition-all hover:bg-blue-700"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </nav>

@@ -42,10 +42,10 @@ export default function FeaturesHighlightSection() {
     <section id="features" className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
       <div className="mx-auto max-w-[74rem]">
         <div className="text-center">
-          <h2 className="text-4xl font-bold tracking-tight text-slate-900 md:text-6xl">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl md:text-5xl lg:text-6xl">
             Everything you need to succeed
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base text-slate-600">
+          <p className="mx-auto mt-4 max-w-2xl text-sm text-slate-600 sm:text-base md:text-lg">
             Powerful features designed to help your business grow and thrive
           </p>
         </div>
@@ -63,16 +63,16 @@ export default function FeaturesHighlightSection() {
                   aria-hidden
                 />
                 <div className="p-8">
-                  <h3 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[20px] leading-7 font-bold text-slate-900 group-hover:text-blue-600'>
+                  <h3 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-lg leading-7 font-bold text-slate-900 group-hover:text-blue-600 sm:text-xl'>
                     {card.title}
                   </h3>
-                  <p className='mt-4 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-[26px] font-normal text-[oklch(0.446_0.043_257.281)]'>
+                  <p className='mt-4 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-relaxed font-normal text-[oklch(0.446_0.043_257.281)] sm:text-base sm:leading-[26px]'>
                     {card.description}
                   </p>
 
                   <a
                     href="#contact"
-                    className="mt-6 inline-flex items-center gap-2 text-lg font-semibold text-blue-600 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                    className="mt-6 inline-flex items-center gap-2 text-base font-semibold text-blue-600 opacity-0 transition-opacity duration-200 group-hover:opacity-100 sm:text-lg"
                   >
                     Learn more <span aria-hidden>›</span>
                   </a>

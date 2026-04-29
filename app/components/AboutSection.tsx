@@ -19,7 +19,9 @@ export default function AboutSection() {
                 </span>
               </span>
               <div>
-                <p className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-2xl leading-8 font-bold text-[oklch(0.208_0.042_265.755)]'>5+ Years</p>
+                <p className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-xl leading-8 font-bold text-[oklch(0.208_0.042_265.755)] sm:text-2xl'>
+                  5+ Years
+                </p>
                 <p className='mt-0.5 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-[oklch(0.446_0.043_257.281)]'>Experience</p>
               </div>
             </div>
@@ -30,23 +32,29 @@ export default function AboutSection() {
           <span className='inline-flex rounded-full bg-sky-50 px-3 py-1 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-semibold text-[oklch(0.546_0.245_262.881)]'>
             About Us
           </span>
-          <h2 className='mt-5 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[60px] leading-[60px] font-bold text-[oklch(0.208_0.042_265.755)]'>Who We Are</h2>
+          <h2 className='mt-5 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-3xl leading-[1.1] font-bold text-[oklch(0.208_0.042_265.755)] sm:text-4xl md:text-5xl lg:text-[56px] xl:text-[60px] xl:leading-[60px]'>
+            Who We Are
+          </h2>
           <div className="mt-4 h-1 w-20 rounded-full bg-blue-600" />
 
-          <p className='mt-8 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[18px] leading-[29px] font-normal text-[oklch(0.446_0.043_257.281)]'>
+          <p className='mt-8 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-relaxed font-normal text-[oklch(0.446_0.043_257.281)] md:text-lg md:leading-[29px]'>
             We are a software development company focused on delivering high-quality digital solutions for modern businesses.
           </p>
-          <p className='mt-6 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[18px] leading-[29px] font-normal text-[oklch(0.446_0.043_257.281)]'>
+          <p className='mt-6 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-relaxed font-normal text-[oklch(0.446_0.043_257.281)] md:text-lg md:leading-[29px]'>
             Our team of experts combines technical excellence with business understanding to create products that drive real results.
           </p>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             <div className="rounded-2xl border border-slate-200 bg-white p-5">
-              <p className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[36px] leading-10 font-bold text-[oklch(0.546_0.245_262.881)]'>50+</p>
+              <p className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-3xl leading-9 font-bold text-[oklch(0.546_0.245_262.881)] sm:text-4xl lg:text-[36px] lg:leading-10'>
+                50+
+              </p>
               <p className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-6 font-semibold text-[oklch(0.446_0.043_257.281)]'>Projects Delivered</p>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-5">
-              <p className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-[36px] leading-10 font-bold text-[oklch(0.546_0.245_262.881)]'>98%</p>
+              <p className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-3xl leading-9 font-bold text-[oklch(0.546_0.245_262.881)] sm:text-4xl lg:text-[36px] lg:leading-10'>
+                98%
+              </p>
               <p className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-6 font-semibold text-[oklch(0.446_0.043_257.281)]'>Client Satisfaction</p>
             </div>
           </div>

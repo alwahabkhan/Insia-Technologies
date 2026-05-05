@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --secondary: #7c3aed;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hero CTA — fill + purple border (darker rim so it shows on #9333ea; same family as Our Services) */
+a.hero-get-started {
+  background-color: #9333ea;
+  color: #ffffff;
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-color: #9333ea !important;
+  box-sizing: border-box;
+}
+a.hero-get-started:hover {
+  background-color: #7e22ce;
+  border-color: #9333ea !important;
+}
+
+/* Ensure the Get Started border is clearly visible on mobile */
+@media (max-width: 640px) {
+  a.hero-get-started {
+    border-width: 3px !important;
+    border-color: #9333ea !important;
+  }
+}
+
+/* Secondary hero CTA — purple border (Tailwind preflight sets border-width: 0; needs explicit + !important) */
+a.hero-our-services {
+  color: #9333ea !important;
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-color: #9333ea !important;
+  box-sizing: border-box;
+}
+a.hero-our-services:hover {
+  color: #7e22ce !important;
+  border-color: #7e22ce !important;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 1rem));
+  }
+}
+
+.animate-scroll {
+  display: flex !important;
+  animation: scroll 40s linear infinite !important;
+  will-change: transform;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused !important;
+}
+
+/* Vertical carousel: content moves up (logos scroll upward) */
+@keyframes scroll-vertical-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+/* Vertical carousel: content moves down (logos scroll downward) */
+@keyframes scroll-vertical-down {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-scroll-vertical-up {
+  animation: scroll-vertical-up 35s linear infinite !important;
+  animation-play-state: running !important;
+  will-change: transform;
+}
+
+.animate-scroll-vertical-down {
+  animation: scroll-vertical-down 35s linear infinite !important;
+  animation-play-state: running !important;
+  will-change: transform;
+}
+
+.animate-scroll-vertical-up:hover,
+.animate-scroll-vertical-down:hover {
+  animation-play-state: paused !important;
+}
+
+/* Organic morph blobs — border-radius + drift for a soft, modern look */
+@keyframes morph-blob-a {
+  0%,
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  33% {
+    border-radius: 40% 60% 70% 30% / 50% 60% 30% 60%;
+    transform: translate(3%, -2%) scale(1.06) rotate(5deg);
+  }
+  66% {
+    border-radius: 50% 50% 40% 60% / 40% 60% 50% 50%;
+    transform: translate(-2%, 3%) scale(0.96) rotate(-4deg);
+  }
+}
+
+@keyframes morph-blob-b {
+  0%,
+  100% {
+    border-radius: 45% 55% 55% 45% / 45% 45% 55% 55%;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    border-radius: 55% 45% 35% 65% / 60% 40% 60% 40%;
+    transform: translate(-4%, 2%) scale(1.08) rotate(-6deg);
+  }
+}
+
+@keyframes morph-blob-c {
+  0%,
+  100% {
+    border-radius: 35% 65% 55% 45% / 50% 50% 35% 65%;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  40% {
+    border-radius: 65% 35% 45% 55% / 40% 60% 50% 50%;
+    transform: translate(2%, 4%) scale(1.04) rotate(7deg);
+  }
+  80% {
+    border-radius: 50% 50% 60% 40% / 55% 45% 55% 45%;
+    transform: translate(-3%, -1%) scale(0.94) rotate(-3deg);
+  }
+}
+
+.morph-blob {
+  will-change: transform, border-radius;
+}
+
+.morph-blob-a {
+  animation: morph-blob-a 18s ease-in-out infinite;
+}
+
+.morph-blob-b {
+  animation: morph-blob-b 22s ease-in-out infinite;
+  animation-delay: -6s;
+}
+
+.morph-blob-c {
+  animation: morph-blob-c 25s ease-in-out infinite;
+  animation-delay: -11s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .morph-blob-a,
+  .morph-blob-b,
+  .morph-blob-c {
+    animation: none;
+    border-radius: 50%;
+  }
+}

@@ -3,7 +3,7 @@ export interface Project {
   slug: string;
   title: string;
   description: string;
-  fullDescription: string; 
+  fullDescription: string;
   technologies: string[];
   images: string[];
   liveUrl: string;

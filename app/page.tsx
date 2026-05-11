@@ -1,30 +1,38 @@
-"use client";
+ "use client";
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import HeroSection from "./components/HeroSection";
-import TrustedBySection from "./components/TrustedBySection";
-import FeaturesHighlightSection from "./components/FeaturesHighlightSection";
-import StatsBannerSection from "./components/StatsBannerSection";
-import HowWeWorkSection from "./components/HowWeWorkSection";
-import BuiltForEveryTeamSection from "./components/BuiltForEveryTeamSection";
-import ComparisonSection from "./components/ComparisonSection";
-import ProvenResultsSection from "./components/ProvenResultsSection";
-import EnterpriseSecuritySection from "./components/EnterpriseSecuritySection";
-import TestimonialsSection from "./components/TestimonialsSection";
-import ProjectCtaSection from "./components/ProjectCtaSection";
+import FeatureHighlightsSection from "./components/FeatureHighlightsSection";
+import ServicesSection from "./components/ServicesSection";
+import TechnologiesSection from "./components/TechnologiesSection";
+import ProjectsSection from "./components/ProjectsSection";
 import AboutSection from "./components/AboutSection";
+import ContactSection from "./components/ContactSection";
+import ContactModal from "./components/ContactModal";
+import CustomCursor from "./components/CustomCursor";
 import Footer from "./components/Footer";
 
 export default function Home() {
   const [showMobileHeader, setShowMobileHeader] = useState(true);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [navElevated, setNavElevated] = useState(false);
+  const [contactModalOpen, setContactModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const lastScrollYRef = useRef(0);
 
   useEffect(() => {
-    const onScroll = () => {
+    const updateFromScroll = () => {
       const currentY = window.scrollY;
       const lastY = lastScrollYRef.current;
+      const doc = document.documentElement;
+      const maxScroll = Math.max(doc.scrollHeight - window.innerHeight, 0);
+      const progress =
+        maxScroll > 0
+          ? Math.min(1, Math.max(0, currentY / maxScroll))
+          : 0;
+      setScrollProgress(progress);
+      setNavElevated(currentY > 16);
 
       // Always show header near top.
       if (currentY < 24) {
@@ -40,183 +48,322 @@ export default function Home() {
       lastScrollYRef.current = currentY;
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
-    const close = () => setMobileMenuOpen(false);
-    mq.addEventListener("change", close);
-    return () => mq.removeEventListener("change", close);
-  }, []);
-
-  useEffect(() => {
-    if (!mobileMenuOpen) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMobileMenuOpen(false);
+    updateFromScroll();
+    window.addEventListener("scroll", updateFromScroll, { passive: true });
+    window.addEventListener("resize", updateFromScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", updateFromScroll);
+      window.removeEventListener("resize", updateFromScroll);
     };
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [mobileMenuOpen]);
+  }, []);
+
+  useEffect(() => {
+    const closeMobileMenuOnDesktop = () => {
+      if (window.innerWidth >= 768) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("resize", closeMobileMenuOnDesktop);
+    return () => window.removeEventListener("resize", closeMobileMenuOnDesktop);
+  }, []);
+
+  const services = [
+    {
+      title: "Web Development",
+      description: "Custom web applications and websites built with modern technologies. Responsive, fast, and scalable solutions for your business.",
+      icon: "🌐",
+      features: ["React, Next.js, Vue.js", "Full-stack Development", "E-commerce Solutions", "Progressive Web Apps"]
+    },
+    {
+      title: "Mobile App Development",
+      description: "Native and cross-platform mobile applications for iOS and Android. Delivering seamless user experiences across all devices.",
+      icon: "📱",
+      features: ["iOS & Android", "React Native, Flutter", "Native Development", "App Store Optimization"]
+    },
+    {
+      title: "SaaS Projects",
+      description: "End-to-end Software as a Service solutions. Scalable cloud-based platforms that grow with your business.",
+      icon: "☁️",
+      features: ["Cloud Architecture", "Multi-tenancy", "Subscription Management", "API Development"]
+    },
+    {
+      title: "IoT Projects",
+      description: "Internet of Things solutions connecting devices and systems. Smart solutions for automation and data collection.",
+      icon: "🔌",
+      features: ["Device Integration", "Sensor Networks", "Real-time Monitoring", "Edge Computing"]
+    },
+    {
+      title: "AI Chatbots",
+      description: "Intelligent conversational AI chatbots that enhance customer service and automate interactions 24/7.",
+      icon: "🤖",
+      features: ["Natural Language Processing", "Multi-platform Integration", "Custom Training", "Analytics & Insights"]
+    },
+    {
+      title: "Cloud Migration & DevOps",
+      description: "Seamless cloud migration and DevOps implementation. Accelerate deployment with CI/CD pipelines and infrastructure as code.",
+      icon: "⚡",
+      features: ["AWS, Azure, GCP Migration", "CI/CD Pipelines", "Containerization (Docker/K8s)", "Infrastructure as Code"]
+    },
+    {
+      title: "AI Agents",
+      description: "Autonomous AI agents that can perform complex tasks, make decisions, and interact with systems intelligently.",
+      icon: "🚀",
+      features: ["Autonomous Agents", "Task Automation", "Decision Making", "System Integration"]
+    }
+  ];
+
+  const technologyLogos = [
+    { name: "React", path: "/React.png" },
+    { name: "Next.js", path: "/Next.js.png" },
+    { name: "TypeScript", path: "/TypeScript.png" },
+    { name: "JavaScript", path: "/JavaScript.png" },
+    { name: "Node.js", path: "/Node.js.png" },
+    { name: "Express.js", path: "/Express.png" },
+    { name: "Java", path: "/Java.png" },
+    { name: "MongoDB", path: "/MongoDB.png" },
+    { name: "MySQL", path: "/MySQL.png" },
+    { name: "PostgreSQL", path: "/PostgresSQL.png" },
+    { name: "Nest.js", path: "/Nest.js.png" },
+    { name: "Material UI", path: "/Material UI.png" },
+    { name: "Tailwind CSS", path: "/Tailwind CSS.png" },
+    { name: "HTML5", path: "/HTML5.png" },
+    { name: "CSS3", path: "/CSS3.png" },
+    { name: "AWS", path: "/AWS.png" },
+    { name: "Vercel", path: "/Vercel.png" },
+    { name: "Heroku", path: "/Heroku.png" },
+    { name: "Firebase", path: "/Firebase.png" },
+    { name: "Git", path: "/Git.png" },
+    { name: "GitHub", path: "/GitHub.png" },
+    { name: "GraphQL", path: "/GraphQL.png" },
+    { name: "Jira", path: "/Jira.png" },
+    { name: "Postman", path: "/Postman.png" },
+    { name: "VS Code", path: "/Visual Studio Code (VS Code).png" },
+    { name: "Vite", path: "/Vite.js.png" },
+    { name: "NPM", path: "/NPM.png" },
+  ];
+
+  const trustedEnterprises = [
+    "Microsoft",
+    "Salesforce",
+    "AWS",
+    "Google Cloud",
+    "IBM",
+    "Oracle",
+  ];
 
   return (
-    <div className="landing-page min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
+      <CustomCursor navElevated={navElevated} />
+      <ContactModal
+        open={contactModalOpen}
+        onClose={() => setContactModalOpen(false)}
+      />
       {/* Navigation */}
       <nav
-        className={`fixed top-0 z-50 w-full border-b border-slate-200 bg-white transition-transform duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-[transform,background-color,backdrop-filter,box-shadow,border-color] duration-300 ease-out ${
           showMobileHeader ? "translate-y-0" : "-translate-y-full md:translate-y-0"
+        } ${
+          navElevated
+            ? "bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-[0_2px_12px_rgba(15,23,42,0.04)]"
+            : "bg-transparent border-b border-transparent shadow-none"
         }`}
+        aria-label="Main"
       >
-        <div className="mx-auto max-w-[74rem] px-4 sm:px-6">
-          <div className="relative flex h-16 items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
+        <div
+          className="pointer-events-none absolute left-0 top-0 h-[3px] w-full overflow-hidden"
+          aria-hidden
+        >
+          <div
+            className="h-full bg-gradient-to-r from-blue-600 to-purple-600 transition-[width] duration-200 ease-out will-change-[width]"
+            style={{ width: `${scrollProgress * 100}%` }}
+          />
+        </div>
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+          <div className="flex h-20 items-center justify-between">
             <div className="flex-shrink-0">
               <Link
                 href="#home"
-                className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-xl leading-8 font-bold tracking-tight text-[oklch(0.208_0.042_265.755)] sm:text-2xl'
-                onClick={() => setMobileMenuOpen(false)}
+                className={`text-2xl font-black uppercase tracking-tight ${
+                  navElevated
+                    ? "bg-gradient-to-r from-[#1E3D93] via-[#2762EB] to-[#008FBD] bg-clip-text text-transparent"
+                    : "text-white drop-shadow-sm"
+                }`}
               >
-                INSIA
+                INSIGNIA
               </Link>
             </div>
-            <div className="hidden items-center justify-center gap-8 md:flex">
-              <Link href="#features" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-slate-700 transition-colors hover:text-blue-600'>
-                Features
-              </Link>
-              <Link href="#comparison" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-slate-700 transition-colors hover:text-blue-600'>
-                Solutions
-              </Link>
-              <Link href="#about" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-slate-700 transition-colors hover:text-blue-600'>
-                About
-              </Link>
-              <Link href="#process" className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-slate-700 transition-colors hover:text-blue-600'>
-                Process
-              </Link>
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-center gap-9">
+                <Link
+                  href="#services"
+                  className={`text-sm font-medium transition-colors ${
+                    navElevated
+                      ? "text-slate-900 hover:text-slate-700"
+                      : "text-white/90 hover:text-white"
+                  }`}
+                >
+                  Services
+                </Link>
+                <Link
+                  href="#technologies"
+                  className={`text-sm font-medium transition-colors ${
+                    navElevated
+                      ? "text-slate-900 hover:text-slate-700"
+                      : "text-white/90 hover:text-white"
+                  }`}
+                >
+                  Industries
+                </Link>
+                <Link
+                  href="#about"
+                  className={`text-sm font-medium transition-colors ${
+                    navElevated
+                      ? "text-slate-900 hover:text-slate-700"
+                      : "text-white/90 hover:text-white"
+                  }`}
+                >
+                  About
+                </Link>
+                <Link
+                  href="#contact"
+                  className={`text-sm font-medium transition-colors ${
+                    navElevated
+                      ? "text-slate-900 hover:text-slate-700"
+                      : "text-white/90 hover:text-white"
+                  }`}
+                >
+                  Contact
+                </Link>
+              </div>
             </div>
-            <div className="hidden items-center justify-end gap-3 md:flex">
-              <Link href="#project-cta" className='px-2 py-1 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-slate-700 transition-colors hover:text-blue-600'>
+            <div className="hidden md:flex items-center gap-6">
+              <Link
+                href="#contact"
+                className={`text-sm font-medium transition-colors ${
+                  navElevated
+                    ? "text-slate-900 hover:text-slate-700"
+                    : "text-white/90 hover:text-white"
+                }`}
+              >
                 Log in
               </Link>
               <Link
-                href="#project-cta"
-                className="inline-flex items-center rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_8px_22px_rgba(37,99,235,0.35)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-[0_12px_28px_rgba(37,99,235,0.42)]"
+                href="#contact"
+                className="group inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-sky-400 via-cyan-400 to-teal-400 px-6 py-2.5 text-sm font-medium text-slate-900 shadow-[0_6px_20px_rgba(34,211,238,0.45)] transition-shadow hover:shadow-[0_8px_26px_rgba(45,212,191,0.55)]"
               >
                 Get Started
+                <span aria-hidden className="inline-block translate-x-0 transition-transform group-hover:translate-x-0.5">
+                  →
+                </span>
               </Link>
             </div>
-            <div className="flex shrink-0 items-center justify-end md:hidden">
+            <div className="md:hidden">
               <button
+                onClick={() => setMobileMenuOpen((prev) => !prev)}
+                className={navElevated ? "text-slate-700" : "text-white"}
                 type="button"
-                className="inline-flex items-center justify-center rounded-lg p-2 text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-900"
                 aria-expanded={mobileMenuOpen}
-                aria-controls="mobile-nav-menu"
+                aria-controls="mobile-navigation-menu"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-                onClick={() => setMobileMenuOpen((open) => !open)}
               >
-                {mobileMenuOpen ? (
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                ) : (
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                )}
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
               </button>
             </div>
-
-            {mobileMenuOpen ? (
-              <div
-                id="mobile-nav-menu"
-                className="absolute top-full right-0 left-0 z-50 border-b border-slate-200 bg-white shadow-[0_12px_24px_rgba(15,23,42,0.08)] md:hidden"
-              >
-                <div className="mx-auto flex max-w-[74rem] flex-col gap-1 px-4 py-4 sm:px-6">
+          </div>
+          {mobileMenuOpen && (
+            <div
+              id="mobile-navigation-menu"
+              className="md:hidden border-t border-slate-200/70 bg-white/95 px-2 pb-4 pt-2 backdrop-blur-md"
+            >
+              <div className="flex flex-col">
+                <Link
+                  href="#services"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-100"
+                >
+                  Services
+                </Link>
+                <Link
+                  href="#technologies"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-100"
+                >
+                  Industries
+                </Link>
+                <Link
+                  href="#about"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-100"
+                >
+                  About
+                </Link>
+                <Link
+                  href="#contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-100"
+                >
+                  Contact
+                </Link>
+                <div className="mt-2 px-3">
                   <Link
-                    href="#features"
-                    className='rounded-lg px-3 py-2.5 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-blue-600'
+                    href="#contact"
                     onClick={() => setMobileMenuOpen(false)}
+                    className="inline-flex min-h-[42px] w-full items-center justify-center rounded-full bg-gradient-to-r from-sky-400 via-cyan-400 to-teal-400 px-4 text-sm font-medium text-slate-900 shadow-[0_6px_20px_rgba(34,211,238,0.45)] transition-shadow hover:shadow-[0_8px_26px_rgba(45,212,191,0.55)]"
                   >
-                    Features
+                    Get Started
                   </Link>
-                  <Link
-                    href="#comparison"
-                    className='rounded-lg px-3 py-2.5 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-blue-600'
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Solutions
-                  </Link>
-                  <Link
-                    href="#about"
-                    className='rounded-lg px-3 py-2.5 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-blue-600'
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    About
-                  </Link>
-                  <Link
-                    href="#process"
-                    className='rounded-lg px-3 py-2.5 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-blue-600'
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Process
-                  </Link>
-                  <div className="mt-2 flex flex-col gap-2 border-t border-slate-200 pt-4">
-                    <Link
-                      href="#project-cta"
-                      className='rounded-lg px-3 py-2.5 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-blue-600'
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Log in
-                    </Link>
-                    <Link
-                      href="#project-cta"
-                      className="inline-flex items-center justify-center rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_8px_22px_rgba(37,99,235,0.35)] transition-all hover:bg-blue-700"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Get Started
-                    </Link>
-                  </div>
                 </div>
               </div>
-            ) : null}
-          </div>
+            </div>
+          )}
         </div>
       </nav>
 
       {/* Hero Section */}
-      <HeroSection />
+      <HeroSection
+        onOpenContact={() => setContactModalOpen(true)}
+      />
 
       {/* Trusted By Section */}
-      <TrustedBySection />
+      <section className="bg-white py-12 md:py-16">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6">
+          <div className="mx-auto max-w-5xl border-y border-slate-100/90 py-8 md:py-10">
+            <p className="text-center text-[9px] font-semibold uppercase tracking-[0.24em] text-slate-500 sm:text-[10px] md:text-[11px]">
+              Trusted by Leading Enterprises
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 md:gap-x-12">
+              {trustedEnterprises.map((brand) => (
+                <span
+                  key={brand}
+                  className="text-lg font-semibold tracking-tight text-slate-400 sm:text-xl md:text-[1.65rem]"
+                >
+                  {brand}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* Features Highlight Section */}
-      <FeaturesHighlightSection />
+      {/* Feature Highlights Section */}
+      <FeatureHighlightsSection />
 
-      {/* Stats Banner Section */}
-      <StatsBannerSection />
+      {/* Services Section */}
+      <ServicesSection />
 
-      {/* How We Work Section */}
-      <HowWeWorkSection />
+      {/* Technologies Section */}
+      <TechnologiesSection logos={technologyLogos} />
 
-      {/* Built For Every Team Section */}
-      <BuiltForEveryTeamSection />
-
-      {/* Comparison Section */}
-      <ComparisonSection />
-
-      {/* Proven Results Section */}
-      <ProvenResultsSection />
+      {/* Our Projects Section */}
+      <ProjectsSection />
 
       {/* About Section */}
       <AboutSection />
 
-      {/* Enterprise Security Section */}
-      <EnterpriseSecuritySection />
-
-      {/* Testimonials Section */}
-      <TestimonialsSection />
-
-      {/* Project CTA Section */}
-      <ProjectCtaSection />
+      {/* Contact Section */}
+      <ContactSection />
 
       {/* Footer */}
       <Footer />

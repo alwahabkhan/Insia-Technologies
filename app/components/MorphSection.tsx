@@ -2,7 +2,7 @@
 
 import type { ElementType, ReactNode } from "react";
 
-export type MorphVariant = "hero" | "light" | "soft" | "muted";
+export type MorphVariant = "hero" | "light" | "soft" | "muted" | "plain";
 
 type MorphSectionProps = {
   id?: string;
@@ -32,6 +32,7 @@ const BLOB_CLASSES: Record<MorphVariant, string[]> = {
     "top-[-6%] right-[-4%] w-[min(80vw,360px)] h-[min(80vw,360px)] bg-gradient-to-br from-blue-400/20 to-purple-400/15 morph-blob morph-blob-a",
     "bottom-[10%] left-[-8%] w-[min(75vw,320px)] h-[min(75vw,320px)] bg-gradient-to-br from-violet-400/18 to-fuchsia-300/10 morph-blob morph-blob-c",
   ],
+  plain: [],
 };
 
 export default function MorphSection({

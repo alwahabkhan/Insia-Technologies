@@ -1,121 +1,107 @@
+"use client";
+
 import Link from "next/link";
+import MorphSection from "./MorphSection";
 
-const link =
-  "text-sm font-medium leading-5 text-slate-800 underline-offset-2 hover:text-blue-600 hover:underline";
+const PRODUCT_LINKS = [
+  "Data Integration",
+  "Data Transformation",
+  "Advanced Analytics",
+  "AI Predictions",
+];
 
-/** Compact tap targets on small widths (~414px) so the full footer fits typical phone heights. */
-const linkMobile =
-  "min-h-[40px] items-center justify-start py-1.5 text-[#0f172a] sm:min-h-0 sm:py-0";
+const SOLUTION_LINKS = [
+  "Sales Analytics",
+  "Marketing Intelligence",
+  "Operations",
+  "Finance",
+];
+
+const COMPANY_LINKS = ["About Us", "Careers", "Contact", "Privacy Policy"];
 
 export default function Footer() {
   return (
-    <footer
-      id="site-footer"
-      className="flex min-h-0 w-full flex-col overflow-visible border-t-2 border-slate-300 bg-slate-50 px-4 py-4 text-slate-900 sm:px-6 sm:py-8 lg:px-8"
-      style={{
-        paddingBottom:
-          "max(1.5rem, calc(env(safe-area-inset-bottom, 0px) + 0.75rem))",
-      }}
+    <MorphSection
+      as="footer"
+      variant="plain"
+      className="bg-gradient-to-b from-[#0b1529] to-[#0a1224] py-14 px-4 text-slate-200 sm:px-6 lg:px-8"
     >
-      <div className="mx-auto flex min-h-0 w-full min-w-0 max-w-[74rem] flex-col gap-4 sm:gap-8">
-        <div className="grid min-h-0 min-w-0 gap-4 sm:gap-10 lg:grid-cols-4">
-          <div>
-            <h3 className="text-xl font-bold text-slate-950">INSIA</h3>
-            <p className="mt-3 text-sm leading-relaxed text-slate-700">
-              Business analytics platform for modern teams
+      <div className="mx-auto max-w-[1200px]">
+        <div className="grid grid-cols-2 gap-8 border-b border-white/10 pb-10 md:grid-cols-4">
+          <div className="col-span-2 md:col-span-1">
+            <h3 className="text-3xl font-bold text-white sm:text-4xl">INSIA</h3>
+            <p className="mt-3 max-w-[240px] text-sm leading-6 text-slate-300 sm:text-[15px]">
+              AI-powered data analytics platform for modern enterprises.
             </p>
           </div>
 
-          <div className="grid min-h-0 min-w-0 grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-8 lg:col-span-3">
-            <nav aria-label="Product">
-              <h4 className="text-base font-bold text-slate-950">Product</h4>
-              <div className="mt-3 flex flex-col gap-1 sm:gap-3">
-                <Link href="#home" className={link}>
-                  Features
-                </Link>
-                <Link href="#comparison" className={link}>
-                  Solutions
-                </Link>
-                <Link href="#project-cta" className={link}>
-                  Pricing
-                </Link>
-              </div>
-            </nav>
+          <div>
+            <h4 className="text-base font-semibold text-white sm:text-[1.15rem]">Product</h4>
+            <ul className="mt-3 space-y-1.5">
+              {PRODUCT_LINKS.map((item) => (
+                <li key={item}>
+                  <Link
+                    href="#services"
+                    className="text-sm text-slate-300 transition-colors hover:text-white sm:text-[15px]"
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <nav aria-label="Company">
-              <h4 className="text-base font-bold text-slate-950">Company</h4>
-              <div className="mt-3 flex flex-col gap-1 sm:gap-3">
-                <Link href="#about" className={link}>
-                  About
-                </Link>
-                <Link href="#testimonials" className={link}>
-                  Blog
-                </Link>
-                <Link href="#project-cta" className={link}>
-                  Careers
-                </Link>
-              </div>
-            </nav>
+          <div>
+            <h4 className="text-base font-semibold text-white sm:text-[1.15rem]">Solutions</h4>
+            <ul className="mt-3 space-y-1.5">
+              {SOLUTION_LINKS.map((item) => (
+                <li key={item}>
+                  <Link
+                    href="#services"
+                    className="text-sm text-slate-300 transition-colors hover:text-white sm:text-[15px]"
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <nav
-              aria-label="Legal"
-              className="relative z-[1] overflow-visible pb-1"
-            >
-              <h4 className="text-base font-bold text-slate-950">Legal</h4>
-              <div
-                id="footer-legal-links"
-                className="mt-3 flex flex-col gap-1 sm:gap-3"
-              >
-                <Link href="#project-cta" className={`${link} ${linkMobile} inline-flex`}>
-                  Privacy
-                </Link>
-                <Link href="#project-cta" className={`${link} ${linkMobile} inline-flex`}>
-                  Terms
-                </Link>
-                <Link href="#enterprise-security" className={`${link} ${linkMobile} inline-flex`}>
-                  Security
-                </Link>
-              </div>
-            </nav>
+          <div>
+            <h4 className="text-base font-semibold text-white sm:text-[1.15rem]">Company</h4>
+            <ul className="mt-3 space-y-1.5">
+              {COMPANY_LINKS.map((item) => (
+                <li key={item}>
+                  <Link
+                    href={item === "About Us" ? "#about" : item === "Contact" ? "#contact" : "#"}
+                    className="text-sm text-slate-300 transition-colors hover:text-white sm:text-[15px]"
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* Copyright + social */}
-        <div
-          id="footer-bottom"
-          className="relative z-[1] mt-2 shrink-0 overflow-visible -mx-4 w-[calc(100%+2rem)] px-4 py-3 sm:py-4 md:mx-0 md:w-auto md:px-3 md:py-5"
-          style={{
-            paddingBottom:
-              "max(0.875rem, calc(env(safe-area-inset-bottom, 0px) + 0.5rem))",
-          }}
-        >
-          <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-between sm:gap-4 sm:text-left">
-            <p className="text-sm font-semibold leading-snug text-[#0f172a]">
-              © {new Date().getFullYear()} INSIA. All rights reserved.
-            </p>
-            <div className="flex w-full max-w-sm flex-wrap justify-center gap-x-6 gap-y-3 sm:w-auto sm:max-w-none sm:justify-end">
-              <Link
-                href="#project-cta"
-                className={`${link} inline-flex min-h-[40px] items-center font-semibold text-[#0f172a] sm:min-h-0`}
+        <div className="mt-7 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <p className="text-sm text-slate-400">
+            &copy; 2026 INSIA. All rights reserved.
+          </p>
+          <div className="flex items-center gap-3">
+            {["𝕏", "in", "◔"].map((icon) => (
+              <button
+                key={icon}
+                type="button"
+                className="grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-white/5 text-sm text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
+                aria-label="social link"
               >
-                Twitter
-              </Link>
-              <Link
-                href="#project-cta"
-                className={`${link} inline-flex min-h-[40px] items-center font-semibold text-[#0f172a] sm:min-h-0`}
-              >
-                LinkedIn
-              </Link>
-              <Link
-                href="#project-cta"
-                className={`${link} inline-flex min-h-[40px] items-center font-semibold text-[#0f172a] sm:min-h-0`}
-              >
-                GitHub
-              </Link>
-            </div>
+                {icon}
+              </button>
+            ))}
           </div>
         </div>
       </div>
-    </footer>
+    </MorphSection>
   );
 }

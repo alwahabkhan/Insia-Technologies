@@ -1,125 +1,216 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
+import { motion } from "motion/react";
+import MorphSection from "./MorphSection";
 
-export default function HeroSection() {
+const easeSmooth = [0.25, 0.46, 0.45, 0.94] as const;
+
+const container = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: easeSmooth,
+    },
+  },
+};
+
+const itemButtons = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: easeSmooth,
+    },
+  },
+};
+
+type HeroSectionProps = {
+  onOpenContact?: () => void;
+};
+
+/** Hero copy aligned with reference layout: headline, body, two CTAs */
+const HERO_EYEBROW = "";
+const HERO_TITLE_WHITE = "Turn Your Data Into";
+const HERO_TITLE_ACCENT = "Decisions with AI";
+const HERO_DESCRIPTION =
+  "INSIA is a no-code AI-powered data platform that connects, cleans, transforms, analyzes, and predicts your business data-helping you make smarter, faster decisions without technical complexity.";
+const HERO_PRIMARY_CTA = "Get a Demo";
+const HERO_SECONDARY_CTA = "Explore Platform";
+
+export default function HeroSection({ onOpenContact }: HeroSectionProps) {
   return (
-    <section
-      id="home"
-      className="relative overflow-hidden bg-white bg-[linear-gradient(to_right,rgba(241,245,249,0.55)_1px,transparent_1px),linear-gradient(to_bottom,rgba(241,245,249,0.55)_1px,transparent_1px)] bg-[size:60px_60px] px-4 pt-28 pb-16 sm:px-6 lg:px-8 lg:pt-32 lg:pb-24"
-    >
-      <div className="mx-auto grid max-w-[74rem] items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
-        <div className="max-w-xl">
-          <h1 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-4xl leading-[1.08] font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-[72px] xl:leading-[79px]'>
-            <span className="block text-[oklch(0.208_0.042_265.755)]">Smarter</span>
-            <span className="block text-[oklch(0.208_0.042_265.755)]">Marketing</span>
-            <span className="block text-blue-600">Bigger Impacts</span>
-          </h1>
-          <p className='mt-7 max-w-xl font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-relaxed font-normal text-[oklch(0.446_0.043_257.281)] sm:text-lg md:text-xl md:leading-[33px]'>
-            Build powerful digital products that transform businesses. We create scalable solutions that drive real growth and innovation.
-          </p>
-          <div className="mt-9 flex flex-wrap items-center gap-4">
-            <Link
-              href="#contact"
-              className="group inline-flex items-center gap-2 rounded-xl bg-blue-600 px-10 py-4 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(37,99,235,0.35)] transition-[transform,background-color,box-shadow] duration-300 ease-out will-change-transform hover:-translate-y-1 hover:bg-blue-700"
-            >
-              Get Started{" "}
-              <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">
-                →
-              </span>
-            </Link>
-            <Link
-              href="#services"
-              className="group inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-10 py-4 text-sm font-semibold text-slate-700 transition-[transform,border-color,box-shadow] duration-300 ease-out will-change-transform hover:-translate-y-1 hover:border-slate-400"
-            >
-              Learn More{" "}
-              <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">
-                ☼
-              </span>
-            </Link>
-          </div>
-          <div className="mt-10 grid max-w-md grid-cols-3 divide-x divide-slate-200">
-            <div className="pr-4">
-              <p className="text-2xl font-bold text-slate-900 sm:text-3xl md:text-4xl">500+</p>
-              <p className='mt-1 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-[oklch(0.554_0.046_257.417)]'>Projects</p>
-            </div>
-            <div className="px-4">
-              <p className="text-2xl font-bold text-slate-900 sm:text-3xl md:text-4xl">98%</p>
-              <p className='mt-1 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-[oklch(0.554_0.046_257.417)]'>Satisfaction</p>
-            </div>
-            <div className="pl-4">
-              <p className="text-2xl font-bold text-slate-900 sm:text-3xl md:text-4xl">24/7</p>
-              <p className='mt-1 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-medium text-[oklch(0.554_0.046_257.417)]'>Support</p>
+    <>
+      <MorphSection
+        id="home"
+        variant="plain"
+        className="min-h-screen bg-slate-950"
+      >
+        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+          <Image
+            src="/images/hero.png"
+            alt=""
+            fill
+            loading="eager"
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+          <div
+            className="absolute inset-0 bg-slate-950/50"
+            aria-hidden
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-blue-950/45 via-slate-950/50 to-slate-950/85"
+            aria-hidden
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-tr from-cyan-950/20 via-transparent to-blue-950/30"
+            aria-hidden
+          />
+          <div
+            className="absolute inset-0 shadow-[inset_0_0_120px_rgba(0,0,0,0.5)]"
+            aria-hidden
+          />
+        </div>
+
+        <div className="relative z-20 mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-[1200px] flex-col px-4 pt-24 sm:px-6 lg:px-8">
+          <motion.div
+            className="flex flex-1 flex-col justify-center pb-36 md:pb-40"
+            variants={container}
+            initial="hidden"
+            animate="visible"
+          >
+            <header className="pointer-events-auto relative z-20 max-w-3xl">
+              {HERO_EYEBROW && (
+                <motion.p
+                  className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90"
+                  variants={item}
+                >
+                  {HERO_EYEBROW}
+                </motion.p>
+              )}
+              <motion.h1
+                className="mt-10 text-4xl font-bold leading-[1.12] tracking-tight text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)] sm:mt-12 md:mt-14 sm:text-5xl md:text-6xl md:leading-[1.08]"
+                variants={item}
+              >
+                <span className="block">{HERO_TITLE_WHITE}</span>
+                <span className="mt-1 block bg-gradient-to-r from-cyan-300 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+                  {HERO_TITLE_ACCENT}
+                </span>
+              </motion.h1>
+              <motion.p
+                className="mt-8 max-w-2xl text-base leading-relaxed text-white/90 sm:text-lg md:text-xl"
+                variants={item}
+              >
+                {HERO_DESCRIPTION}
+              </motion.p>
+              <motion.div
+                className="mt-11 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-5"
+                variants={container}
+              >
+                <motion.div variants={itemButtons}>
+                  <Link
+                    href="#contact"
+                    className="inline-flex min-h-[52px] min-w-[200px] items-center justify-center gap-2 rounded-full bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-400 px-10 py-3.5 text-base font-semibold text-white shadow-[0_8px_32px_rgba(45,212,191,0.35)] transition-shadow hover:shadow-[0_12px_40px_rgba(45,212,191,0.5)]"
+                  >
+                    {HERO_PRIMARY_CTA}
+                    <span aria-hidden>→</span>
+                  </Link>
+                </motion.div>
+                <motion.div variants={itemButtons}>
+                  <Link
+                    href="#services"
+                    className="group inline-flex min-h-[52px] min-w-[200px] items-center justify-center gap-2 rounded-full border-2 border-white/45 bg-white/5 px-10 py-3.5 text-base font-semibold text-white backdrop-blur-[2px] transition-colors hover:border-white/80 hover:bg-white/15"
+                  >
+                    {HERO_SECONDARY_CTA}
+                    <span
+                      aria-hidden
+                      className="transition-transform group-hover:translate-x-0.5"
+                    >
+                      →
+                    </span>
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </header>
+          </motion.div>
+
+          <div
+            className="pointer-events-none absolute bottom-5 left-1/2 flex -translate-x-1/2 flex-col items-center justify-end gap-2.5 md:bottom-7"
+            aria-hidden
+          >
+            <span className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/75 sm:text-[11px]">
+              Scroll to explore
+            </span>
+            <div className="flex flex-col items-center justify-end gap-1.5">
+              <div className="relative flex h-10 w-6 items-start justify-center rounded-full border-2 border-white/45 pt-2">
+                <motion.span
+                  className="block h-1.5 w-1.5 rounded-full bg-white/90"
+                  animate={{ y: [0, 6, 0] }}
+                  transition={{
+                    duration: 1.6,
+                    repeat: Number.POSITIVE_INFINITY,
+                    ease: "easeInOut",
+                  }}
+                />
+              </div>
+              <motion.svg
+                className="mt-0.5 h-4 w-4 text-white/60"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+                aria-hidden
+                animate={{ y: [0, 6, 0] }}
+                transition={{
+                  duration: 1.6,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </motion.svg>
             </div>
           </div>
         </div>
+      </MorphSection>
 
-        <div className="relative mx-auto w-full max-w-xl lg:max-w-none">
-          <div className="dashboard-card dashboard-enter min-h-[450px] rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-[0_28px_70px_rgba(15,23,42,0.18)] backdrop-blur-sm md:p-8">
-            <div className="mb-6 flex items-start justify-between">
-              <div>
-                <p className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-6 font-normal text-[rgb(17,24,39)]'>Dashboard</p>
-                <h3 className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-lg leading-7 font-bold text-[oklch(0.208_0.042_265.755)] sm:text-xl'>Analytics Overview</h3>
-              </div>
-              <div className="flex items-center gap-2 pt-1">
-                <span className="h-7 w-7 rounded-full bg-blue-600" />
-                <span className="h-7 w-7 rounded-full bg-slate-200" />
-              </div>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-xs leading-4 font-semibold text-[oklch(0.554_0.046_257.417)]'>Revenue</p>
-                <p className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-2xl leading-8 font-bold text-[oklch(0.208_0.042_265.755)] sm:text-3xl md:text-[30px] md:leading-9'>$48.5K</p>
-                <div className="mt-5 h-14 rounded-lg bg-gradient-to-b from-blue-100 to-transparent" />
-                <p className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-xs leading-4 font-semibold text-[oklch(0.546_0.245_262.881)]'>↑ 23% from last month</p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-xs leading-4 font-semibold text-[oklch(0.554_0.046_257.417)]'>Growth</p>
-                <p className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-2xl leading-8 font-bold text-[oklch(0.546_0.245_262.881)] sm:text-3xl md:text-[30px] md:leading-9'>+32%</p>
-                <div className="mt-4 flex h-16 items-end gap-2">
-                  <div className="h-7 w-14 rounded-md bg-blue-600" />
-                  <div className="h-9 w-14 rounded-md bg-blue-600" />
-                  <div className="h-12 w-14 rounded-md bg-blue-600" />
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-6 space-y-4">
-              <div>
-                <div className='mb-2 flex justify-between font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-xs leading-4 font-semibold text-[oklch(0.446_0.043_257.281)]'>
-                  <span>Conversion Rate</span>
-                  <span>68%</span>
-                </div>
-                <div className="h-2 rounded-full bg-slate-200">
-                  <div className="h-2 w-[68%] rounded-full bg-blue-600" />
-                </div>
-              </div>
-              <div>
-                <div className='mb-2 flex justify-between font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-xs leading-4 font-semibold text-[oklch(0.446_0.043_257.281)]'>
-                  <span>Customer Retention</span>
-                  <span>85%</span>
-                </div>
-                <div className="h-2 rounded-full bg-slate-200">
-                  <div className="h-2 w-[85%] rounded-full bg-blue-600" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute -bottom-7 -left-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-lg">
-            <div className="flex items-center gap-3">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 text-sm text-white">
-                ✓
-              </span>
-              <div>
-                <p className="text-sm font-semibold text-slate-900">Verified Partner</p>
-                <p className="text-xs text-slate-500">ISO Certified</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      <button
+        type="button"
+        onClick={() => onOpenContact?.()}
+        className="fixed right-0 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center gap-3 rounded-l-2xl bg-gradient-to-b from-teal-500 to-cyan-600 px-3 py-6 text-white shadow-lg shadow-teal-900/30 md:flex"
+      >
+        <span
+          className="select-none text-[9px] font-bold uppercase tracking-[0.28em] lg:text-[10px]"
+          style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+        >
+          Get in touch
+        </span>
+        <span aria-hidden className="text-sm opacity-90">
+          ←
+        </span>
+      </button>
+    </>
   );
 }

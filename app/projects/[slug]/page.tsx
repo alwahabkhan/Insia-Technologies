@@ -29,7 +29,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${project.title} - Insia Technologies`,
+    title: `${project.title} - Insiya Technologies`,
     description: project.description,
   };
 }

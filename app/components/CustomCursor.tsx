@@ -28,7 +28,9 @@ export function cursorColorForElement(
   if (!el) return CURSOR_RED;
   if (el.closest("[data-contact-modal]")) return CURSOR_RED;
   if (el.closest("[data-contact-form]")) return CURSOR_RED;
-  if (el.closest('nav[aria-label="Main"]')) return CURSOR_RED;
+  if (el.closest('nav[aria-label="Main"]')) {
+    return navElevated ? CURSOR_HERO_NAV_UP : CURSOR_HERO;
+  }
   if (el.closest("#home")) {
     return navElevated ? CURSOR_HERO_NAV_UP : CURSOR_HERO;
   }
@@ -48,6 +50,8 @@ export default function CustomCursor({ navElevated }: CustomCursorProps) {
   const dotElRef = useRef<HTMLDivElement>(null);
   const ringElRef = useRef<HTMLDivElement>(null);
   const colorRef = useRef(CURSOR_RED);
+  /** Hero overlay nav: white cursor + difference blend (text inverts under ring) */
+  const heroNavBlendRef = useRef(false);
   const scaleRef = useRef(1);
   const targetScaleRef = useRef(1);
 
@@ -75,6 +79,11 @@ export default function CustomCursor({ navElevated }: CustomCursorProps) {
           ? raw
           : document.elementFromPoint(x, y);
       colorRef.current = cursorColorForElement(el, navElevated);
+      heroNavBlendRef.current =
+        !navElevated &&
+        !!el?.closest(
+          'nav[aria-label="Main"] a, nav[aria-label="Main"] button',
+        );
       targetScaleRef.current = el?.closest(INTERACTIVE_SELECTOR) ? 1.45 : 1;
     };
     window.addEventListener("mousemove", onMove, { passive: true });
@@ -95,15 +104,30 @@ export default function CustomCursor({ navElevated }: CustomCursorProps) {
       r.x += (t.x - r.x) * 0.14;
       r.y += (t.y - r.y) * 0.14;
       const c = colorRef.current;
+      const blend = heroNavBlendRef.current;
       const dot = dotElRef.current;
       const ring = ringElRef.current;
       if (dot) {
         dot.style.transform = `translate3d(${t.x}px, ${t.y}px, 0) translate(-50%, -50%) scale(${dotScale})`;
-        dot.style.backgroundColor = c;
+        if (blend) {
+          dot.style.backgroundColor = "#ffffff";
+          dot.style.mixBlendMode = "difference";
+        } else {
+          dot.style.mixBlendMode = "";
+          dot.style.backgroundColor = c;
+        }
       }
       if (ring) {
         ring.style.transform = `translate3d(${r.x}px, ${r.y}px, 0) translate(-50%, -50%) scale(${ringScale})`;
-        ring.style.border = `1.5px solid ${c}`;
+        if (blend) {
+          ring.style.border = "1px solid #ffffff";
+          ring.style.mixBlendMode = "difference";
+          ring.style.background = "transparent";
+        } else {
+          ring.style.mixBlendMode = "";
+          ring.style.border = `1px solid ${c}`;
+          ring.style.background = "transparent";
+        }
       }
       rafId = requestAnimationFrame(loop);
     };
@@ -122,10 +146,10 @@ export default function CustomCursor({ navElevated }: CustomCursorProps) {
         ref={ringElRef}
         className="pointer-events-none fixed left-0 top-0 z-[2147483646] will-change-transform"
         style={{
-          width: 28,
-          height: 28,
+          width: 44,
+          height: 44,
           borderRadius: 9999,
-          border: `1.5px solid ${CURSOR_RED}`,
+          border: `1px solid ${CURSOR_RED}`,
           background: "transparent",
         }}
         aria-hidden
@@ -134,8 +158,8 @@ export default function CustomCursor({ navElevated }: CustomCursorProps) {
         ref={dotElRef}
         className="pointer-events-none fixed left-0 top-0 z-[2147483647] will-change-transform rounded-full"
         style={{
-          width: 6,
-          height: 6,
+          width: 8,
+          height: 8,
           backgroundColor: CURSOR_RED,
         }}
         aria-hidden

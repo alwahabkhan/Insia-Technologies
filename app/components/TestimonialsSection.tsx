@@ -8,14 +8,14 @@ const testimonials = [
   },
   {
     quote:
-      '"I\'m not technical. Like, at all. But I built a live dashboard that tracks our entire marketing funnel in 20 minutes. My boss thought I outsourced it. Nope - just INSIA."',
+      '"I\'m not technical. Like, at all. But I built a live dashboard that tracks our entire marketing funnel in 20 minutes. My boss thought I outsourced it. Nope - just INSIYA."',
     initials: "MT",
     name: "Marcus Torres",
     role: "Marketing Lead @ GrowthBox",
   },
   {
     quote:
-      '"We were paying $8K/month for analytics tools we barely used. Switched to INSIA, cut costs by 60%, and somehow got BETTER insights. Feels illegal."',
+      '"We were paying $8K/month for analytics tools we barely used. Switched to INSIYA, cut costs by 60%, and somehow got BETTER insights. Feels illegal."',
     initials: "PK",
     name: "Priya Kapoor",
     role: "CFO @ DataFlow",

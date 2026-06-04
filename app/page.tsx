@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -6,32 +6,32 @@ import HeroSection from "./components/HeroSection";
 import FeatureHighlightsSection from "./components/FeatureHighlightsSection";
 import ServicesSection from "./components/ServicesSection";
 import TechnologiesSection from "./components/TechnologiesSection";
+import PortfolioProjectsSection from "./components/PortfolioProjectsSection";
 import ProjectsSection from "./components/ProjectsSection";
 import AboutSection from "./components/AboutSection";
 import ContactSection from "./components/ContactSection";
 import ContactModal from "./components/ContactModal";
 import CustomCursor from "./components/CustomCursor";
 import Footer from "./components/Footer";
+import { cn, textStyles } from "./lib/typography";
 
 export default function Home() {
   const [showMobileHeader, setShowMobileHeader] = useState(true);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [navElevated, setNavElevated] = useState(false);
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showSideContactTab, setShowSideContactTab] = useState(true);
+  const mobileMenuOpenRef = useRef(false);
+  mobileMenuOpenRef.current = mobileMenuOpen;
   const lastScrollYRef = useRef(0);
+  const trustedBySectionRef = useRef<HTMLElement>(null);
+  const mobileMenuSheetRef = useRef<HTMLDivElement>(null);
+  const mobileMenuBodyScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const updateFromScroll = () => {
       const currentY = window.scrollY;
       const lastY = lastScrollYRef.current;
-      const doc = document.documentElement;
-      const maxScroll = Math.max(doc.scrollHeight - window.innerHeight, 0);
-      const progress =
-        maxScroll > 0
-          ? Math.min(1, Math.max(0, currentY / maxScroll))
-          : 0;
-      setScrollProgress(progress);
       setNavElevated(currentY > 16);
 
       // Always show header near top.
@@ -46,14 +46,38 @@ export default function Home() {
       }
 
       lastScrollYRef.current = currentY;
+
+      const hero = document.getElementById("home");
+      if (hero) {
+        const { bottom } = hero.getBoundingClientRect();
+        setShowSideContactTab(bottom > 0);
+      }
+    };
+
+    let scrollRaf = 0;
+    const runScrollUpdate = () => {
+      scrollRaf = 0;
+      updateFromScroll();
+    };
+    const scheduleScrollUpdate = () => {
+      if (scrollRaf) return;
+      scrollRaf = requestAnimationFrame(runScrollUpdate);
+    };
+    const onScroll = () => {
+      if (mobileMenuOpenRef.current) {
+        scheduleScrollUpdate();
+      } else {
+        updateFromScroll();
+      }
     };
 
     updateFromScroll();
-    window.addEventListener("scroll", updateFromScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", updateFromScroll, { passive: true });
     return () => {
-      window.removeEventListener("scroll", updateFromScroll);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", updateFromScroll);
+      if (scrollRaf) cancelAnimationFrame(scrollRaf);
     };
   }, []);
 
@@ -66,6 +90,115 @@ export default function Home() {
     window.addEventListener("resize", closeMobileMenuOnDesktop);
     return () => window.removeEventListener("resize", closeMobileMenuOnDesktop);
   }, []);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [mobileMenuOpen]);
+
+  /** Wheel / touch over mobile menu panel scrolls the page unless the menu body can scroll internally. */
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const sheet = mobileMenuSheetRef.current;
+    const bodyScroll = mobileMenuBodyScrollRef.current;
+    if (!sheet) return;
+
+    const captureOpts = { passive: false, capture: true } as const;
+    const capturePassive = { passive: true, capture: true } as const;
+
+    const innerAllowsScroll = (dy: number) => {
+      if (!bodyScroll) return false;
+      const { scrollTop, scrollHeight, clientHeight } = bodyScroll;
+      const eps = 2;
+      const canScrollUp = scrollTop > eps;
+      const canScrollDown = scrollTop + clientHeight < scrollHeight - eps;
+      return (dy < 0 && canScrollUp) || (dy > 0 && canScrollDown);
+    };
+
+    const normalizeWheelDeltaY = (e: WheelEvent) => {
+      let dy = e.deltaY;
+      switch (e.deltaMode) {
+        case WheelEvent.DOM_DELTA_LINE:
+          dy *= 16;
+          break;
+        case WheelEvent.DOM_DELTA_PAGE:
+          dy *= window.innerHeight;
+          break;
+        default:
+          break;
+      }
+      return dy;
+    };
+
+    let queuedDy = 0;
+    let flushRaf = 0;
+    const flushQueuedScroll = () => {
+      flushRaf = 0;
+      if (queuedDy === 0) return;
+      const dy = queuedDy;
+      queuedDy = 0;
+      const root = document.scrollingElement ?? document.documentElement;
+      root.scrollBy({ top: dy, left: 0, behavior: "auto" });
+    };
+    const queuePageScroll = (dy: number) => {
+      if (dy === 0) return;
+      queuedDy += dy;
+      if (!flushRaf) {
+        flushRaf = requestAnimationFrame(flushQueuedScroll);
+      }
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      const dy = normalizeWheelDeltaY(e);
+      if (bodyScroll?.contains(e.target as Node) && innerAllowsScroll(dy)) {
+        return;
+      }
+      e.preventDefault();
+      queuePageScroll(dy);
+    };
+
+    let lastTouchY: number | null = null;
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1) lastTouchY = e.touches[0].clientY;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length !== 1 || lastTouchY === null) return;
+      const y = e.touches[0].clientY;
+      const dy = lastTouchY - y;
+      lastTouchY = y;
+      if (bodyScroll?.contains(e.target as Node) && innerAllowsScroll(dy)) {
+        return;
+      }
+      e.preventDefault();
+      queuePageScroll(dy);
+    };
+    const onTouchEnd = () => {
+      lastTouchY = null;
+    };
+
+    sheet.addEventListener("wheel", onWheel, captureOpts);
+    sheet.addEventListener("touchstart", onTouchStart, capturePassive);
+    sheet.addEventListener("touchmove", onTouchMove, captureOpts);
+    sheet.addEventListener("touchend", onTouchEnd, capturePassive);
+    sheet.addEventListener("touchcancel", onTouchEnd, capturePassive);
+    return () => {
+      sheet.removeEventListener("wheel", onWheel, captureOpts);
+      sheet.removeEventListener("touchstart", onTouchStart, capturePassive);
+      sheet.removeEventListener("touchmove", onTouchMove, captureOpts);
+      sheet.removeEventListener("touchend", onTouchEnd, capturePassive);
+      sheet.removeEventListener("touchcancel", onTouchEnd, capturePassive);
+      if (flushRaf) cancelAnimationFrame(flushRaf);
+      if (queuedDy !== 0) {
+        const root = document.scrollingElement ?? document.documentElement;
+        root.scrollBy({ top: queuedDy, left: 0, behavior: "auto" });
+        queuedDy = 0;
+      }
+    };
+  }, [mobileMenuOpen]);
 
   const services = [
     {
@@ -151,6 +284,19 @@ export default function Home() {
     "Oracle",
   ];
 
+  const navLinkShellClass = textStyles.navLink;
+  /** Teal underline on hover — hero nav reference (no pill, text stays white) */
+  const navLinkHoverUnderline =
+    "relative inline-block after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:z-[1] after:h-px after:origin-left after:scale-x-0 after:bg-[#2dd4bf] after:transition-transform after:duration-200 after:ease-out hover:after:scale-x-100";
+  /** Translucent #20394C + soft glow + top highlight behind link on hover */
+  const navLinkHoverLamp =
+    "rounded-md px-2.5 py-1 transition-[background-color,box-shadow,color] duration-200 ease-out hover:bg-[#20394C]/65 hover:text-white hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_0_14px_2px_rgba(32,57,76,0.45),0_0_28px_5px_rgba(45,212,191,0.18)]";
+  /** Mobile menu sheet — matches reference: dark bar + off-white body + pill CTA */
+  const mobileMenuLinkClass = cn(
+    textStyles.mobileMenuLink,
+    "py-5 pl-5 transition-opacity duration-150 hover:opacity-80 active:opacity-70 sm:py-6 sm:pl-6"
+  );
+
   return (
     <div className="min-h-screen bg-white">
       <CustomCursor navElevated={navElevated} />
@@ -169,87 +315,83 @@ export default function Home() {
         }`}
         aria-label="Main"
       >
-        <div
-          className="pointer-events-none absolute left-0 top-0 h-[3px] w-full overflow-hidden"
-          aria-hidden
-        >
-          <div
-            className="h-full bg-gradient-to-r from-blue-600 to-purple-600 transition-[width] duration-200 ease-out will-change-[width]"
-            style={{ width: `${scrollProgress * 100}%` }}
-          />
-        </div>
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+        <div className="mx-auto max-w-[1280px] px-5 sm:px-6">
           <div className="flex h-20 items-center justify-between">
             <div className="flex-shrink-0">
               <Link
                 href="#home"
-                className={`text-2xl font-black uppercase tracking-tight ${
+                className={cn(
+                  textStyles.logo,
+                  "drop-shadow-sm",
                   navElevated
                     ? "bg-gradient-to-r from-[#1E3D93] via-[#2762EB] to-[#008FBD] bg-clip-text text-transparent"
-                    : "text-white drop-shadow-sm"
-                }`}
+                    : "text-white"
+                )}
               >
-                INSIGNIA
+                INSIYA
               </Link>
             </div>
             <div className="hidden md:block">
-              <div className="ml-10 flex items-center gap-9">
+              <div
+                className={cn(
+                  "ml-10 flex items-center gap-9 font-sans",
+                  navLinkShellClass
+                )}
+              >
                 <Link
                   href="#services"
-                  className={`text-sm font-medium transition-colors ${
-                    navElevated
-                      ? "text-slate-900 hover:text-slate-700"
-                      : "text-white/90 hover:text-white"
+                  className={`${navLinkHoverUnderline} ${navLinkHoverLamp} ${
+                    navElevated ? "text-slate-900" : "text-white"
                   }`}
                 >
                   Services
                 </Link>
                 <Link
                   href="#technologies"
-                  className={`text-sm font-medium transition-colors ${
-                    navElevated
-                      ? "text-slate-900 hover:text-slate-700"
-                      : "text-white/90 hover:text-white"
+                  className={`${navLinkHoverUnderline} ${navLinkHoverLamp} ${
+                    navElevated ? "text-slate-900" : "text-white"
                   }`}
                 >
                   Industries
                 </Link>
                 <Link
                   href="#about"
-                  className={`text-sm font-medium transition-colors ${
-                    navElevated
-                      ? "text-slate-900 hover:text-slate-700"
-                      : "text-white/90 hover:text-white"
+                  className={`${navLinkHoverUnderline} ${navLinkHoverLamp} ${
+                    navElevated ? "text-slate-900" : "text-white"
                   }`}
                 >
                   About
                 </Link>
                 <Link
                   href="#contact"
-                  className={`text-sm font-medium transition-colors ${
-                    navElevated
-                      ? "text-slate-900 hover:text-slate-700"
-                      : "text-white/90 hover:text-white"
+                  className={`${navLinkHoverUnderline} ${navLinkHoverLamp} ${
+                    navElevated ? "text-slate-900" : "text-white"
                   }`}
                 >
                   Contact
                 </Link>
               </div>
             </div>
-            <div className="hidden md:flex items-center gap-6">
+            <div
+              className={cn(
+                "hidden items-center gap-6 font-sans md:flex",
+                navLinkShellClass
+              )}
+            >
               <Link
                 href="#contact"
-                className={`text-sm font-medium transition-colors ${
-                  navElevated
-                    ? "text-slate-900 hover:text-slate-700"
-                    : "text-white/90 hover:text-white"
+                className={`${navLinkHoverUnderline} ${navLinkHoverLamp} ${
+                  navElevated ? "text-slate-900" : "text-white"
                 }`}
               >
                 Log in
               </Link>
               <Link
                 href="#contact"
-                className="group inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-sky-400 via-cyan-400 to-teal-400 px-6 py-2.5 text-sm font-medium text-slate-900 shadow-[0_6px_20px_rgba(34,211,238,0.45)] transition-shadow hover:shadow-[0_8px_26px_rgba(45,212,191,0.55)]"
+                className={cn(
+                  textStyles.btn,
+                  "group inline-flex items-center gap-1.5 rounded-[10px] bg-gradient-to-r from-sky-400 via-cyan-400 to-teal-400 px-6 py-2.5 text-text-primary shadow-[0_6px_20px_rgba(34,211,238,0.45)] transition-[transform,box-shadow] duration-200 ease-out hover:scale-[1.03] hover:shadow-[0_8px_26px_rgba(45,212,191,0.55)]"
+                )}
               >
                 Get Started
                 <span aria-hidden className="inline-block translate-x-0 transition-transform group-hover:translate-x-0.5">
@@ -272,73 +414,116 @@ export default function Home() {
               </button>
             </div>
           </div>
-          {mobileMenuOpen && (
+        </div>
+      </nav>
+
+      {mobileMenuOpen && (
+        <div
+          id="mobile-navigation-menu"
+          className="pointer-events-none fixed inset-0 z-[100] flex flex-col md:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="mobile-menu-brand"
+        >
+          <div
+            ref={mobileMenuSheetRef}
+            className="pointer-events-auto relative z-[1] mx-auto flex w-full max-h-[min(88vh,760px)] shrink-0 flex-col overflow-hidden rounded-none bg-[#f8f9fa] shadow-[0_24px_48px_rgba(15,18,30,0.35)]"
+          >
+            <div className="flex min-h-[76px] shrink-0 items-center justify-between bg-[#1a1c2c] px-5 py-3 sm:min-h-[84px] sm:px-6 sm:py-4">
+              <span
+                id="mobile-menu-brand"
+                className={cn(textStyles.logo, "text-[21px] leading-none sm:text-[22px]")}
+              >
+                INSIYA
+              </span>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex h-11 w-11 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/10"
+                aria-label="Close menu"
+              >
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  aria-hidden
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
             <div
-              id="mobile-navigation-menu"
-              className="md:hidden border-t border-slate-200/70 bg-white/95 px-2 pb-4 pt-2 backdrop-blur-md"
+              ref={mobileMenuBodyScrollRef}
+              className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-7 pb-12 pt-5 sm:px-10"
             >
-              <div className="flex flex-col">
+              <nav aria-label="Mobile" className="max-w-lg font-sans">
                 <Link
                   href="#services"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-100"
+                  className={mobileMenuLinkClass}
                 >
                   Services
                 </Link>
                 <Link
                   href="#technologies"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-100"
+                  className={mobileMenuLinkClass}
                 >
                   Industries
                 </Link>
                 <Link
                   href="#about"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-100"
+                  className={mobileMenuLinkClass}
                 >
                   About
                 </Link>
                 <Link
                   href="#contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-100"
+                  className={mobileMenuLinkClass}
                 >
                   Contact
                 </Link>
-                <div className="mt-2 px-3">
-                  <Link
-                    href="#contact"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="inline-flex min-h-[42px] w-full items-center justify-center rounded-full bg-gradient-to-r from-sky-400 via-cyan-400 to-teal-400 px-4 text-sm font-medium text-slate-900 shadow-[0_6px_20px_rgba(34,211,238,0.45)] transition-shadow hover:shadow-[0_8px_26px_rgba(45,212,191,0.55)]"
-                  >
-                    Get Started
-                  </Link>
-                </div>
+              </nav>
+              <div className="mt-10 flex justify-center px-1">
+                <Link
+                  href="#contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={cn(
+                    textStyles.btn,
+                    "inline-flex min-h-[48px] w-full max-w-[280px] items-center justify-center rounded-xl bg-gradient-to-r from-[#00d2ff] to-[#00c9a7] px-8 text-text-primary shadow-[0_10px_28px_rgba(0,180,200,0.38)] transition-[transform,box-shadow] duration-200 ease-out hover:shadow-[0_12px_32px_rgba(0,201,167,0.42)] active:scale-[0.98]"
+                  )}
+                >
+                  Get Started
+                </Link>
               </div>
             </div>
-          )}
+          </div>
         </div>
-      </nav>
+      )}
 
       {/* Hero Section */}
       <HeroSection
         onOpenContact={() => setContactModalOpen(true)}
+        sideContactTabVisible={showSideContactTab}
       />
 
+      {/* Portfolio — from app/data/projects.ts */}
+      <PortfolioProjectsSection />
+
       {/* Trusted By Section */}
-      <section className="bg-white py-12 md:py-16">
+      <section ref={trustedBySectionRef} className="bg-white py-12 md:py-16">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6">
           <div className="mx-auto max-w-5xl border-y border-slate-100/90 py-8 md:py-10">
-            <p className="text-center text-[9px] font-semibold uppercase tracking-[0.24em] text-slate-500 sm:text-[10px] md:text-[11px]">
+            <p className={textStyles.trustedLabel}>
               Trusted by Leading Enterprises
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 md:gap-x-12">
               {trustedEnterprises.map((brand) => (
-                <span
-                  key={brand}
-                  className="text-lg font-semibold tracking-tight text-slate-400 sm:text-xl md:text-[1.65rem]"
-                >
+                <span key={brand} className={textStyles.trustedBrand}>
                   {brand}
                 </span>
               ))}

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "motion/react";
+import { cn, textStyles } from "@/app/lib/typography";
 import MorphSection from "./MorphSection";
 
 const highlights = [
@@ -45,16 +46,16 @@ export default function FeatureHighlightsSection() {
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <p className="mx-auto inline-flex rounded-full bg-cyan-100 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-700 sm:text-[11px]">
+          <p className={cn(textStyles.eyebrowPill, "mx-auto")}>
             Platform Capabilities
           </p>
-          <h2 className="mt-5 text-2xl font-bold text-slate-900 sm:text-3xl md:text-5xl">
+          <h2 className={cn(textStyles.h2, "mt-5 text-center")}>
             Transform Your Business with{" "}
             <span className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
               AI-Powered Data
             </span>
           </h2>
-          <p className="mt-5 text-base text-slate-600 md:text-xl">
+          <p className={cn(textStyles.body, "mt-5")}>
             From seamless integration to intelligent predictions, our platform
             handles every step of your data journey with enterprise-grade
             reliability.
@@ -85,13 +86,14 @@ export default function FeatureHighlightsSection() {
                 />
               </div>
               <div className="p-6 md:p-7">
-                <h3 className="text-xl font-semibold text-slate-900 sm:text-2xl md:text-[2rem]">
-                  {item.title}
-                </h3>
-                <p className="mt-3 text-sm text-slate-600 sm:text-base">{item.description}</p>
+                <h3 className={textStyles.h3}>{item.title}</h3>
+                <p className={cn(textStyles.bodySm, "mt-3")}>{item.description}</p>
                 <button
                   type="button"
-                  className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-cyan-600 transition-all hover:text-cyan-700 group-hover:translate-x-0.5"
+                  className={cn(
+                    textStyles.link,
+                    "mt-4 inline-flex items-center gap-2 transition-all group-hover:translate-x-0.5"
+                  )}
                 >
                   Learn more
                   <span aria-hidden>→</span>
@@ -110,14 +112,27 @@ export default function FeatureHighlightsSection() {
         >
           <button
             type="button"
-            className="group inline-flex min-h-[64px] min-w-[320px] items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 px-5 text-base font-bold leading-6 text-white shadow-[0_12px_30px_rgba(2,132,199,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(2,132,199,0.45)]"
+            className={cn(
+              textStyles.btn,
+              "group inline-flex min-h-[64px] min-w-[320px] items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 px-5 font-bold text-white shadow-[0_12px_30px_rgba(2,132,199,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(2,132,199,0.45)]"
+            )}
           >
             Explore All Features
             <span
               aria-hidden
-              className="text-2xl leading-none transition-transform group-hover:translate-x-1"
+              className="inline-flex shrink-0 text-white transition-transform group-hover:translate-x-1"
             >
-              →
+              <svg
+                className="h-5 w-5 md:h-6 md:w-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2.25}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
             </span>
           </button>
         </motion.div>

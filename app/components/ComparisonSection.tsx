@@ -6,7 +6,7 @@ const oldWayPoints = [
   "Staring at last month's numbers",
 ];
 
-const insiaPoints = [
+const insiyaPoints = [
   "One place. All your data. Finally.",
   "Ask a question, get an answer. 5 seconds.",
   "Be the data team. No waiting.",
@@ -23,7 +23,7 @@ export default function ComparisonSection() {
             A better way to work with data
           </h2>
           <p className='mx-auto mt-4 max-w-2xl font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-base leading-7 font-normal text-[oklch(0.446_0.043_257.281)] sm:text-lg md:text-xl'>
-            See what changes when you switch to INSIA
+            See what changes when you switch to INSIYA
           </p>
         </div>
 
@@ -50,14 +50,14 @@ export default function ComparisonSection() {
 
           <article className="rounded-2xl border border-blue-500 bg-white p-5 shadow-[0_8px_24px_rgba(37,99,235,0.14)] sm:p-6">
             <h3 className='font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-lg leading-7 font-bold text-[oklch(0.208_0.042_265.755)] sm:text-xl'>
-              With INSIA
+              With INSIYA
             </h3>
             <p className='mt-2 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-5 font-semibold text-[oklch(0.546_0.245_262.881)]'>
               Fast, unified, intelligent
             </p>
 
             <div className="mt-5 space-y-3">
-              {insiaPoints.map((point) => (
+              {insiyaPoints.map((point) => (
                 <div
                   key={point}
                   className='rounded-xl border border-blue-100 bg-blue-50/60 px-4 py-3 font-["ui-sans-serif,system-ui,sans-serif,\\"Apple_Color_Emoji\\",\\"Segoe_UI_Emoji\\",\\"Segoe_UI_Symbol\\",\\"Noto_Color_Emoji\\""] text-sm leading-[23px] font-medium text-[oklch(0.208_0.042_265.755)]'

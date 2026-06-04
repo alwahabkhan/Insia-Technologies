@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { cn, textStyles } from "@/app/lib/typography";
 import MorphSection from "./MorphSection";
 
 const easeSmooth = [0.25, 0.46, 0.45, 0.94] as const;
@@ -62,16 +63,10 @@ export default function ServicesSection() {
             hidden: {},
           }}
         >
-          <motion.h2
-            className="text-3xl font-bold text-slate-900 sm:text-4xl md:text-5xl"
-            variants={headerItem}
-          >
+          <motion.h2 className={textStyles.h2} variants={headerItem}>
             Impact Across Business Functions
           </motion.h2>
-          <motion.p
-            className="mt-4 text-base text-slate-600 sm:text-lg"
-            variants={headerItem}
-          >
+          <motion.p className={cn(textStyles.body, "mt-4")} variants={headerItem}>
             Enterprise-grade analytics that adapt to every department
           </motion.p>
         </motion.div>
@@ -115,7 +110,12 @@ export default function ServicesSection() {
                     >
                       ›
                     </span>
-                    <span className="text-base font-medium leading-7 transition-colors duration-200 sm:text-[1.08rem] group-hover:text-[#007AB8]">
+                    <span
+                      className={cn(
+                        textStyles.label,
+                        "transition-colors duration-200 sm:text-[1.08rem] sm:leading-7 group-hover:text-[#007AB8]"
+                      )}
+                    >
                       {item}
                     </span>
                   </div>
@@ -126,7 +126,7 @@ export default function ServicesSection() {
         </motion.div>
 
         <motion.div
-          className="mt-10"
+          className="mt-10 flex justify-center sm:block"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -134,7 +134,10 @@ export default function ServicesSection() {
         >
           <button
             type="button"
-            className="inline-flex min-h-[52px] items-center justify-center rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 px-8 text-base font-semibold text-white shadow-[0_10px_22px_rgba(2,132,199,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(2,132,199,0.45)]"
+            className={cn(
+              textStyles.btn,
+              "inline-flex min-h-[52px] w-[85%] max-w-full items-center justify-center rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 px-8 font-semibold text-white shadow-[0_10px_22px_rgba(2,132,199,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(2,132,199,0.45)] sm:w-auto"
+            )}
           >
             Explore All Solutions
           </button>

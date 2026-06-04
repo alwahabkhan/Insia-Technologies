@@ -2,29 +2,17 @@
 
 import Image from "next/image";
 import { motion } from "motion/react";
+import { cn, textStyles } from "@/app/lib/typography";
 import MorphSection from "./MorphSection";
 
 const easeSmooth = [0.25, 0.46, 0.45, 0.94] as const;
 
-const sectionVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.08,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: easeSmooth },
-  },
-};
+const fadeUpInView = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.12, margin: "0px 0px -48px 0px" },
+  transition: { duration: 0.55, ease: easeSmooth },
+} as const;
 
 const capabilityCards = [
   {
@@ -67,7 +55,7 @@ const leadershipTeam = [
 const testimonials = [
   {
     quote:
-      '"INSIA transformed our data operations completely. What used to take our team weeks now happens in real-time. The ROI was immediate."',
+      '"INSIYA transformed our data operations completely. What used to take our team weeks now happens in real-time. The ROI was immediate."',
     name: "Sarah Chen",
     role: "VP of Analytics",
     company: "TechCorp Global",
@@ -83,7 +71,7 @@ const testimonials = [
   },
   {
     quote:
-      '"We consolidated 5 different tools into INSIA and cut our analytics costs by 40%. The AI predictions have become essential to our planning."',
+      '"We consolidated 5 different tools into INSIYA and cut our analytics costs by 40%. The AI predictions have become essential to our planning."',
     name: "Emily Watson",
     role: "Director of Operations",
     company: "Enterprise Inc",
@@ -99,45 +87,45 @@ export default function AboutSection() {
       className="bg-white py-20 px-4 sm:px-6 lg:px-8"
     >
       <div className="mx-auto max-w-[1200px]">
-        <motion.div
-          className="space-y-10"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={sectionVariants}
-        >
-          <motion.div variants={itemVariants} className="max-w-4xl">
-            <span className='inline-flex rounded-full bg-cyan-100 px-4 py-1.5 text-xs font-semibold leading-5 text-[oklch(0.52_0.105_223.128)] sm:text-[14px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
-              Designed for Everyone
-            </span>
-            <h2 className='mt-5 text-3xl font-semibold leading-tight tracking-tight text-[oklch(0.208_0.042_265.755)] sm:text-4xl md:text-[44px] md:leading-[53px] [font-family:"General_Sans",-apple-system,BlinkMacSystemFont,sans-serif]'>
+        <div className="space-y-10">
+          <motion.div {...fadeUpInView} className="max-w-4xl">
+            <span className={textStyles.eyebrowPill}>DESIGNED FOR EVERYONE</span>
+            <h2 className={cn(textStyles.h2Intro, "mt-5")}>
               Human-Centered AI for Every Business
             </h2>
-            <p className='mt-6 max-w-3xl text-base font-normal leading-7 text-[oklch(0.446_0.043_257.281)] sm:text-[17px] md:text-[18px] md:leading-[29px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
+            <p className={cn(textStyles.body, "mt-6 max-w-3xl")}>
               We believe intelligence should amplify human capabilities-not
-              replace them. INSIA is designed to make every team member more
+              replace them. INSIYA is designed to make every team member more
               effective, from executives to analysts.
             </p>
           </motion.div>
 
           <motion.div
-            variants={itemVariants}
+            {...fadeUpInView}
+            transition={{ ...fadeUpInView.transition, delay: 0.05 }}
             className="grid grid-cols-1 gap-5 lg:grid-cols-[1fr_1.35fr] lg:items-stretch"
           >
-            <article className="group relative overflow-hidden rounded-3xl border border-slate-200/90 bg-slate-100">
+            <article className="group relative w-full overflow-hidden rounded-3xl border border-slate-200/90 bg-slate-100 max-sm:rounded-l-3xl max-sm:rounded-r-none sm:rounded-3xl">
               <div className="relative h-full min-h-[30rem] w-full lg:min-h-[36rem]">
                 <Image
                   src="/images/images_06.jpg"
                   alt="Team collaborating with sticky notes"
                   fill
                   sizes="(max-width: 1024px) 100vw, 40vw"
-                  className="object-cover"
+                  className="object-cover max-sm:object-right"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-slate-900/20 via-slate-900/10 to-slate-950/75" />
+                <div
+                  className="pointer-events-none absolute inset-0 bg-black/40"
+                  aria-hidden="true"
+                />
+                <div
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-900/30 via-slate-900/10 to-slate-950/85"
+                  aria-hidden="true"
+                />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <div className="mb-4 h-[3px] w-10 rounded-full bg-cyan-500" />
-                  <p className='max-w-md text-base font-normal leading-7 text-[oklab(0.999994_0.0000455678_0.0000200868_/_0.9)] sm:text-[17px] md:text-[18px] md:leading-[29px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
-                    INSIA&apos;s no-code platform democratizes data analytics
+                  <p className={cn(textStyles.bodyOnDark, "max-w-md")}>
+                    INSIYA&apos;s no-code platform democratizes data analytics
                     across your organization. Business users can ask questions
                     in natural language, build dashboards with drag-and-drop
                     simplicity, and uncover insights without waiting on
@@ -148,8 +136,8 @@ export default function AboutSection() {
             </article>
 
             <div className="flex h-full flex-col gap-5 lg:min-h-[36rem]">
-              <article className="rounded-3xl border border-slate-200/90 bg-white p-6 shadow-[0_8px_24px_rgba(15,23,42,0.08)]">
-                <p className='text-lg font-light leading-8 text-[oklch(0.372_0.044_257.287)] sm:text-[20px] sm:leading-[35px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
+              <article className="w-full rounded-3xl border border-slate-200/90 bg-white p-6 shadow-[0_8px_24px_rgba(15,23,42,0.08)] max-sm:rounded-l-3xl max-sm:rounded-r-none sm:rounded-3xl">
+                <p className={textStyles.lead}>
                   Our AI engine handles the complexity-data integration,
                   transformation, modeling, and prediction-so your team can
                   focus on decision-making, not data wrangling.
@@ -160,26 +148,24 @@ export default function AboutSection() {
                 {capabilityCards.map((card) => (
                   <article
                     key={card.title}
-                    className="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-[0_8px_22px_rgba(15,23,42,0.08)]"
+                    className="w-full rounded-2xl border border-slate-200/90 bg-white p-5 shadow-[0_8px_22px_rgba(15,23,42,0.08)] max-sm:rounded-l-2xl max-sm:rounded-r-none sm:rounded-2xl"
                   >
                     <div className="mb-4 h-[3px] w-9 rounded-full bg-cyan-500" />
-                    <h3 className='text-base font-bold leading-5 text-[oklch(0.208_0.042_265.755)] sm:text-[17px] [font-family:"General_Sans",-apple-system,BlinkMacSystemFont,sans-serif]'>
-                      {card.title}
-                    </h3>
-                    <p className='mt-3 text-sm font-normal leading-6 text-[oklch(0.446_0.043_257.281)] sm:text-[15px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
+                    <h3 className={textStyles.cardTitle}>{card.title}</h3>
+                    <p className={cn(textStyles.bodySm, "mt-3")}>
                       {card.description}
                     </p>
                   </article>
                 ))}
               </div>
 
-              <article className="mt-auto max-w-[760px] rounded-3xl bg-gradient-to-r from-cyan-600 to-cyan-500 p-7 shadow-[0_10px_28px_rgba(6,182,212,0.28)]">
+              <article className="mt-auto w-full rounded-3xl bg-gradient-to-r from-cyan-600 to-cyan-500 p-7 shadow-[0_10px_28px_rgba(6,182,212,0.28)] max-sm:rounded-l-3xl max-sm:rounded-r-none sm:rounded-3xl">
                 <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
                   <div>
-                    <h3 className='text-2xl font-bold leading-tight text-white sm:text-[26px] sm:leading-[31px] [font-family:"General_Sans",-apple-system,BlinkMacSystemFont,sans-serif]'>
+                    <h3 className={cn(textStyles.h3Dark, "sm:text-[26px] sm:leading-[31px]")}>
                       Ready to transform your data workflow?
                     </h3>
-                    <p className='mt-3 max-w-sm text-[15px] font-normal leading-6 text-[oklab(0.984_-0.0177531_-0.00676966_/_0.9)] sm:text-[16px] sm:leading-[26px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
+                    <p className={cn(textStyles.bodySmOnDark, "mt-3 max-w-sm")}>
                       Discover how our platform empowers your entire
                       organization
                     </p>
@@ -196,17 +182,13 @@ export default function AboutSection() {
           </motion.div>
 
           <motion.section
-            variants={itemVariants}
+            {...fadeUpInView}
             className="border-t border-slate-200/80 pt-14"
           >
             <div className="mx-auto max-w-5xl text-center">
-              <span className='inline-flex rounded-full bg-cyan-100 px-4 py-1.5 text-xs font-semibold leading-5 text-[oklch(0.52_0.105_223.128)] sm:text-[14px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
-                Our Team
-              </span>
-              <h3 className='mt-5 text-3xl font-semibold leading-tight text-[oklch(0.208_0.042_265.755)] sm:text-4xl md:text-[44px] md:leading-[53px] [font-family:"General_Sans",-apple-system,BlinkMacSystemFont,sans-serif]'>
-                Leadership Team
-              </h3>
-              <p className='mt-3 text-base font-normal leading-7 text-[oklch(0.446_0.043_257.281)] sm:text-[17px] md:text-[18px] md:leading-[31px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
+              <span className={textStyles.eyebrowPill}>Our Team</span>
+              <h3 className={cn(textStyles.h2, "mt-5")}>Leadership Team</h3>
+              <p className={cn(textStyles.body, "mt-3")}>
                 Industry experts building the future of data intelligence
               </p>
             </div>
@@ -223,27 +205,27 @@ export default function AboutSection() {
                       className="h-full w-full object-cover"
                     />
                   </div>
-                  <h4 className='mt-5 text-2xl font-bold leading-tight text-[oklch(0.208_0.042_265.755)] sm:text-[26px] sm:leading-[31px] [font-family:"General_Sans",-apple-system,BlinkMacSystemFont,sans-serif]'>
+                  <h4 className={cn(textStyles.h4, "mt-5 sm:text-[26px] sm:leading-[31px]")}>
                     {member.name}
                   </h4>
-                  <p className='mt-1 text-[15px] font-normal leading-6 text-[oklch(0.554_0.046_257.417)] sm:text-[16px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>{member.role}</p>
+                  <p className={cn(textStyles.bodySm, "mt-1 text-muted sm:leading-6")}>
+                    {member.role}
+                  </p>
                 </article>
               ))}
             </div>
           </motion.section>
 
           <motion.section
-            variants={itemVariants}
+            {...fadeUpInView}
             className="border-t border-slate-200/80 pt-14"
           >
             <div className="mx-auto max-w-5xl text-center">
-              <span className='inline-flex rounded-full bg-cyan-100 px-4 py-1.5 text-xs font-semibold leading-5 text-[oklch(0.52_0.105_223.128)] sm:text-[14px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
-                Testimonials
-              </span>
-              <h3 className='mt-5 text-3xl font-semibold leading-tight text-[oklch(0.208_0.042_265.755)] sm:text-4xl md:text-[44px] md:leading-[53px] [font-family:"General_Sans",-apple-system,BlinkMacSystemFont,sans-serif]'>
+              <span className={textStyles.eyebrowPill}>Testimonials</span>
+              <h3 className={cn(textStyles.h2, "mt-5")}>
                 Trusted by Industry Leaders
               </h3>
-              <p className='mt-3 text-base font-normal leading-7 text-[oklch(0.446_0.043_257.281)] sm:text-[17px] md:text-[18px] md:leading-[29px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
+              <p className={cn(textStyles.body, "mt-3")}>
                 See what our clients say about transforming their data
                 operations
               </p>
@@ -256,7 +238,7 @@ export default function AboutSection() {
                   className="rounded-2xl border border-slate-200/90 bg-white px-6 py-8 shadow-[0_8px_22px_rgba(15,23,42,0.06)]"
                 >
                   <p className="mb-4 text-6xl leading-none text-cyan-200">“</p>
-                  <p className='min-h-[120px] text-[15px] font-normal leading-6 text-[oklch(0.372_0.044_257.287)] sm:text-[16px] sm:leading-[26px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
+                  <p className={cn(textStyles.bodySm, "min-h-[120px]")}>
                     {item.quote}
                   </p>
                   <div className="mt-5 flex items-center gap-3">
@@ -270,11 +252,15 @@ export default function AboutSection() {
                       />
                     </div>
                     <div className="text-left">
-                      <p className='text-[15px] font-semibold leading-6 text-[oklch(0.208_0.042_265.755)] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
+                      <p className={cn(textStyles.bodySm, "font-semibold text-primary")}>
                         {item.name}
                       </p>
-                      <p className='text-[14px] font-normal leading-5 text-[oklch(0.554_0.046_257.417)] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>{item.role}</p>
-                      <p className='text-[12px] font-medium leading-4 text-[oklch(0.609_0.126_221.723)] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>{item.company}</p>
+                      <p className={cn(textStyles.caption, "text-muted")}>
+                        {item.role}
+                      </p>
+                      <p className={cn(textStyles.caption, "font-medium text-accent")}>
+                        {item.company}
+                      </p>
                     </div>
                   </div>
                 </article>
@@ -298,16 +284,20 @@ export default function AboutSection() {
                   </div>
                 ))}
               </div>
-              <p className='text-[14px] font-medium leading-5 text-[oklch(0.372_0.044_257.287)] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
-                Trusted by <span className='text-[14px] font-semibold leading-5 text-[oklch(0.609_0.126_221.723)] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>500+</span> companies
+              <p className={cn(textStyles.caption, "text-secondary")}>
+                Trusted by{" "}
+                <span className={cn(textStyles.caption, "font-semibold text-accent")}>
+                  500+
+                </span>{" "}
+                companies
                 worldwide
               </p>
             </div>
           </motion.section>
 
           <motion.section
-            variants={itemVariants}
-            className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 pt-8"
+            {...fadeUpInView}
+            className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 pt-8"
           >
             <article className="relative overflow-hidden bg-[#0b1425] px-6 py-16 text-center shadow-[0_20px_50px_rgba(2,8,23,0.55)] sm:px-10 sm:py-20">
               <Image
@@ -319,25 +309,33 @@ export default function AboutSection() {
               />
               <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-900/55 to-slate-950/80" />
               <div className="relative z-10 mx-auto max-w-3xl">
-                <span className='inline-flex rounded-full bg-cyan-500/20 px-4 py-1.5 text-xs font-semibold leading-5 text-[oklch(0.865_0.127_207.078)] sm:text-[14px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
+                <span
+                  className={cn(
+                    textStyles.eyebrowPill,
+                    "bg-cyan-500/20 text-cyan-200"
+                  )}
+                >
                   Start Your Journey
                 </span>
-                <h3 className='mt-5 text-3xl font-semibold leading-tight sm:text-4xl md:text-[44px] md:leading-[53px] [font-family:"General_Sans",-apple-system,BlinkMacSystemFont,sans-serif]'>
+                <h3 className={cn(textStyles.h2Dark, "mt-5")}>
                   <span className='text-white'>Ready to Transform Your </span>
                   <span className='bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-[rgba(0,0,0,0)]'>
                     Data Operations?
                   </span>
                 </h3>
-                <p className='mx-auto mt-5 max-w-2xl text-base font-normal leading-7 text-[oklab(0.999994_0.0000455677_0.0000200868_/_0.7)] sm:text-[17px] md:text-[18px] md:leading-[31px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
+                <p className={cn(textStyles.bodyOnDark, "mx-auto mt-5 max-w-2xl")}>
                   Join hundreds of leading companies that have modernized their
-                  analytics with INSIA
+                  analytics with INSIYA
                 </p>
 
                 <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                   <button
                     type="button"
                     suppressHydrationWarning
-                    className='inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-8 text-base font-semibold leading-7 text-[oklch(0.208_0.042_265.755)] sm:text-[18px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif] shadow-[0_10px_24px_rgba(8,145,178,0.4)] transition-all hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(8,145,178,0.5)]'
+                    className={cn(
+                      textStyles.btn,
+                      "inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-8 text-text-primary shadow-[0_10px_24px_rgba(8,145,178,0.4)] transition-all hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(8,145,178,0.5)]"
+                    )}
                   >
                     Get Started Free
                     <span aria-hidden>→</span>
@@ -345,7 +343,10 @@ export default function AboutSection() {
                   <button
                     type="button"
                     suppressHydrationWarning
-                    className='inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-8 text-base font-semibold leading-7 text-white sm:text-[18px] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif] backdrop-blur-sm transition-colors hover:bg-white/20'
+                    className={cn(
+                      textStyles.btn,
+                      "inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-8 text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+                    )}
                   >
                     Watch Demo
                     <span aria-hidden>▶</span>
@@ -353,15 +354,30 @@ export default function AboutSection() {
                 </div>
 
                 <div className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-2">
-                  <span className='inline-flex items-center gap-2 text-[14px] font-normal leading-5 text-[oklab(0.999994_0.0000455677_0.0000200868_/_0.6)] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
+                  <span
+                    className={cn(
+                      textStyles.caption,
+                      "inline-flex items-center gap-2 text-white/60"
+                    )}
+                  >
                     <span className="text-cyan-400">★</span>
                     No credit card required
                   </span>
-                  <span className='inline-flex items-center gap-2 text-[14px] font-normal leading-5 text-[oklab(0.999994_0.0000455677_0.0000200868_/_0.6)] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
+                  <span
+                    className={cn(
+                      textStyles.caption,
+                      "inline-flex items-center gap-2 text-white/60"
+                    )}
+                  >
                     <span className="text-cyan-400">★</span>
                     Free 14-day trial
                   </span>
-                  <span className='inline-flex items-center gap-2 text-[14px] font-normal leading-5 text-[oklab(0.999994_0.0000455677_0.0000200868_/_0.6)] [font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif]'>
+                  <span
+                    className={cn(
+                      textStyles.caption,
+                      "inline-flex items-center gap-2 text-white/60"
+                    )}
+                  >
                     <span className="text-cyan-400">★</span>
                     Setup in minutes
                   </span>
@@ -369,7 +385,7 @@ export default function AboutSection() {
               </div>
             </article>
           </motion.section>
-        </motion.div>
+        </div>
       </div>
     </MorphSection>
   );

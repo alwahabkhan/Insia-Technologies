@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { cn, textStyles } from "@/app/lib/typography";
 import MorphSection from "./MorphSection";
 
 export type TechnologyLogo = { name: string; path: string };
@@ -21,6 +22,11 @@ const partners = [
   "Google Cloud",
   "Snowflake",
 ];
+
+const partnerNameClass = cn(
+  textStyles.bodySm,
+  "text-[20px] leading-[32px] tracking-tight text-muted sm:text-sm sm:font-semibold md:text-xl"
+);
 
 export default function TechnologiesSection({
   logos: _logos,
@@ -43,13 +49,11 @@ export default function TechnologiesSection({
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.55, ease: easeSmooth }}
         >
-          <p className="inline-flex rounded-full bg-cyan-100 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-700 sm:text-[11px]">
-            Recognition
-          </p>
+          <p className={textStyles.eyebrowPill}>Recognition</p>
         </motion.div>
 
         <motion.h2
-          className="text-3xl font-bold text-slate-900 sm:text-4xl md:text-5xl"
+          className={textStyles.h2}
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.25 }}
@@ -68,7 +72,10 @@ export default function TechnologiesSection({
           {awards.map((award) => (
             <span
               key={award}
-              className="inline-flex items-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-medium text-slate-700 shadow-[0_3px_10px_rgba(15,23,42,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:border-cyan-200 hover:text-cyan-700 hover:shadow-[0_8px_18px_rgba(6,182,212,0.14)]"
+              className={cn(
+                textStyles.bodySm,
+                "inline-flex items-center rounded-2xl border border-slate-200 bg-white px-6 py-3 font-semibold text-text-primary shadow-[0_3px_10px_rgba(15,23,42,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:border-cyan-200 hover:text-cyan-700 hover:shadow-[0_8px_18px_rgba(6,182,212,0.14)]"
+              )}
             >
               {award}
             </span>
@@ -76,24 +83,31 @@ export default function TechnologiesSection({
         </motion.div>
 
         <motion.div
-          className="mt-16"
+          className="mt-32"
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.55, ease: easeSmooth }}
         >
-          <h3 className="text-3xl font-bold text-slate-900 sm:text-4xl md:text-5xl">
-            Technology Partners
+          <h3 className={textStyles.h2}>
+            Technology
+            <span className="hidden sm:inline"> </span>
+            <br className="sm:hidden" aria-hidden="true" />
+            Partners
           </h3>
-          <div className="mt-10 flex flex-wrap gap-x-12 gap-y-3">
-            {partners.map((partner) => (
-              <span
-                key={partner}
-                className="text-sm font-semibold tracking-tight text-slate-400 md:text-xl"
-              >
+          <div className="mt-12 flex flex-col items-start gap-y-10 sm:mt-10 sm:flex-row sm:flex-wrap sm:gap-x-12 sm:gap-y-3">
+            {partners.slice(0, 2).map((partner) => (
+              <span key={partner} className={partnerNameClass}>
                 {partner}
               </span>
             ))}
+            <div className="flex flex-row items-baseline justify-start gap-x-[4.5rem] sm:contents">
+              {partners.slice(2).map((partner) => (
+                <span key={partner} className={partnerNameClass}>
+                  {partner}
+                </span>
+              ))}
+            </div>
           </div>
         </motion.div>
       </div>

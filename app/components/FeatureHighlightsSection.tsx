@@ -2,8 +2,18 @@
 
 import Image from "next/image";
 import { motion } from "motion/react";
+import { useHorizontalCarousel } from "@/app/hooks/useHorizontalCarousel";
 import { cn, textStyles } from "@/app/lib/typography";
 import MorphSection from "./MorphSection";
+
+const easeSmooth = [0.25, 0.46, 0.45, 0.94] as const;
+
+const fadeUpInView = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.12, margin: "0px 0px -48px 0px" },
+  transition: { duration: 0.55, ease: easeSmooth },
+} as const;
 
 const highlights = [
   {
@@ -32,19 +42,75 @@ const highlights = [
   },
 ];
 
+function HighlightCard({
+  item,
+  compact = false,
+}: {
+  item: (typeof highlights)[number];
+  compact?: boolean;
+}) {
+  return (
+    <article
+      className={cn(
+        "group box-border flex w-full max-w-full min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_10px_28px_rgba(15,23,42,0.08)] transition-all duration-300 hover:shadow-[0_16px_40px_rgba(15,23,42,0.14)]",
+        compact ? "max-md:hover:translate-y-0" : "hover:-translate-y-1"
+      )}
+    >
+      <div
+        className={cn(
+          "relative w-full min-w-0 overflow-hidden",
+          compact ? "h-48" : "h-56 md:h-64"
+        )}
+      >
+        <Image
+          src={item.image}
+          alt={item.title}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
+      <div className={cn("min-w-0 p-6 md:p-7", compact && "p-5")}>
+        <h3 className={cn(textStyles.h3, "break-words", compact && "text-lg")}>
+          {item.title}
+        </h3>
+        <p className={cn(textStyles.bodySm, "mt-3 break-words")}>
+          {item.description}
+        </p>
+        <button
+          type="button"
+          className={cn(
+            textStyles.link,
+            "mt-4 inline-flex max-w-full items-center gap-2 transition-all group-hover:translate-x-0.5"
+          )}
+        >
+          Learn more
+          <span aria-hidden>→</span>
+        </button>
+      </div>
+    </article>
+  );
+}
+
 export default function FeatureHighlightsSection() {
+  const { carouselRef, activeIndex, goToSlide } = useHorizontalCarousel({
+    slideSelector: "[data-highlight-slide]",
+    slideCount: highlights.length,
+    activeMediaQuery: "(max-width: 767px)",
+  });
+
   return (
     <MorphSection
       variant="soft"
       className="bg-white py-20 px-4 sm:px-6 lg:px-8"
     >
-      <div className="mx-auto max-w-[1200px]">
+      <div className="mx-auto min-w-0 max-w-[1200px]">
         <motion.div
-          className="text-center max-w-3xl mx-auto"
+          className="mx-auto max-w-3xl text-center"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ duration: 0.65, ease: easeSmooth }}
         >
           <p className={cn(textStyles.eyebrowPill, "mx-auto")}>
             Platform Capabilities
@@ -62,59 +128,77 @@ export default function FeatureHighlightsSection() {
           </p>
         </motion.div>
 
-        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+        {/* Mobile: swipeable carousel */}
+        <div className="mt-12 w-full min-w-0 overflow-hidden md:hidden">
+          <div
+            ref={carouselRef}
+            className="flex w-full max-w-full overflow-x-auto overscroll-x-contain scroll-smooth pb-2 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            aria-roledescription="carousel"
+            aria-label="Platform capabilities"
+          >
+            {highlights.map((item) => (
+              <div
+                key={item.title}
+                data-highlight-slide
+                className="box-border w-full max-w-full min-w-0 shrink-0 grow-0 basis-full snap-center"
+              >
+                <HighlightCard item={item} compact />
+              </div>
+            ))}
+          </div>
+
+          {highlights.length > 1 ? (
+            <div
+              className="mt-6 flex justify-center gap-2"
+              role="tablist"
+              aria-label="Capability slides"
+            >
+              {highlights.map((item, index) => (
+                <button
+                  key={item.title}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeIndex === index}
+                  aria-label={`Go to ${item.title}`}
+                  onClick={() => goToSlide(index)}
+                  className={cn(
+                    "h-2 rounded-full transition-all duration-300",
+                    activeIndex === index ? "w-8 bg-cyan-500" : "w-2 bg-slate-300"
+                  )}
+                />
+              ))}
+            </div>
+          ) : null}
+        </div>
+
+        {/* Tablet/Desktop: grid */}
+        <div className="mt-12 hidden gap-6 md:grid md:grid-cols-2">
           {highlights.map((item, index) => (
-            <motion.article
+            <motion.div
               key={item.title}
-              className="group overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_10px_28px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(15,23,42,0.14)]"
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
+              {...fadeUpInView}
               transition={{
-                duration: 0.55,
+                ...fadeUpInView.transition,
                 delay: index * 0.08,
-                ease: [0.25, 0.46, 0.45, 0.94],
               }}
             >
-              <div className="relative h-56 w-full overflow-hidden md:h-64">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div className="p-6 md:p-7">
-                <h3 className={textStyles.h3}>{item.title}</h3>
-                <p className={cn(textStyles.bodySm, "mt-3")}>{item.description}</p>
-                <button
-                  type="button"
-                  className={cn(
-                    textStyles.link,
-                    "mt-4 inline-flex items-center gap-2 transition-all group-hover:translate-x-0.5"
-                  )}
-                >
-                  Learn more
-                  <span aria-hidden>→</span>
-                </button>
-              </div>
-            </motion.article>
+              <HighlightCard item={item} />
+            </motion.div>
           ))}
         </div>
 
         <motion.div
-          className="mt-10 flex justify-center"
+          className="mt-10 flex justify-center px-0"
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ duration: 0.5, ease: easeSmooth }}
         >
           <button
             type="button"
             className={cn(
               textStyles.btn,
-              "group inline-flex min-h-[64px] min-w-[320px] items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 px-5 font-bold text-white shadow-[0_12px_30px_rgba(2,132,199,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(2,132,199,0.45)]"
+              "group inline-flex min-h-[64px] w-full max-w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 px-5 font-bold text-white shadow-[0_12px_30px_rgba(2,132,199,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(2,132,199,0.45)] sm:min-w-[320px] sm:w-auto"
             )}
           >
             Explore All Features

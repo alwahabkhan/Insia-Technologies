@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { projects, type Project } from "@/app/data/projects";
+import { useHorizontalCarousel } from "@/app/hooks/useHorizontalCarousel";
 import { cn, textStyles } from "@/app/lib/typography";
 import MorphSection from "./MorphSection";
 
@@ -98,13 +99,26 @@ function MetaIcon({ type }: { type: "building" | "clock" | "user" | "layers" }) 
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({
+  project,
+  compact = false,
+}: {
+  project: Project;
+  compact?: boolean;
+}) {
   const { brand, subtitle } = splitProjectTitle(project.title);
   const meta = projectMeta(project);
   const displaySubtitle = subtitle || project.description.split(".")[0];
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200/90 border-t-[3px] border-t-cyan-500 bg-white shadow-[0_10px_32px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-cyan-200/80 hover:border-t-cyan-400 hover:shadow-[0_20px_48px_rgba(6,182,212,0.14)]">
+    <article
+      className={cn(
+        "group box-border flex h-full w-full max-w-full min-w-0 flex-col overflow-hidden rounded-3xl border border-slate-200/90 border-t-[3px] border-t-cyan-500 bg-white shadow-[0_10px_32px_rgba(15,23,42,0.08)] transition-all duration-300 hover:border-cyan-200/80 hover:border-t-cyan-400 hover:shadow-[0_20px_48px_rgba(6,182,212,0.14)]",
+        compact
+          ? "max-lg:hover:translate-y-0"
+          : "hover:-translate-y-1"
+      )}
+    >
       <Link
         href={`/projects/${project.slug}`}
         className="relative block min-h-[220px] overflow-hidden bg-slate-900 sm:min-h-[260px]"
@@ -117,15 +131,28 @@ function ProjectCard({ project }: { project: Project }) {
           className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/25 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 flex items-end gap-4 p-6 sm:p-7">
+        <div
+          className={cn(
+            "absolute inset-x-0 bottom-0 flex min-w-0 items-end gap-3 p-5 sm:gap-4 sm:p-7",
+            compact && "p-5"
+          )}
+        >
           <div
-            className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-cyan-500 to-teal-500 text-xl font-bold text-white shadow-[0_8px_20px_rgba(6,182,212,0.45)] sm:h-16 sm:w-16"
+            className={cn(
+              "grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-cyan-500 to-teal-500 text-xl font-bold text-white shadow-[0_8px_20px_rgba(6,182,212,0.45)] sm:h-16 sm:w-16",
+              compact && "h-12 w-12 text-lg"
+            )}
             aria-hidden
           >
             {brand.charAt(0)}
           </div>
-          <div className="min-w-0 pb-0.5">
-            <p className="font-display text-2xl font-bold leading-tight text-white sm:text-[1.65rem]">
+          <div className="min-w-0 flex-1 pb-0.5">
+            <p
+              className={cn(
+                "font-display font-bold leading-tight text-white break-words",
+                compact ? "text-xl" : "text-2xl sm:text-[1.65rem]"
+              )}
+            >
               {brand}
             </p>
             {displaySubtitle ? (
@@ -137,31 +164,55 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
       </Link>
 
-      <div className="flex flex-1 flex-col p-6 sm:p-8">
-        <div className="flex flex-wrap items-center gap-y-2 border-b border-slate-100 pb-5">
-          {meta.map((item, index) => (
-            <div key={item.label} className="flex items-center">
-              {index > 0 ? (
-                <span className="mx-3 hidden h-4 w-px bg-slate-200 sm:mx-4 sm:block" aria-hidden />
-              ) : null}
+      <div className={cn("flex min-w-0 flex-1 flex-col p-6 sm:p-8", compact && "p-5")}>
+        <div
+          className={cn(
+            "border-b border-slate-100 pb-5",
+            compact
+              ? "grid grid-cols-2 gap-x-3 gap-y-2.5"
+              : "flex flex-wrap items-center gap-y-2"
+          )}
+        >
+          {meta.map((item, index) =>
+            compact ? (
               <span
+                key={item.label}
                 className={cn(
                   textStyles.caption,
-                  "inline-flex max-w-[9rem] items-center gap-1.5 text-secondary sm:max-w-none"
+                  "inline-flex min-w-0 max-w-full items-center gap-1.5 text-secondary"
                 )}
               >
                 <MetaIcon type={item.icon} />
                 <span className="truncate">{item.label}</span>
               </span>
-            </div>
-          ))}
+            ) : (
+              <div key={item.label} className="flex items-center">
+                {index > 0 ? (
+                  <span
+                    className="mx-3 hidden h-4 w-px bg-slate-200 sm:mx-4 sm:block"
+                    aria-hidden
+                  />
+                ) : null}
+                <span
+                  className={cn(
+                    textStyles.caption,
+                    "inline-flex max-w-[9rem] items-center gap-1.5 text-secondary sm:max-w-none"
+                  )}
+                >
+                  <MetaIcon type={item.icon} />
+                  <span className="truncate">{item.label}</span>
+                </span>
+              </div>
+            )
+          )}
         </div>
 
-         <h3 className="mt-5">
+        <h3 className="mt-5 min-w-0">
           <Link
             href={`/projects/${project.slug}`}
             className={cn(
-              "font-display text-xl font-bold not-italic leading-[1.35] tracking-normal text-primary transition-colors duration-200 sm:text-2xl sm:leading-tight",
+              "font-display font-bold not-italic leading-[1.35] tracking-normal text-primary transition-colors duration-200 break-words",
+              compact ? "text-lg leading-snug" : "text-xl sm:text-2xl sm:leading-tight",
               "group-hover:text-cyan-600 hover:text-cyan-700"
             )}
           >
@@ -173,13 +224,14 @@ function ProjectCard({ project }: { project: Project }) {
           {project.description}
         </p> 
 
-        <div className="mt-5 flex flex-wrap gap-2">
+        <div className="mt-5 flex min-w-0 flex-wrap gap-2">
           {project.technologies.slice(0, 5).map((tech) => (
             <span
               key={tech}
               className={cn(
                 textStyles.caption,
-                "inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1.5 text-secondary"
+                "inline-flex max-w-full min-w-0 items-center gap-2 rounded-full bg-slate-100 px-3 py-1.5 text-secondary",
+                compact && "max-w-[calc(100%-0.25rem)]"
               )}
             >
               <span
@@ -189,7 +241,7 @@ function ProjectCard({ project }: { project: Project }) {
                 )}
                 aria-hidden
               />
-              {tech}
+              <span className="truncate">{tech}</span>
             </span>
           ))}
           {project.technologies.length > 5 ? (
@@ -204,12 +256,18 @@ function ProjectCard({ project }: { project: Project }) {
           ) : null}
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center gap-4 pt-2 sm:gap-5">
+        <div
+          className={cn(
+            "mt-6 flex min-w-0 flex-wrap items-center gap-3 pt-2 sm:gap-5",
+            compact && "flex-col items-stretch"
+          )}
+        >
           <Link
             href={`/projects/${project.slug}`}
             className={cn(
               textStyles.btn,
-              "inline-flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-white transition-colors hover:bg-slate-800"
+              "inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-white transition-colors hover:bg-slate-800",
+              compact && "w-full"
             )}
           >
             View Case Study
@@ -249,13 +307,19 @@ function ProjectCard({ project }: { project: Project }) {
 }
 
 export default function PortfolioProjectsSection() {
+  const { carouselRef, activeIndex, goToSlide } = useHorizontalCarousel({
+    slideSelector: "[data-project-slide]",
+    slideCount: projects.length,
+    activeMediaQuery: "(max-width: 1023px)",
+  });
+
   return (
     <MorphSection
       id="projects"
       variant="soft"
       className="bg-white py-20 px-4 sm:px-6 lg:px-8"
     >
-      <div className="mx-auto max-w-[1200px]">
+      <div className="mx-auto min-w-0 max-w-[1200px]">
         <motion.div {...fadeUpInView} className="mb-12 max-w-3xl">
           <p className={textStyles.eyebrowPill}>Portfolio</p>
           <h2 className={cn(textStyles.h2, "mt-5")}>Our Projects</h2>
@@ -265,7 +329,51 @@ export default function PortfolioProjectsSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        {/* Mobile: swipeable carousel */}
+        <div className="w-full min-w-0 overflow-hidden lg:hidden">
+          <div
+            ref={carouselRef}
+            className="flex w-full max-w-full overflow-x-auto overscroll-x-contain scroll-smooth pb-2 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            aria-roledescription="carousel"
+            aria-label="Our projects"
+          >
+            {projects.map((project) => (
+              <div
+                key={project.id}
+                data-project-slide
+                className="box-border w-full max-w-full min-w-0 shrink-0 grow-0 basis-full snap-center"
+              >
+                <ProjectCard project={project} compact />
+              </div>
+            ))}
+          </div>
+
+          {projects.length > 1 ? (
+            <div
+              className="mt-6 flex justify-center gap-2"
+              role="tablist"
+              aria-label="Project slides"
+            >
+              {projects.map((project, index) => (
+                <button
+                  key={project.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeIndex === index}
+                  aria-label={`Go to ${project.title}`}
+                  onClick={() => goToSlide(index)}
+                  className={cn(
+                    "h-2 rounded-full transition-all duration-300",
+                    activeIndex === index ? "w-8 bg-cyan-500" : "w-2 bg-slate-300"
+                  )}
+                />
+              ))}
+            </div>
+          ) : null}
+        </div>
+
+        {/* Desktop: two-column grid */}
+        <div className="hidden gap-8 lg:grid lg:grid-cols-2">
           {projects.map((project, index) => (
             <motion.div
               key={project.id}

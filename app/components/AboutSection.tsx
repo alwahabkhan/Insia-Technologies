@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "motion/react";
+import { useHorizontalCarousel } from "@/app/hooks/useHorizontalCarousel";
 import { cn, textStyles } from "@/app/lib/typography";
 import MorphSection from "./MorphSection";
 
@@ -78,6 +79,291 @@ const testimonials = [
     image: "/images/images_06.jpg",
   },
 ] as const;
+
+type LeadershipMember = (typeof leadershipTeam)[number];
+
+function LeadershipMemberCard({
+  member,
+  compact = false,
+}: {
+  member: LeadershipMember;
+  compact?: boolean;
+}) {
+  return (
+    <article className="box-border w-full max-w-full min-w-0 text-center">
+      <div
+        className={cn(
+          "mx-auto overflow-hidden rounded-full border border-slate-200 bg-slate-100 shadow-[0_8px_20px_rgba(15,23,42,0.08)]",
+          compact ? "h-48 w-48 max-w-full" : "h-64 w-64"
+        )}
+      >
+        <Image
+          src={member.image}
+          alt={member.name}
+          width={compact ? 192 : 256}
+          height={compact ? 192 : 256}
+          className="h-full w-full object-cover"
+        />
+      </div>
+      <h4
+        className={cn(
+          textStyles.h4,
+          "mt-5 break-words",
+          compact ? "text-xl leading-snug" : "sm:text-[26px] sm:leading-[31px]"
+        )}
+      >
+        {member.name}
+      </h4>
+      <p
+        className={cn(
+          textStyles.bodySm,
+          "mt-1 break-words text-muted",
+          !compact && "sm:leading-6"
+        )}
+      >
+        {member.role}
+      </p>
+    </article>
+  );
+}
+
+function LeadershipTeamBlock() {
+  const { carouselRef, activeIndex, goToSlide } = useHorizontalCarousel({
+    slideSelector: "[data-leadership-slide]",
+    slideCount: leadershipTeam.length,
+    activeMediaQuery: "(max-width: 639px)",
+  });
+
+  return (
+    <motion.section
+      {...fadeUpInView}
+      className="border-t border-slate-200/80 pt-14"
+    >
+      <div className="mx-auto max-w-5xl text-center">
+        <span className={textStyles.eyebrowPill}>Our Team</span>
+        <h3 className={cn(textStyles.h2, "mt-5")}>Leadership Team</h3>
+        <p className={cn(textStyles.body, "mt-3")}>
+          Industry experts building the future of data intelligence
+        </p>
+      </div>
+
+      {/* Mobile: swipeable carousel */}
+      <div className="mt-10 w-full min-w-0 overflow-hidden sm:hidden">
+        <div
+          ref={carouselRef}
+          className="flex w-full max-w-full overflow-x-auto overscroll-x-contain scroll-smooth pb-2 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          aria-roledescription="carousel"
+          aria-label="Leadership team"
+        >
+          {leadershipTeam.map((member) => (
+            <div
+              key={member.name}
+              data-leadership-slide
+              className="box-border w-full max-w-full min-w-0 shrink-0 grow-0 basis-full snap-center"
+            >
+              <LeadershipMemberCard member={member} compact />
+            </div>
+          ))}
+        </div>
+
+        {leadershipTeam.length > 1 ? (
+          <div
+            className="mt-6 flex justify-center gap-2"
+            role="tablist"
+            aria-label="Leadership team slides"
+          >
+            {leadershipTeam.map((member, index) => (
+              <button
+                key={member.name}
+                type="button"
+                role="tab"
+                aria-selected={activeIndex === index}
+                aria-label={`Go to ${member.name}`}
+                onClick={() => goToSlide(index)}
+                className={cn(
+                  "h-2 rounded-full transition-all duration-300",
+                  activeIndex === index ? "w-8 bg-cyan-500" : "w-2 bg-slate-300"
+                )}
+              />
+            ))}
+          </div>
+        ) : null}
+      </div>
+
+      {/* Tablet/desktop: grid */}
+      <div className="mt-10 hidden gap-8 sm:grid sm:grid-cols-2 lg:grid-cols-4">
+        {leadershipTeam.map((member) => (
+          <LeadershipMemberCard key={member.name} member={member} />
+        ))}
+      </div>
+    </motion.section>
+  );
+}
+
+type Testimonial = (typeof testimonials)[number];
+
+function TestimonialCard({
+  item,
+  compact = false,
+}: {
+  item: Testimonial;
+  compact?: boolean;
+}) {
+  return (
+    <article
+      className={cn(
+        "box-border w-full max-w-full min-w-0 rounded-2xl border border-slate-200/90 bg-white shadow-[0_8px_22px_rgba(15,23,42,0.06)]",
+        compact ? "px-5 py-6" : "px-6 py-8"
+      )}
+    >
+      <p
+        className={cn(
+          "mb-4 leading-none text-cyan-200",
+          compact ? "text-5xl" : "text-6xl"
+        )}
+      >
+        “
+      </p>
+      <p
+        className={cn(
+          textStyles.bodySm,
+          "break-words",
+          compact ? "min-h-0" : "min-h-[120px]"
+        )}
+      >
+        {item.quote}
+      </p>
+      <div className="mt-5 flex min-w-0 items-center gap-3">
+        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full border border-slate-200">
+          <Image
+            src={item.image}
+            alt={item.name}
+            width={48}
+            height={48}
+            className="h-full w-full object-cover"
+          />
+        </div>
+        <div className="min-w-0 text-left">
+          <p
+            className={cn(
+              textStyles.bodySm,
+              "truncate font-semibold text-primary"
+            )}
+          >
+            {item.name}
+          </p>
+          <p className={cn(textStyles.caption, "truncate text-muted")}>
+            {item.role}
+          </p>
+          <p className={cn(textStyles.caption, "truncate font-medium text-accent")}>
+            {item.company}
+          </p>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function TestimonialsBlock() {
+  const { carouselRef, activeIndex, goToSlide } = useHorizontalCarousel({
+    slideSelector: "[data-testimonial-slide]",
+    slideCount: testimonials.length,
+    activeMediaQuery: "(max-width: 1023px)",
+  });
+
+  return (
+    <motion.section
+      {...fadeUpInView}
+      className="border-t border-slate-200/80 pt-14"
+    >
+      <div className="mx-auto max-w-5xl text-center">
+        <span className={textStyles.eyebrowPill}>Testimonials</span>
+        <h3 className={cn(textStyles.h2, "mt-5")}>
+          Trusted by Industry Leaders
+        </h3>
+        <p className={cn(textStyles.body, "mt-3")}>
+          See what our clients say about transforming their data operations
+        </p>
+      </div>
+
+      {/* Mobile/tablet: swipeable carousel */}
+      <div className="mt-10 w-full min-w-0 overflow-hidden lg:hidden">
+        <div
+          ref={carouselRef}
+          className="flex w-full max-w-full overflow-x-auto overscroll-x-contain scroll-smooth pb-2 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          aria-roledescription="carousel"
+          aria-label="Client testimonials"
+        >
+          {testimonials.map((item) => (
+            <div
+              key={item.name}
+              data-testimonial-slide
+              className="box-border w-full max-w-full min-w-0 shrink-0 grow-0 basis-full snap-center"
+            >
+              <TestimonialCard item={item} compact />
+            </div>
+          ))}
+        </div>
+
+        {testimonials.length > 1 ? (
+          <div
+            className="mt-6 flex justify-center gap-2"
+            role="tablist"
+            aria-label="Testimonial slides"
+          >
+            {testimonials.map((item, index) => (
+              <button
+                key={item.name}
+                type="button"
+                role="tab"
+                aria-selected={activeIndex === index}
+                aria-label={`Go to testimonial from ${item.name}`}
+                onClick={() => goToSlide(index)}
+                className={cn(
+                  "h-2 rounded-full transition-all duration-300",
+                  activeIndex === index ? "w-8 bg-cyan-500" : "w-2 bg-slate-300"
+                )}
+              />
+            ))}
+          </div>
+        ) : null}
+      </div>
+
+      {/* Desktop: three-column grid */}
+      <div className="mt-10 hidden gap-4 lg:grid lg:grid-cols-3">
+        {testimonials.map((item) => (
+          <TestimonialCard key={item.name} item={item} />
+        ))}
+      </div>
+
+      <div className="mt-8 flex items-center justify-center gap-3 text-sm text-slate-600">
+        <div className="flex -space-x-2">
+          {testimonials.slice(0, 3).map((item) => (
+            <div
+              key={`trusted-${item.name}`}
+              className="h-7 w-7 overflow-hidden rounded-full border-2 border-white"
+            >
+              <Image
+                src={item.image}
+                alt={item.name}
+                width={28}
+                height={28}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          ))}
+        </div>
+        <p className={cn(textStyles.caption, "text-secondary")}>
+          Trusted by{" "}
+          <span className={cn(textStyles.caption, "font-semibold text-accent")}>
+            500+
+          </span>{" "}
+          companies worldwide
+        </p>
+      </div>
+    </motion.section>
+  );
+}
 
 export default function AboutSection() {
   return (
@@ -181,119 +467,9 @@ export default function AboutSection() {
             </div>
           </motion.div>
 
-          <motion.section
-            {...fadeUpInView}
-            className="border-t border-slate-200/80 pt-14"
-          >
-            <div className="mx-auto max-w-5xl text-center">
-              <span className={textStyles.eyebrowPill}>Our Team</span>
-              <h3 className={cn(textStyles.h2, "mt-5")}>Leadership Team</h3>
-              <p className={cn(textStyles.body, "mt-3")}>
-                Industry experts building the future of data intelligence
-              </p>
-            </div>
+          <LeadershipTeamBlock />
 
-            <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              {leadershipTeam.map((member) => (
-                <article key={member.name} className="text-center">
-                  <div className="mx-auto h-64 w-64 overflow-hidden rounded-full border border-slate-200 bg-slate-100 shadow-[0_8px_20px_rgba(15,23,42,0.08)]">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      width={176}
-                      height={176}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <h4 className={cn(textStyles.h4, "mt-5 sm:text-[26px] sm:leading-[31px]")}>
-                    {member.name}
-                  </h4>
-                  <p className={cn(textStyles.bodySm, "mt-1 text-muted sm:leading-6")}>
-                    {member.role}
-                  </p>
-                </article>
-              ))}
-            </div>
-          </motion.section>
-
-          <motion.section
-            {...fadeUpInView}
-            className="border-t border-slate-200/80 pt-14"
-          >
-            <div className="mx-auto max-w-5xl text-center">
-              <span className={textStyles.eyebrowPill}>Testimonials</span>
-              <h3 className={cn(textStyles.h2, "mt-5")}>
-                Trusted by Industry Leaders
-              </h3>
-              <p className={cn(textStyles.body, "mt-3")}>
-                See what our clients say about transforming their data
-                operations
-              </p>
-            </div>
-
-            <div className="mt-10 grid grid-cols-1 gap-4 lg:grid-cols-3">
-              {testimonials.map((item) => (
-                <article
-                  key={item.name}
-                  className="rounded-2xl border border-slate-200/90 bg-white px-6 py-8 shadow-[0_8px_22px_rgba(15,23,42,0.06)]"
-                >
-                  <p className="mb-4 text-6xl leading-none text-cyan-200">“</p>
-                  <p className={cn(textStyles.bodySm, "min-h-[120px]")}>
-                    {item.quote}
-                  </p>
-                  <div className="mt-5 flex items-center gap-3">
-                    <div className="h-12 w-12 overflow-hidden rounded-full border border-slate-200">
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        width={48}
-                        height={48}
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                    <div className="text-left">
-                      <p className={cn(textStyles.bodySm, "font-semibold text-primary")}>
-                        {item.name}
-                      </p>
-                      <p className={cn(textStyles.caption, "text-muted")}>
-                        {item.role}
-                      </p>
-                      <p className={cn(textStyles.caption, "font-medium text-accent")}>
-                        {item.company}
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            <div className="mt-8 flex items-center justify-center gap-3 text-sm text-slate-600">
-              <div className="flex -space-x-2">
-                {testimonials.slice(0, 3).map((item) => (
-                  <div
-                    key={`trusted-${item.name}`}
-                    className="h-7 w-7 overflow-hidden rounded-full border-2 border-white"
-                  >
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      width={28}
-                      height={28}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-              <p className={cn(textStyles.caption, "text-secondary")}>
-                Trusted by{" "}
-                <span className={cn(textStyles.caption, "font-semibold text-accent")}>
-                  500+
-                </span>{" "}
-                companies
-                worldwide
-              </p>
-            </div>
-          </motion.section>
+          <TestimonialsBlock />
 
           <motion.section
             {...fadeUpInView}

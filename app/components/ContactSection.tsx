@@ -1,6 +1,8 @@
 "use client";
 
+import { useState, type FormEvent } from "react";
 import { motion } from "motion/react";
+import { submitContact } from "@/app/lib/contact";
 import { cn, textStyles } from "@/app/lib/typography";
 import MorphSection from "./MorphSection";
 
@@ -35,7 +37,42 @@ const formFromBottomVariants = {
   },
 };
 
+type SubmitState = "idle" | "submitting" | "success" | "error";
+
 export default function ContactSection() {
+  const [submitState, setSubmitState] = useState<SubmitState>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSubmitState("submitting");
+    setErrorMessage("");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const result = await submitContact({
+      source: "section",
+      firstName: String(formData.get("firstName") ?? ""),
+      lastName: String(formData.get("lastName") ?? ""),
+      businessEmail: String(formData.get("businessEmail") ?? ""),
+      phone: String(formData.get("phone") ?? ""),
+      companyName: String(formData.get("companyName") ?? ""),
+      interest: String(formData.get("interest") ?? ""),
+      message: String(formData.get("message") ?? ""),
+      marketingConsent: formData.get("marketingConsent") === "on",
+    });
+
+    if (result.ok) {
+      setSubmitState("success");
+      form.reset();
+      return;
+    }
+
+    setErrorMessage(result.error);
+    setSubmitState("error");
+  }
+
   return (
     <MorphSection
       id="contact"
@@ -72,6 +109,7 @@ export default function ContactSection() {
           <form
             className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_10px_26px_rgba(15,23,42,0.06)]"
             data-contact-form
+            onSubmit={handleSubmit}
             suppressHydrationWarning
           >
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -80,6 +118,7 @@ export default function ContactSection() {
                   type="text"
                   id="firstName"
                   name="firstName"
+                  required
                   className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 transition-all focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/45 focus:shadow-[0_0_0_2px_rgba(6,182,212,0.18)]"
                   placeholder="First Name *"
                   suppressHydrationWarning
@@ -90,6 +129,7 @@ export default function ContactSection() {
                   type="text"
                   id="lastName"
                   name="lastName"
+                  required
                   className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 transition-all focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/45 focus:shadow-[0_0_0_2px_rgba(6,182,212,0.18)]"
                   placeholder="Last Name *"
                   suppressHydrationWarning
@@ -102,8 +142,22 @@ export default function ContactSection() {
                 type="email"
                 id="businessEmail"
                 name="businessEmail"
+                required
                 className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 transition-all focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/45 focus:shadow-[0_0_0_2px_rgba(6,182,212,0.18)]"
                 placeholder="Business Email *"
+                suppressHydrationWarning
+              />
+            </div>
+
+            <div>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                autoComplete="tel"
+                required
+                className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 placeholder:text-slate-400 transition-all focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/45 focus:shadow-[0_0_0_2px_rgba(6,182,212,0.18)]"
+                placeholder="Phone Number *"
                 suppressHydrationWarning
               />
             </div>
@@ -135,6 +189,11 @@ export default function ContactSection() {
                 <option value="" disabled>
                   Select a topic
                 </option>
+                <option value="Web App Development">Web App Development</option>
+                <option value="SaaS Development">SaaS Development</option>
+                <option value="AI Integration">AI Integration</option>
+                <option value="Mobile App Development">Mobile App Development</option>
+                <option value="Chatbot Development">Chatbot Development</option>
                 <option value="analytics">Analytics Platform</option>
                 <option value="integration">Data Integration</option>
                 <option value="automation">Automation</option>
@@ -162,18 +221,32 @@ export default function ContactSection() {
             <label className="mt-2 inline-flex items-start gap-2 text-sm text-slate-500">
               <input
                 type="checkbox"
+                name="marketingConsent"
                 className="mt-1 h-4 w-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500/40"
               />
               I agree to receive communications from INSIYA about products,
               services, and events
             </label>
 
+            {submitState === "success" && (
+              <p className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+                Thanks — we received your request and will be in touch soon.
+              </p>
+            )}
+
+            {submitState === "error" && (
+              <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+                {errorMessage}
+              </p>
+            )}
+
             <button
               type="submit"
-              className="mt-2 w-full rounded-xl bg-gradient-to-r from-cyan-600 to-blue-500 px-8 py-3.5 text-base font-semibold text-white shadow-[0_10px_22px_rgba(6,182,212,0.3)] transition-all hover:from-cyan-700 hover:to-blue-600 hover:shadow-[0_14px_30px_rgba(6,182,212,0.4)]"
+              disabled={submitState === "submitting"}
+              className="mt-2 w-full rounded-xl bg-gradient-to-r from-cyan-600 to-blue-500 px-8 py-3.5 text-base font-semibold text-white shadow-[0_10px_22px_rgba(6,182,212,0.3)] transition-all hover:from-cyan-700 hover:to-blue-600 hover:shadow-[0_14px_30px_rgba(6,182,212,0.4)] disabled:cursor-not-allowed disabled:opacity-70"
               suppressHydrationWarning
             >
-              Submit Request
+              {submitState === "submitting" ? "Submitting..." : "Submit Request"}
             </button>
           </form>
 

@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useId, type ReactNode } from "react";
+import { useEffect, useId, useState, type FormEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { submitContact } from "@/app/lib/contact";
 
 type ContactModalProps = {
   open: boolean;
@@ -20,8 +21,47 @@ function Required({ children }: { children: ReactNode }) {
   );
 }
 
+type SubmitState = "idle" | "submitting" | "success" | "error";
+
 export default function ContactModal({ open, onClose }: ContactModalProps) {
   const titleId = useId();
+  const [submitState, setSubmitState] = useState<SubmitState>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (!open) {
+      setSubmitState("idle");
+      setErrorMessage("");
+    }
+  }, [open]);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSubmitState("submitting");
+    setErrorMessage("");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const result = await submitContact({
+      source: "modal",
+      fullName: String(formData.get("fullName") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      phone: String(formData.get("phone") ?? ""),
+      companyName: String(formData.get("companyName") ?? ""),
+      companyUrl: String(formData.get("companyUrl") ?? ""),
+    });
+
+    if (result.ok) {
+      setSubmitState("success");
+      form.reset();
+      window.setTimeout(() => onClose(), 1200);
+      return;
+    }
+
+    setErrorMessage(result.error);
+    setSubmitState("error");
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -83,10 +123,7 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
 
         <form
           className="space-y-5 px-6 py-8 sm:px-8"
-          onSubmit={(e) => {
-            e.preventDefault();
-            onClose();
-          }}
+          onSubmit={handleSubmit}
           suppressHydrationWarning
         >
           <div>
@@ -128,34 +165,22 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
           </div>
 
           <div>
-            <span
-              id="modal-phone-label"
+            <label
+              htmlFor="modal-phone"
               className="mb-2 block text-sm font-medium text-slate-700"
             >
               <Required>Phone Number</Required>
-            </span>
-            <div className="flex gap-2">
-              <select
-                name="country"
-                aria-labelledby="modal-phone-label"
-                defaultValue="US"
-                className="w-[5.25rem] shrink-0 rounded-xl border border-slate-200 bg-white px-2 py-3 text-sm text-slate-800 focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-500/30"
-              >
-                <option value="US">US</option>
-                <option value="UK">UK</option>
-                <option value="CA">CA</option>
-                <option value="AU">AU</option>
-              </select>
-              <input
-                name="phone"
-                type="tel"
-                autoComplete="tel"
-                required
-                placeholder="(201) 555-0123"
-                className="min-w-0 flex-1 rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-500/30"
-                suppressHydrationWarning
-              />
-            </div>
+            </label>
+            <input
+              id="modal-phone"
+              name="phone"
+              type="tel"
+              autoComplete="tel"
+              required
+              placeholder="(201) 555-0123"
+              className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-500/30"
+              suppressHydrationWarning
+            />
           </div>
 
           <div>
@@ -195,11 +220,24 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
             />
           </div>
 
+          {submitState === "success" && (
+            <p className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+              Thanks — we received your request and will be in touch soon.
+            </p>
+          )}
+
+          {submitState === "error" && (
+            <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+              {errorMessage}
+            </p>
+          )}
+
           <button
             type="submit"
-            className="mt-2 w-full rounded-xl bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-500 py-3.5 text-base font-semibold text-white shadow-[0_8px_28px_rgba(20,184,166,0.35)] transition hover:shadow-[0_12px_36px_rgba(20,184,166,0.45)]"
+            disabled={submitState === "submitting" || submitState === "success"}
+            className="mt-2 w-full rounded-xl bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-500 py-3.5 text-base font-semibold text-white shadow-[0_8px_28px_rgba(20,184,166,0.35)] transition hover:shadow-[0_12px_36px_rgba(20,184,166,0.45)] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Submit Request
+            {submitState === "submitting" ? "Submitting..." : "Submit Request"}
           </button>
         </form>
       </div>
